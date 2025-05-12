@@ -1,9 +1,9 @@
-import Curve from '@/components/Curve'
 import { useRef, useEffect } from 'react'
-import { BsArrowRight } from 'react-icons/bs'
-import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, animate, color } from 'framer-motion'
+import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, animate } from 'framer-motion'
 import { fadeIn } from '@/variants'
 import Link from 'next/link'
+import { display as disp } from '@/data/projects';
+
 
 const cards = [
   {
@@ -56,7 +56,7 @@ const Card = ({ card }) => {
   return (
     <Link
       key={card.id}
-      href={`${card.link}`}
+      href={`/projects/${card.slug}`}
       className="group relative h-[450px] w-[450px] rounded-lg shadow-md overflow-hidden bg-neutral-200"
     >
       <div
@@ -88,9 +88,9 @@ const HorizontalScrollCarousel = () => {
       <section ref={targetRef} className="relative h-[300vh]">
         <div className="sticky z-[0] top-0 flex h-screen items-center overflow-hidden">
           <motion.div style={{ x }} className="flex gap-4">
-            {cards.map((card) => {
+            {disp.map((dis) => {
               return(
-               <Card card={card} key={card.id} />
+               <Card card={dis} key={dis.id} />
               )
             })}
           </motion.div>

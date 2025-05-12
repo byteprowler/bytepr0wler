@@ -1,7 +1,6 @@
 import { Sora } from "next/font/google";
 import Head from "next/head";
 import BottomNav from "./BottomNav";
-import Curve from "./Curve";
 import Header from "./Header";
 
 const sora = Sora({

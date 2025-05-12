@@ -116,7 +116,6 @@ useEffect(() => {
 
 const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
-
   return (
     <motion.div
     style={{

@@ -83,6 +83,8 @@ const routes = {
   '/projects': ".Projects",
   '/services': ".Services",
   '/contact': ".Contact",
+  '/testimonials': '.Testimonials',
+  '/showroom': '.Showroom'
 }
 
 export default function Curve({ children }) {

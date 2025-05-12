@@ -3,10 +3,6 @@ import {
   FaCss3,
   FaJs,
   FaReact,
-  FaWordpress,
-  FaFigma,
-  FaQuoteLeft,
-  FaQuoteRight,
 } from "react-icons/fa";
 import {
   SiNextdotjs,
@@ -16,6 +12,7 @@ import {
   SiTailwindcss,
   SiSqlite
 } from "react-icons/si";
+import { BiLogoTypescript } from "react-icons/bi";
 import Curve from "@/components/Curve";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -37,6 +34,7 @@ export const aboutData = [
           { id: 'css', icon: <FaCss3 className="text-[#38BDF8]" /> },
           { id: 'taiwindcss', icon: <SiTailwindcss className="text-[#0055FF]" /> },
           { id: 'js', icon: <FaJs className="text-[#F7DF1E]" /> },
+          { id: 'ts', icon: <BiLogoTypescript className="text-[#F7DF1E]" /> },
           { id: 'react', icon: <FaReact className="text-[#61DAFB]" /> },
           { id: 'nextjs', icon: <SiNextdotjs className="" /> },
           { id: 'framer', icon: <SiFramer className="text-[#0055FF]" /> },
@@ -47,11 +45,8 @@ export const aboutData = [
         icons: [
           { id: 'python', icon: <SiPython className='text-[#e0e326]' /> },
           { id: 'django', icon: <SiDjango className="text-[#38BDF8]" /> },
-          { id: 'django', icon: <SiSqlite className="text-[#e5f838]" /> },
+          { id: 'sqlite', icon: <SiSqlite className="text-[#e5f838]" /> },
         ],
-      },
-      {
-        title: 'Mobile Engineer',
       },
     ],
   },
@@ -84,7 +79,7 @@ const FlipText = ({children}) => {
     <motion.span
       initial="initial"
       whileHover="hovered"
-      className="relative inline-flex overflow-hidden text-3xl uppercase sm:text-3xl md:text-4xl lg:text-5xl text-[#F13024]"
+      className="relative inline-flex overflow-hidden text-3xl uppercase font-sans sm:text-3xl md:text-4xl lg:text-5xl text-[#F13024]"
       style={{
         lineHeight: 0.80,
       }}
@@ -145,6 +140,16 @@ const FlipText = ({children}) => {
 const DURATION = 0.30;
 const STAGGER = 0.025;
 
+const getMonthsOfExperience = () => {
+  const startDate = new Date("2024-05-31"); // Your starting date here
+  const now = new Date();
+  const years = now.getFullYear() - startDate.getFullYear();
+  const months = now.getMonth() - startDate.getMonth();
+  return years * 12 + months;
+};
+
+const monthsOfExperience = getMonthsOfExperience();
+
 export default function Index() {
   
   const color = useMotionValue(COLORS_TOP[0]);
@@ -163,19 +168,22 @@ export default function Index() {
   const [index, setIndex] = useState(0);
 
   return (
+    <>
+    <Curve />
     <motion.div
       style={{
         backgroundImage,
       }}
-      className="place-content-center py-32 text-center xl:text-left text-gray-200"
+      className="min-h-screen"
     >
-      <h2 className="h1 text-center">About</h2>
+      <div className="py-36 px-4 text-white">
+      <h2 className="h1 text-center text-white">About<span classNamee="text-[#F13024]">.</span></h2>
       <div className="container flex flex-col items-center mx-auto xl:flex-row px-2 gap-x-2 py-10">
         <div className="flex-1 flex flex-col justify-center group">
-          <Image alt="Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[300] sm:w-[300] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
+          <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-white text-left">
-        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">Who We Are ??</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">Who We Are ?</h2>
           <p className="mb-4 text-white max-w-[500px] mx-auto text-center">
             I&apos;m Ogo Joshua, a solo passionate freelance developer dedicated to creating innovative solutions. Our mission is to deliver high-quality software that exceeds our clients&apos; expectations.
           </p>
@@ -206,34 +214,34 @@ export default function Index() {
             exit='hidden'
             className="max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 text-gray-200 capitalize"
           >
-            6 Months ago, I began my journey as a Fullstack Developer. Since then, I&apos;ve been honing my JavaScript skills, working on various projects, and collaborating with classmates.
+            {monthsOfExperience} Months ago, I began my journey as a Fullstack Developer. Since then, I&apos;ve been honing my JavaScript skills, working on various projects, and collaborating with classmates.
           </motion.p>
           <motion.div
             variants={fadeIn('right', 0.6)}
             initial='hidden'
             animate='show'
             exit='hidden'
-            className="hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
+            className="flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
           >
             <div className="flex flex-1 xl:gap-x-6">
               {/* Experience */}
               <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
                 <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={0} end={6} duration={5} />+
+                  <CountUp start={0} end={monthsOfExperience} duration={5} />+
                 </div>
                 <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Months of experience</div>
               </div>
               {/* Clients */}
               <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
                 <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={0} end={2} duration={10} />+
+                  <CountUp start={10} end={8} duration={5} />+
                 </div>
                 <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Satisfied clients</div>
               </div>
               {/* Projects */}
               <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
                 <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={0} end={3} duration={5} />+
+                  <CountUp start={8} end={4} duration={5} />+
                 </div>
                 <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Finished projects</div>
               </div>
@@ -287,7 +295,8 @@ export default function Index() {
           </div>
         </motion.div>
       </div>
-      <Curve />
+      </div>
     </motion.div>
+    </>
   );
 }
