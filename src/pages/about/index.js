@@ -34,7 +34,7 @@ export const aboutData = [
           { id: 'css', icon: <FaCss3 className="text-[#38BDF8]" /> },
           { id: 'taiwindcss', icon: <SiTailwindcss className="text-[#0055FF]" /> },
           { id: 'js', icon: <FaJs className="text-[#F7DF1E]" /> },
-          { id: 'ts', icon: <BiLogoTypescript className="text-[#F7DF1E]" /> },
+          { id: 'ts', icon: <BiLogoTypescript className="text-blue-700" /> },
           { id: 'react', icon: <FaReact className="text-[#61DAFB]" /> },
           { id: 'nextjs', icon: <SiNextdotjs className="" /> },
           { id: 'framer', icon: <SiFramer className="text-[#0055FF]" /> },
@@ -203,7 +203,7 @@ export default function Index() {
             initial='hidden'
             animate='show'
             exit='hidden'
-            className="h2"
+            className="h2 sm:text-3xl md:text-4xl lg:text-5xl text-center xl:text-left mb-4"
           >
             Creative <FlipText>Coding</FlipText> brings ideas to <FlipText  >Life</FlipText>
           </motion.h2>
@@ -221,7 +221,7 @@ export default function Index() {
             initial='hidden'
             animate='show'
             exit='hidden'
-            className="flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
+            className="hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
           >
             <div className="flex flex-1 xl:gap-x-6">
               {/* Experience */}
