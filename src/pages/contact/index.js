@@ -1,20 +1,19 @@
+
+import React, { useEffect, useRef } from "react";
 import { 
-  BsArrowRight 
-} from 'react-icons/bs';
-import React, { useEffect } from "react";
-import { 
-  FiArrowRight, 
-  FiBatteryCharging, 
-  FiWifi 
+  FiBatteryCharging,
+  FiWifi,
 } from "react-icons/fi";
 import {
   useMotionTemplate,
   useMotionValue,
   motion, 
   animate,
+  AnimatePresence,
 } from "framer-motion";
 import { fadeIn } from '@/variants';
-import Link from 'next/link';
+import ContactForm from "@/components/ContactForm";
+
 
 const Phone = () => {
   return (
@@ -90,9 +89,8 @@ const Screen = () => {
 }
 const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
-export default function Contact() {
-
-const color = useMotionValue(COLORS_TOP[0]);
+export default function Contact() { 
+  const color = useMotionValue(COLORS_TOP[0]);
 
   useEffect(() => {
     animate(color, COLORS_TOP, {
@@ -102,7 +100,7 @@ const color = useMotionValue(COLORS_TOP[0]);
       repeatType: "mirror",
     });
   }, [color]);
-
+  
 const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #020617 50%, ${color})`;
 
   return (
@@ -134,24 +132,7 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
         animate='show'
         exit='hidden'
         className="h2 mb-10 block md:hidden text-center">Contact Me<span className='text-[#F13024]'>.</span></motion.h2>
-        <motion.form
-           variants={fadeIn('up', 0.4)}
-           initial='hidden'
-           animate='show'
-           exit='hidden'
-          className=' flex-1 flex flex-col gap-6 w-full mx-auto'>
-            <div className='flex gap-x-6 w-full'> 
-              <input type='text' placeholder='name' className='input'/>
-              <input type='text' placeholder='address' className='input'/>
-            </div>
-              <input type=' text' placeholder='email' className='input lowercase'/>
-              <textarea placeholder='message' className=' textarea'></textarea>
-              <Link href="mailto:youremail@example.com?subject=Let's%20Talk&body=Hi%20there%2C%20I%20would%20like%20to%20talk%20about..." 
-              className=' btn rounded-full border border-white/50 max-w-[170px] px-8 transition-all duration-300 flex items-center justify-center overflow-hiwdden hover:border-[#F13024] group'>
-                <span className=' group-hover:-translate-y-[120%] group-hover:opacity-0 transition-all duration-500 '>Let&apos;s talk</span>
-                <BsArrowRight className='-translate-x-[120%] opacity-0 group-hover:flex group-hover:-translate-x-0 group-hover:opacity-100 transition-all duration-300 absolute text-[22px]' />
-              </Link>
-        </motion.form>
+        <ContactForm />
         </div>
       </div>
       </motion.div>

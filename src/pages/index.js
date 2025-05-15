@@ -96,7 +96,7 @@ const color = useMotionValue(COLORS_TOP[0]);
         style={{
         backgroundImage
       }}
-      className="place-content-center min-w-screen min-h-screen py-36 px-4 text-gray-200"
+      className="place-content-center min-w-screen min-h-screen py-36 px-4 text-white"
     >
       <div className="flex flex-col items-center">
         <motion.span
@@ -112,7 +112,7 @@ const color = useMotionValue(COLORS_TOP[0]);
         initial="hidden"
         animate="show"
         exit="hidden"
-        className="max-w-3xl bg-gradient-to-br from-white to-gray-400 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight">
+        className="max-w-3xl bg-gradient-to-br from-white to-gray-200 bg-clip-text text-center text-3xl font-medium leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight">
           Where <span className='text-[#F13024] font-semibold'>Code</span> Meets <FlipText>Creativity</FlipText>
         </motion.h1>
         <motion.div
