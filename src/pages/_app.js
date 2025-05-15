@@ -9,8 +9,10 @@ export default function App({ Component, pageProps }) {
   return (
     <Layout>
       <AnimatePresence mode="wait">
+      <div>
       <Curve />
-    <Component key={router.route} {...pageProps} />
+      <Component key={router.route} {...pageProps} />
+      </div>
       </AnimatePresence>
   </Layout>
   )

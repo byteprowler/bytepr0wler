@@ -1,17 +1,10 @@
-import { Sora } from "next/font/google";
 import Head from "next/head";
 import BottomNav from "./BottomNav";
 import Header from "./Header";
 
-const sora = Sora({
-  subsets: ['latin'],
-  variable: '--font-sora',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800']
-});
-
 export default function Layout({ children }) {
   return (
-    <div className={`layout ${sora.variable}`}>
+    <div>
       <Head>
         <title>ByteProwler</title>
         <meta name="description" content="Coding Ideas to Life" />
@@ -37,8 +30,8 @@ export default function Layout({ children }) {
         <meta name="twitter:image" content="/byteprowler.jpeg" />
         <meta name="twitter:url" content={process.env.NEXT_PUBLIC_BASE_URL} />
       </Head>
-      <BottomNav />
       <Header />
+      <BottomNav />
       {/* <Curve /> */}
       {children}
     </div>

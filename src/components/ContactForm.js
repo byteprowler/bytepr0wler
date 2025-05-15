@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useMotionTemplate, animate } from "framer-motion";
 import { 
   BsArrowRight 
 } from 'react-icons/bs';
@@ -21,6 +21,19 @@ const Notification = ({ text, id, removeNotif }) => {
     return () => clearTimeout(timeoutRef);
   }, []);
 
+  const color = useMotionValue(COLORS_TOP[0]);
+  
+    useEffect(() => {
+      animate(color, COLORS_TOP, {
+        ease: "easeInOut",
+        duration: 10,
+        repeat: Infinity,
+        repeatType: "mirror",
+      });
+    }, [color]);
+    
+  const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #020617 50%, ${color})`;
+
   return (
     <motion.div
       layout
@@ -28,7 +41,8 @@ const Notification = ({ text, id, removeNotif }) => {
       animate={{ y: 0, scale: 1 }}
       exit={{ x: "100%", opacity: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="p-2 flex items-start rounded gap-2 text-xs font-medium shadow-lg text-white bg-indigo-500 pointer-events-auto"
+      style={{ backgroundImage }}
+      className="p-2 flex items-start rounded gap-2 text-xs bg-indigo-600 font-medium shadow-lg text-white pointer-events-auto"
     >
       <FiCheckSquare className="mt-0.5" />
       <span>{text}</span>
@@ -39,7 +53,10 @@ const Notification = ({ text, id, removeNotif }) => {
   );
 };
 
+const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
+
 export default function ContactForm() {
+
   const [notification, setNotifications] = React.useState([]);
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");

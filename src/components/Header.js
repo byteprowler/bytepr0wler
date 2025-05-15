@@ -1,42 +1,60 @@
-import { Orbitron } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import SocialIcons from "./SocialIcons";
-
-const orbitron = Orbitron({
-  subsets: ['latin'],
-  variable: '--font-orbitron',
-  weight: ['400', '500', '600', '700', '800']
-})
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
+  const isHome = router.pathname === "/";
+
   return (
-    <header className="absolute w-full flex items-center px-16 xl:px-0 xl:h-[90px]">
+    <header className="absolute w-full flex sm:block items-center px-6 xl:px-0 xl:h-[90px]">
       <div className="container mx-auto">
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-y-6 py-8">
-          <Link href={'/'}>
-            <svg width="200" height="35" viewBox="0 0 270 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <style>
-                {`
-                  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
-                  .custom-font {
-                    font-family: 'Orbitron', sans-serif;
-                    font-weight: 400;
-                  }
-                  .black-text {
-                    fill: white;
-                  }
-                  .accent-text {
-                    fill: #F13024;
-                  }
-                `}
-              </style>
-              <text x="15" y="24" className="custom-font black-text" fontSize="20">Byte</text>
-              <text x="75" y="24" className="custom-font accent-text" fontSize="20">Prowler</text>
-            </svg>
+        <div className="flex lg:flex-row items-center justify-between sm:gap-0 gap-y-2 py-2 sm:gap-y-0 sm:py-0">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              width={180}
+              height={100}
+              alt="Logo Of ByteProwler"
+            />
           </Link>
-          <SocialIcons />
+
+          {/* Only show socials if NOT on homepage */}
+          {!isHome && <SocialIcons />}
         </div>
       </div>
     </header>
   );
 }
+
+// import Link from "next/link";
+// import Image from "next/image";
+// import SocialIcons from "./SocialIcons";
+// import { useRouter } from "next/router";
+
+// export default function Header() {
+//   const router = useRouter();
+//   const isHome = router.pathname === "/";
+
+//   return (
+//     <header className="absolute w-full flex sm:block items-center px-6 xl:px-0 xl:h-[90px]">
+//       <div className="container mx-auto">
+//         <div className="flex flex-col lg:flex-row items-center xl:justify-between sm:gap-0 gap-y-2 py-2 sm:gap-y-0 sm:py-0">
+//           <Link href="/">
+//             <Image
+//               src="/logo.png"
+//               width={180}
+//               height={100}
+//               alt="Logo Of ByteProwler"
+//             />
+//           </Link>
+
+//           {/* Only show socials if NOT on homepage */}
+//           {!isHome && <SocialIcons />}
+//         </div>
+//       </div>
+//     </header>
+//   );
+// }
+

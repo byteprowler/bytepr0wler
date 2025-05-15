@@ -4,52 +4,6 @@ import { fadeIn } from '@/variants'
 import Link from 'next/link'
 import { display as disp } from '@/data/projects';
 
-
-const cards = [
-  {
-    url: "/tgn.png",
-    title: "TGN",
-    id: 1,
-    link: "https://tgn-two.vercel.app/",
-  },
-  {
-    url: "/de-clothing.png",
-    title: "De-Clothing",
-    id: 2,
-    link: "https://de-clothing.vercel.app",
-    color: "#6b21a8",
-  },
-  {
-    url: "/j&lpowertools.png",
-    title: "J&L Powertools",
-    id: 3, 
-    link: "https://seo-optimized.vercel.app",
-  },
-  {
-    id: 4,
-    url: "/byteprowler.png",
-    title: "Portfolio",
-    link: "https://byteprowler.vercel.app",
-  },
-  {
-    id: 5,
-    url: "/blank.jpg",
-    title: "Project 5",
-    link: "",
-  },
-  {
-    id: 6,
-    url: "/blank.jpg",
-    title: "Project 6",
-  },
-  {
-    id: 7,
-    url: "/blank.jpg",
-    title: "Project 7",
-    link: "",
-  },
-];
-
 const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 const Card = ({ card }) => {

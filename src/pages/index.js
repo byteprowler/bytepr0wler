@@ -96,7 +96,7 @@ const color = useMotionValue(COLORS_TOP[0]);
         style={{
         backgroundImage
       }}
-      className="place-content-center min-w-screen min-h-screen py-36 px-4 text-white"
+      className="place-content-center min-w-screen min-h-screen py-40 px-4 text-white"
     >
       <div className="flex flex-col items-center">
         <motion.span
