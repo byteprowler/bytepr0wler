@@ -85,9 +85,6 @@ export default function ContactForm() {
       from_email: email,
       to_name: 'Byte Prowler',
       message: message,
-      p_type: projectype,
-      budget: budget,
-      timeline: timeline,
       mode: mode,
     };
 
@@ -154,21 +151,21 @@ export default function ContactForm() {
             required
           >
             <option value="">Project Type</option>
-            <option value={`frontend ${projectype}`}>Frontend Development</option>
-            <option value={`fullstack ${projectype}`}>Fullstack App</option>
-            <option value={`bug-fix ${projectype}`}>Bug Fixing</option>
-            <option value={`consult ${projectype}`}>Consultation</option>
+            <option value={`frontend ${message}`}>Frontend Development</option>
+            <option value={`fullstack ${message}`}>Fullstack App</option>
+            <option value={`bug-fix ${message}`}>Bug Fixing</option>
+            <option value={`consult ${message}`}>Consultation</option>
           </select>
           <input
             type="text"
-            value={budget}
+            value={message}
             placeholder="Estimated Budget (e.g. $100 - $300)"
             className="w-full rounded-md border border-gray-300 px-4 py-2 text-white"
             required
           />
           <input
             type="text"
-            value={timeline}
+            value={message}
             placeholder="Timeline (e.g. 2 weeks)"
             className="w-full rounded-md border border-gray-300 px-4 py-2 text-white"
             required

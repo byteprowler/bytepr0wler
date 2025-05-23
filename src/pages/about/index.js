@@ -177,7 +177,7 @@ export default function Index() {
       className="min-h-screen"
     >
       <div className="py-36 px-4 text-white">
-      <h2 className="h1 text-center text-white">About<span classNamee="text-[#F13024]">.</span></h2>
+      <h2 className="h1 text-center text-white">About<span className="text-[#F13024]">.</span></h2>
       <div className="container flex flex-col items-center mx-auto xl:flex-row px-2 gap-x-2 py-10">
         <div className="flex-1 flex flex-col justify-center group">
           <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />

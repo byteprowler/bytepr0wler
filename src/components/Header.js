@@ -23,16 +23,16 @@ export default function Header() {
       </div>
 
       {/* Mobile */}
-      <div className="flex md:hidden flex-col items-center w-full py-0 space-y-0">
+      <div className="flex md:hidden flex-col items-center">
         <Link href="/">
           <Image
             src="/logo.png"
-            width={140}
-            height={70}
+            width={150}
+            height={80}
             alt="Logo Of ByteProwler"
           />
         </Link>
-        {!isHome && <SocialIcons />}
+        {/* {!isHome && <SocialIcons />} */}
       </div>
     </header>
   );
