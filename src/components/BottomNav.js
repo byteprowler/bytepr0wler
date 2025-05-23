@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaPhoneAlt } from "react-icons/fa";
 import { 
   HiHome, 
-  HiUser, 
-  HiEnvelope, 
+  HiUser,
   HiViewColumns, 
   HiRectangleGroup, 
   HiChatBubbleBottomCenterText 
@@ -16,8 +16,8 @@ const botNav = [
   { name: 'About', path: '/about', icon: <HiUser />, ariaLabel: 'About' },
   { name: 'Projects', path: '/projects', icon: <HiViewColumns />, ariaLabel: 'Projects' },
   { name: 'Services', path: '/services', icon: <HiRectangleGroup />, ariaLabel: 'Services' },
-  { name: 'Comments', path: '/testimonials', icon: <HiChatBubbleBottomCenterText />, ariaLabel: 'Testimonial' },
-  { name: 'Contact', path: '/contact', icon: <HiEnvelope />, ariaLabel: 'Contact' },
+  { name: 'Testimonials', path: '/testimonials', icon: <HiChatBubbleBottomCenterText />, ariaLabel: 'Testimonial' },
+  { name: 'Contact', path: '/contact', icon: <FaPhoneAlt />, ariaLabel: 'Contact' },
 ];
 
 const SlideTabs = ({ activeTab, setActiveTab }) => {
