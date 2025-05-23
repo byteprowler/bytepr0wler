@@ -10,7 +10,7 @@ import {
 
 export default function SocialIcons() {
   return (
-    <div className="flex items-center gap-x-3 lg: text-sm text-xl dark:text-white text-black py-4">
+    <div className="flex items-center gap-x-3 lg:text-xl text-sm dark:text-white text-black py-4">
       <Link href={'https://www.youtube.com/@Algebra905'} className="text-[#FF0000] hover:text-white transition-all duration-300 overflow-hidden">
         <RiYoutubeFill />
       </Link>

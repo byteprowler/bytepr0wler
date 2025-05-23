@@ -72,6 +72,9 @@ const Screen = () => {
 const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 export default function Contact() { 
+
+  const [mode, setMode] = React.useState("contact");
+
   const color = useMotionValue(COLORS_TOP[0]);
 
   useEffect(() => {

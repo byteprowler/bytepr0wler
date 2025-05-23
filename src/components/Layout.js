@@ -1,8 +1,12 @@
 import Head from "next/head";
 import BottomNav from "./BottomNav";
+import Coffee from "./Coffee"
+import { useRouter } from "next/router";
 import Header from "./Header";
 
 export default function Layout({ children }) {
+    const router = useRouter();
+    const isCoffee = router.pathname === "/buymeacoffee"
   return (
     <div>
       <Head>
@@ -32,6 +36,7 @@ export default function Layout({ children }) {
       </Head>
       <Header />
       <BottomNav />
+      {!isCoffee && <Coffee />}
       {/* <Curve /> */}
       {children}
     </div>
