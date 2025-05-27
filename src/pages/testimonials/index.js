@@ -32,7 +32,7 @@ const testimonials = [
     name: "ByteProwler",
     position: "Myself",
     message:
-      "Byte said, 'Good things take time. Don't get intimidated by your peers who engage in fraudulent activities just to make money. As one of them said, As you're signing out of school, just go and sign in to your Facebook, implying they should turn to fraud. But with faith, consistency, and hard work, you'll reach your goal.'",
+      "Byte once said, 'Good things take time. Don’t feel pressured by peers chasing quick money through fraud. Stay focused, stay consistent, and success will come.",
     rating: 5,
     date: "2023-03-05",
   },

@@ -2,22 +2,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaPhoneAlt, FaComments } from "react-icons/fa";
+import { RiCustomerService2Line } from "react-icons/ri";
 import { 
   HiHome, 
   HiUser,
   HiViewColumns, 
-  HiRectangleGroup, 
-  HiChatBubbleBottomCenterText 
+  HiRectangleGroup,
 } from 'react-icons/hi2';
+import { FiCoffee } from "react-icons/fi";
 
 const botNav = [
-  { name: 'Home', path: '/', icon: <HiHome />, ariaLabel: 'Home' },
-  { name: 'About', path: '/about', icon: <HiUser />, ariaLabel: 'About' },
-  { name: 'Projects', path: '/projects', icon: <HiViewColumns />, ariaLabel: 'Projects' },
-  { name: 'Services', path: '/services', icon: <HiRectangleGroup />, ariaLabel: 'Services' },
-  { name: 'Testimonials', path: '/testimonials', icon: <HiChatBubbleBottomCenterText />, ariaLabel: 'Testimonial' },
-  { name: 'Contact', path: '/contact', icon: <FaPhoneAlt />, ariaLabel: 'Contact' },
+  { name: 'Home', path: '/', icon: <HiHome />, title: "Home", ariaLabel: 'Home' },
+  { name: 'About', path: '/about', icon: <HiUser />, title: "About", ariaLabel: 'About' },
+  { name: 'Projects', path: '/projects', icon: <HiViewColumns />, title: "Projects", ariaLabel: 'Projects' },
+  { name: 'Services', path: '/services', title: "Services", icon: <RiCustomerService2Line />, ariaLabel: 'Services' },
+  { name: 'Testimonials', path: '/testimonials', icon: <FaComments />, title: "Testimonials", ariaLabel: 'Testimonial' },
+  { name: 'Contact', path: '/contact', icon: <FaPhoneAlt />, title: "Contact", ariaLabel: 'Contact' },
 ];
 
 const SlideTabs = ({ activeTab, setActiveTab }) => {
@@ -50,7 +51,7 @@ const SlideTabs = ({ activeTab, setActiveTab }) => {
                 nav.path === currentPath ? 'text-accent' : ''
               } ${activeTab === index ? 'text-white' : 'text-black'}`}
             >
-              <span className="text-xl">{nav.icon}</span>
+              <span title={nav.title} className="text-xl">{nav.icon}</span>
               {/* <span className="md:flex hidden text-xl font-extralight">{nav.name}</span> */}
             </div>
           </Link>
