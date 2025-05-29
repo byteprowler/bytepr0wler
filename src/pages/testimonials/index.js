@@ -96,8 +96,8 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
       <div className="p-4">
         <img src={image} alt={name} className="h-16 w-16 rounded-full mx-auto mb-4" />
         <h3 className="text-lg font-semibold text-center">{name}</h3>
-        <p className="text-center text-sm text-white">{position}</p>
-        <p className="text-center mt-4 text-sm text-white">{message}</p>
+        <p className="text-center text-xl text-white">{position}</p>
+        <p className="text-center mt-4 text-md text-white">{message}</p>
       </div>
     </motion.div>
   );
