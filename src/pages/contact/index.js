@@ -11,7 +11,9 @@ import {
 } from "framer-motion";
 import { fadeIn } from '@/variants';
 import ContactForm from "@/components/ContactForm";
+import Coffee from "@/components/Coffee"
 import Image from "next/image";
+import Curve from "@/components/Curve";
 
 
 const Phone = () => {
@@ -89,6 +91,8 @@ export default function Contact() {
 const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #020617 50%, ${color})`;
 
   return (
+    <>
+    <Curve />
     <div className="bg-secondary/30">
       <motion.div
       style={{
@@ -121,6 +125,8 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
         </div>
       </div>
       </motion.div>
+      <Coffee />
     </div>
+    </>
   );
 }

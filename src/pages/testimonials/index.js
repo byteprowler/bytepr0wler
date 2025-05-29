@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useMotionTemplate,
 } from "framer-motion";
+import Curve from "@/components/Curve"
 
 const testimonials = [
   {
@@ -48,6 +49,7 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
 
   const rotate = useTransform(() => {
     const offset = isFront ? 0 : id % 2 ? 6 : -6;
+
     return `${rotateRaw.get() + offset}deg`;
   });
 
@@ -66,7 +68,7 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
 
   return (
     <motion.div
-      className="h-96 w-72 origin-bottom rounded-lg object-cover hover:cursor-grab active:cursor-grabbing shadow-lg"
+    className="h-96 w-[90vw] max-w-sm origin-bottom rounded-lg object-cover hover:cursor-grab active:cursor-grabbing shadow-lg"
       style={{
         gridRow: 1,
         gridColumn: 1,
@@ -77,16 +79,16 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
         boxShadow: isFront
           ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
           : undefined,
-        backgroundColor: "rgba(255, 255, 255, 0.2)", // Light translucent color
-        backdropFilter: "blur(10px)", // Glass effect
-        border: "1px solid rgba(255, 255, 255, 0.3)", // Optional for glassy border effect
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
       }}
       animate={{
-        scale: isFront ? 1 : 0.98,
+        scale: isFront ? 1 : 0.90,
       }}
       drag={isFront ? "x" : false}
       dragConstraints={{
-        left: 0,
+        left: -1,
         right: 0,
       }}
       onDragEnd={handleDragEnd}
@@ -120,6 +122,8 @@ export default function Index() {
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
   return (
+  <>
+  <Curve />
     <motion.div
       style={{
         backgroundImage,
@@ -139,5 +143,6 @@ export default function Index() {
         )}
       </div>
     </motion.div>
+      </>
   );
 }

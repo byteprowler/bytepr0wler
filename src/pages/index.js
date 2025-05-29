@@ -127,7 +127,12 @@ export default function Index() {
             <FlipText>Creativity</FlipText>
           </motion.h1>
 
-          <motion.p className="mt-4 max-w-xl text-center text-gray-300 sm:text-lg">
+          <motion.p
+            variants={fadeIn("up", 0.5)}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+           className="mt-4 max-w-xl text-center text-gray-300 sm:text-lg">
             Fullstack Web Developer blending design and logic into seamless experiences.
           </motion.p>
 
@@ -149,7 +154,7 @@ export default function Index() {
               style={{ border, boxShadow }}
               whileHover={{ scale: 1.015 }}
               whileTap={{ scale: 0.985 }}
-              className="group z-10 flex p-4 w-fit items-center gap-1.5 rounded-full bg-gray-950/10 text-gray-50 transition-colors hover:bg-gray-950/50"
+              className="group z-10 flex p-4 w-fit items-center gap-1.5 rounded-full bg-gray-950/10 text-gray-50 hover:cursor-pointer transition-colors hover:bg-gray-950/50"
             >
               Projects
             </motion.button>
@@ -159,7 +164,10 @@ export default function Index() {
         {/* Avatar (Desktop) */}
         <motion.div
           className="hidden sm:block absolute right-10 top-16 w-52 h-52 z-20"
-          animate={{ y: [0, -15, 0] }}
+          // animate={{ y: [0, -15, 0] }}
+          variants={fadeIn(("up", 0.5))}
+          initial="hidden"
+          animate="show"
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="relative w-full h-full">

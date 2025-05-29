@@ -30,6 +30,7 @@ import {
   useMotionTemplate
  } from "framer-motion"
 import { fadeIn } from "@/variants"
+import Curve from "@/components/Curve"
 
 const serviceData = [
   {
@@ -117,6 +118,8 @@ useEffect(() => {
 const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
   return (
+    <>
+    <Curve />
     <motion.div
     style={{
       backgroundImage
@@ -151,5 +154,6 @@ const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #
         </div>
       </div>
     </motion.div>
+    </>
   )
 }

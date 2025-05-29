@@ -35,7 +35,7 @@ export default function Layout({ children }) {
       </Head>
       <Header />
       <BottomNav />
-      {/* {!isCoffee && <Coffee />} */}
+      
       {/* <Curve /> */}
       {children}
     </div>

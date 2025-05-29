@@ -3,6 +3,7 @@ import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, ani
 import { fadeIn } from '@/variants'
 import Link from 'next/link'
 import { display as disp } from '@/data/projects';
+import Curve from "@/components/Curve"
 
 const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
@@ -69,6 +70,8 @@ const color = useMotionValue(COLORS_TOP[0]);
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
   return (
+    <>
+    <Curve />
       <motion.div
       style={{
         backgroundImage,
@@ -106,5 +109,6 @@ const color = useMotionValue(COLORS_TOP[0]);
      </motion.div>
         </div>
       </motion.div>
+    </>
   )
 }
