@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, animate } from 'framer-motion'
 import { fadeIn } from '@/variants'
 import Link from 'next/link'
-import { display as disp } from '@/data/projects';
+import { display as disp } from '@/data/data';
 import Curve from "@/components/Curve"
 
 const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];

@@ -1,10 +1,14 @@
 "use client";
-
 import React, { useEffect } from "react";
 import { fadeIn } from "@/variants";
 import SocialIcons from "@/components/SocialIcons";
 import Image from "next/image";
-import Link from "next/link";
+import { BsDownload } from "react-icons/bs";
+import Button from "@/components/Button";
+import { IoLayers } from "react-icons/io5"; 
+import { FaEye } from "react-icons/fa6";
+import { useCVActions } from "@/libs/cvUtils";
+import { FiLoader } from "react-icons/fi";
 import {
   useMotionTemplate,
   useMotionValue,
@@ -70,6 +74,14 @@ const FlipText = ({ children }) => {
 const COLORS_TOP = ["#f0f0f0", "#000000", "#dd1133", "#f15090"];
 
 export default function Index() {
+
+  const { 
+    handleViewCV, 
+    handleDownloadCV, 
+    isDownloading, 
+    downloadError 
+  } = useCVActions();  
+
   const color = useMotionValue(COLORS_TOP[0]);
 
   useEffect(() => {
@@ -88,10 +100,9 @@ export default function Index() {
   return (
     <motion.section
       style={{ backgroundImage }}
-      className="place-content-center min-h-screen py-40 px-4 text-white"
+      className="grid min-h-screen py-40 px-4 text-white"
     >
-      <div className="flex items-center justify-center">
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center justify-center">
         {/* Avatar (Mobile) */}
         <motion.div
           className="flex sm:hidden mt-10 mb-4 mx-auto w-28 h-28"
@@ -104,68 +115,71 @@ export default function Index() {
             height={112}
             alt="ByteProwler Avatar"
             className="rounded-full border-2 border-[#F13024] shadow-lg object-cover"
+            priority
           />
         </motion.div>
-          <motion.span
-            variants={fadeIn("down", 0.2)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="mb-1.5 inline-block rounded-full bg-gray-600/50 px-3 py-1.5 text-md"
-          >
-            ByteProwler
-          </motion.span>
 
-          <motion.h1
-            variants={fadeIn("up", 0.4)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="max-w-3xl bg-gradient-to-br from-white to-gray-200 bg-clip-text text-center text-3xl font-medium leading-tight sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight"
-          >
-            Where <span className="text-[#F13024] font-semibold">Code</span> Meets{" "}
-            <FlipText>Creativity</FlipText>
-          </motion.h1>
+        <motion.span
+          variants={fadeIn("down", 0.2)}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="mb-1.5 inline-block rounded-full bg-gray-600/50 px-3 py-1.5 text-md"
+        >
+          ByteProwler
+        </motion.span>
 
-          <motion.p
-            variants={fadeIn("up", 0.5)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-           className="mt-4 max-w-xl text-center text-gray-300 sm:text-lg">
-            Fullstack Web Developer blending design and logic into seamless experiences.
-          </motion.p>
+        <motion.h1
+          variants={fadeIn("up", 0.4)}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="max-w-3xl bg-gradient-to-br from-white to-gray-200 bg-clip-text text-center text-3xl font-medium leading-tight sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight"
+        >
+          Where <span className="text-[#F13024] font-semibold">Code</span> Meets{" "}
+          <FlipText>Creativity</FlipText>
+        </motion.h1>
 
-          <motion.div
-            variants={fadeIn("up", 0.5)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-          >
-            <SocialIcons />
-          </motion.div>
+        <motion.p
+          variants={fadeIn("up", 0.5)}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="mt-4 max-w-xl w-[90vw] text-center text-gray-300 sm:text-lg"
+        >
+          Developer with a designer&apos;s eye - merging aesthetic sensibility with technical precision to create digital experiences that engage and delight
+        </motion.p>
 
-          <Link href={"/projects"}>
-            <motion.button
-              variants={fadeIn("up", 0.5)}
-              initial="hidden"
-              animate="show"
-              exit="hidden"
-              style={{ border, boxShadow }}
-              whileHover={{ scale: 1.015 }}
-              whileTap={{ scale: 0.985 }}
-              className="group z-10 flex p-4 w-fit items-center gap-1.5 rounded-full bg-gray-950/10 text-gray-50 hover:cursor-pointer transition-colors hover:bg-gray-950/50"
-            >
-              Projects
-            </motion.button>
-          </Link>
-        </div>
+        <motion.div
+          variants={fadeIn("up", 0.5)}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="mt-4"
+        >
+          <SocialIcons />
+        </motion.div>
+
+        <motion.div
+          variants={fadeIn("up", 0.6)}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="mt-6 flex flex-col md:flex-row gap-4"
+        >
+          <Button onClick={handleViewCV} disabled={isDownloading} icon={isDownloading ? <FiLoader className="animate-spin" /> : <FaEye className="text-lg" />}>
+          {isDownloading ? 'loading' : 'View CV'}
+          </Button>
+          <Button onClick={handleDownloadCV} icon={isDownloading ? <FiLoader className="animate-spin" /> : <BsDownload className="text-lg" />}>{isDownloading ? 'loading' : 'Download CV'}</Button>
+          <Button href="/projects" icon={<IoLayers className="text-lg" />}>
+            Projects
+          </Button>
+        </motion.div>
 
         {/* Avatar (Desktop) */}
         <motion.div
           className="hidden sm:block absolute right-10 top-16 w-52 h-52 z-20"
-          // animate={{ y: [0, -15, 0] }}
-          variants={fadeIn(("up", 0.5))}
+          variants={fadeIn("up", 0.5)}
           initial="hidden"
           animate="show"
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -177,6 +191,7 @@ export default function Index() {
               height={208}
               alt="ByteProwler Hacker Avatar"
               className="rounded-full border-4 border-[#F13024] shadow-xl object-cover"
+              priority
             />
             {/* Glowing Eyes */}
             <div className="absolute top-[45%] left-[25%] flex gap-6 pointer-events-none">
@@ -185,7 +200,6 @@ export default function Index() {
             </div>
           </div>
         </motion.div>
-
       </div>
     </motion.section>
   );

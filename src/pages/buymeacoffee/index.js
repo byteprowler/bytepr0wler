@@ -1,122 +1,59 @@
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, animate } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaCopy, FaBitcoin, FaEthereum } from "react-icons/fa";
-import { BsBank } from "react-icons/bs";
-import { SiPinetwork, SiSolana, SiTether } from "react-icons/si";
+import { FaCopy, FaCheck } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import { useRouter } from "next/router";
-import Coffee from "@/components/Coffee";
+import { wallets, banks } from "@/data/data";
 
-const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
+const COLORS_TOP = ["#f0f0f0", "#000000", "#dd3310", "#f15090"];
 
-
-const wallets = [
-    {
-      name: "Bitcoin",
-      icon: <FaBitcoin className="text-orange-500" />, 
-      networks: [{ network: "Mainnet", address: "bc1qy3nmk8uauha969qk953g2z9teqcxktl7aqk95z" }],
+const animationVariants = {
+  wrapper: {
+    open: {
+      scaleY: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.05,
+      },
     },
-    {
-      name: "Ethereum",
-      icon: <FaEthereum className="text-purple-500" />, 
-      networks: [
-        { network: "ERC-20", address: "0x679BAd07Ea83253D25373f69963cf61f458800cb" },
-        { network: "BEP-20", address: "0x1f5424b0f838e3fbb61edeba5fd0f39b8c5eae46" },
-      ],
-    },
-    {
-      name: "Pi Network",
-      icon: <SiPinetwork className="text-yellow-500" />, 
-      networks: [{ network: "Pi Network", address: "MDFNWH6ZFJVHJDLBMNOUT35X4EEKQVJAO3ZDL4NL7VQJLC4PJOQFWAAAAABC4YPK734CE" }],
-    },
-    {
-      name: "Solana",
-      icon: <SiSolana className="text-purple-500" />, 
-      networks: [{ network: "SOL", address: "9H3WYyqTtryoP49hW52cpJE7PArtEk4Uz4SSt6wcW2pk" }],
-    },
-    {
-      name: "USDT",
-      icon: <SiTether className="text-green-600" />, 
-      networks: [{ network: "BEP-20", address: "0x1f5424b0f838e3fbb61edeba5fd0f39b8c5eae46" }],
-    },
-];
-
-
-const banks = [
-  {
-    name: "Guaranty Trust Bank",
-    icon: <BsBank className="text-blue-500" />,
-    NUBAN: "0123456789",
-    accountName: "Ogo Joshua Agama",
-  },
-  {
-    name: "Kuda MFB",
-    icon: <BsBank className="text-purple-800" />,
-    NUBAN: "2078636332",
-    accountName: "Ogo Joshua Agama",
-  },
-  {
-    name: "Globus Bank",
-    icon: <BsBank className="text-green-500" />,
-    NUBAN: "0912345678",
-    accountName: "Joshua Agama Ogo",
-  },
-];
-
-const wrapperVariants = {
-  open: {
-    scaleY: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.1,
+    closed: {
+      scaleY: 0,
+      transition: {
+        when: "afterChildren",
+        staggerChildren: 0.05,
+      },
     },
   },
-  closed: {
-    scaleY: 0,
-    transition: {
-      when: "afterChildren",
-      staggerChildren: 0.1,
+  icon: {
+    open: { rotate: 180 },
+    closed: { rotate: 0 },
+  },
+  item: {
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 24 }
+    },
+    closed: {
+      opacity: 0,
+      y: -15,
+      transition: { duration: 0.2 }
     },
   },
+  copyButton: {
+    initial: { scale: 1 },
+    tapped: { scale: 0.95 },
+    success: { scale: 1.1 }
+  }
 };
 
-const iconVariants = {
-  open: { rotate: 360 },
-  closed: { rotate: 0 },
-};
-
-const itemVariants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      when: "beforeChildren",
-    },
-  },
-  closed: {
-    opacity: 0,
-    y: -15,
-    transition: {
-      when: "afterChildren",
-    },
-  },
-};
-
-const actionIconVariants = {
-  open: { scale: 1, y: 0 },
-  closed: { scale: 0, y: -7 },
-};
-
-export default function Index() {
-
-  const isCoffee = useRouter().pathname === '/buymeacoffee';
-  const [ selectedMethod, setSelectedMethod ] = useState("");
-  const [ selectedBank, setSelectedBank ] = useState("");
-  const [ selectedCrypto, setSelectedCrypto ] = useState(null);
-  const [ showMethodDropdown, setShowMethodDropdown ] = useState(false);
-  const [ showBankDropdown, setShowBankDropdown ] = useState(false);
-  const [ showCryptoDropdown, setShowCryptoDropdown ] = useState(false)
-  const [ selectedNetwork, setSelectedNetwork ] = useState()
+export default function SupportPage() {
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedBank, setSelectedBank] = useState("");
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [showMethodDropdown, setShowMethodDropdown] = useState(false);
+  const [showBankDropdown, setShowBankDropdown] = useState(false);
+  const [showCryptoDropdown, setShowCryptoDropdown] = useState(false);
+  const [copiedAddress, setCopiedAddress] = useState(null);
   const color = useMotionValue(COLORS_TOP[0]);
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
@@ -129,185 +66,249 @@ export default function Index() {
     });
   }, [color]);
 
+  const copyToClipboard = (text, network) => {
+    navigator.clipboard.writeText(text);
+    setCopiedAddress(network);
+    setTimeout(() => setCopiedAddress(null), 2000);
+  };
+
+  const resetSelection = () => {
+    setSelectedBank("");
+    setSelectedCrypto(null);
+    setSelectedMethod("");
+  };
+
   return (
-    <>
-      <motion.section
-      style={{
-        backgroundImage
-      }}
-      className="py-40 px-4 text-white place-content-center min-h-screen">
-        <div className="border items-center justify-center max-w-xl mx-auto p-6 rounded-xl shadow">
-          <h1 className="text-2xl font-bold mb-4 text-center">Support My Grind ☕</h1>
-          <p className="text-white">If you love what i do and want to support me, feel free to send a tip! Your support helps me stay motivated and keep buildiing awesome proejects. Thanks is Advance! 🚀</p>
-        </div>
-        <motion.div className="mb-4 p-2 max-w-xl mx-auto">
-          <motion.button
-          className="border px-4 py-3 flex justify-between rounded-lg w-full text-left text-white"
-          onClick={() => setShowMethodDropdown(!showMethodDropdown)}
-          variants={actionIconVariants}
-          initial="closed"
-          animate="open"
-          whileTap="tap"
-          >
-            {selectedMethod ? selectedMethod : "Choose Payment Method"}
-            <motion.span className="md:flex hidden" variants={iconVariants}>
-              <IoIosArrowDown />
-            </motion.span>
-          </motion.button>
-          <AnimatePresence>
-            {
-              showMethodDropdown && (
+    <motion.section
+      style={{ backgroundImage }}
+      className="min-h-screen py-20 px-4 text-white grid place-items-center"
+    >
+      <div className="w-full max-w-xl mx-auto space-y-6">
+        {/* Header Section */}
+        <motion.div 
+          className="border border-white/20 bg-gradient-to-br from-white/5 to-black/30 p-6 rounded-xl shadow-lg backdrop-blur-sm"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-2xl font-bold mb-2 text-center">Support My Grind ☕</h1>
+          <p className="text-white/80 text-center">
+            If you love what I do and want to support me, feel free to send a tip!
+            Your support helps me stay motivated and keep building awesome projects.
+          </p>
+        </motion.div>
+
+        {/* Payment Method Selection */}
+        <div className="space-y-4">
+          {/* Method Dropdown */}
+          <div className="relative">
+            <motion.button
+              className="w-full flex justify-between items-center px-4 py-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 transition-colors"
+              onClick={() => {
+                setShowMethodDropdown(!showMethodDropdown);
+                setShowBankDropdown(false);
+                setShowCryptoDropdown(false);
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>{selectedMethod || "Choose Payment Method"}</span>
+              <motion.span
+                animate={showMethodDropdown ? "open" : "closed"}
+                variants={animationVariants.icon}
+              >
+                <IoIosArrowDown />
+              </motion.span>
+            </motion.button>
+            
+            <AnimatePresence>
+              {showMethodDropdown && (
                 <motion.ul
-                className="mt-2 w-full bg-transparent border rounded-md text-white shadow relative z-50"
-                variants={wrapperVariants}
-                initial="closed"
-                animate="open"
-                exit="closed"
+                  className="absolute z-10 w-full mt-1 rounded-lg border border-white/20 bg-gray-900/95 backdrop-blur-sm shadow-lg overflow-hidden"
+                  variants={animationVariants.wrapper}
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
                 >
                   {["Bank Transfer", "Crypto Payment"].map((method, i) => (
                     <motion.li
-                    key={method}
-                    className="px-4 py-2 hover:border-b-2 rounded-md transition cursor-pointer"
-                    variants={itemVariants}
-                    custom={i}
-                    onClick={() => {
-                      setSelectedMethod(method);
-                      setShowMethodDropdown(false);
-                      setSelectedBank("");
-                      setSelectedCrypto(null);
-                      setSelectedNetwork("");
-                    }}>
+                      key={method}
+                      className="px-4 py-2 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-b-0"
+                      variants={animationVariants.item}
+                      onClick={() => {
+                        setSelectedMethod(method);
+                        setShowMethodDropdown(false);
+                      }}
+                    >
                       {method}
                     </motion.li>
                   ))}
                 </motion.ul>
-              )
-            }
-          </AnimatePresence>
-        </motion.div>
-        <motion.div>
-          {
-            selectedMethod === "Bank Transfer" && (
-              <div className="relative mb-4 max-w-xl mx-auto">
-                <motion.button
-                onClick={() => setShowBankDropdown(!showBankDropdown)}
-                initial="closed"
-                animate="open"
-                whileTap="tap"
-                variants={actionIconVariants}
-                className="border text-white px-4 py-3 rounded-lg w-full text-left">
-                  {selectedBank || "Choose Bank"}
-                </motion.button>
-                <AnimatePresence>
-                  {
-                    showBankDropdown && (
-                      <motion.ul
-                      variants={wrapperVariants}
-                      initial="closed"
-                      animate="open"
-                      exit="closed"
-                      className="absolute z-10 w-full rounded mt-1 shadow text-white border">
-                        {
-                          banks.map((bank, idx) => (
-                            <motion.li
-                            key={idx}
-                            variants={itemVariants}
-                            className="px-4 flex py-2 hover:border-b-2 cursor-pointer items-center space-between"
-                            onClick={() => {
-                              setSelectedBank(bank.name);
-                              setShowBankDropdown(false);
-                              setSelectedCrypto(null);
-                              setSelectedNetwork("");
-                            }}>
-                              <span className="mr-2">{bank.icon}</span> {bank.name}
-                            </motion.li>
-                          ))
-                        }
-                      </motion.ul>
-                    )
-                  }
-                </AnimatePresence>
-              </div>
-            )
-          }
-        </motion.div>
-        <motion.div>
-          {
-            selectedMethod === "Crypto Payment" && (
-              <div className="relative max-w-xl mb-4 mx-auto">
-                <motion.button
-                initial="closed"
-                animate="open"
-                variants={actionIconVariants}
-                onClick={() => setShowCryptoDropdown(!showCryptoDropdown)}
-                className="text-white border px-4 py-3 rounded-lg w-full text-left">
-                  {
-                    selectedNetwork || "Choose Coin"
-                  }
-                </motion.button>
-                <AnimatePresence>
-                  {showCryptoDropdown && (
-                    <motion.ul
-                    variants={wrapperVariants}
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Bank Selection */}
+          {selectedMethod === "Bank Transfer" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ duration: 0.3 }}
+              className="relative"
+            >
+              <motion.button
+                className="w-full flex justify-between items-center px-4 py-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 transition-colors"
+                onClick={() => {
+                  setShowBankDropdown(!showBankDropdown);
+                  setShowCryptoDropdown(false);
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{selectedBank || "Select Bank"}</span>
+                <motion.span
+                  animate={showBankDropdown ? "open" : "closed"}
+                  variants={animationVariants.icon}
+                >
+                  <IoIosArrowDown />
+                </motion.span>
+              </motion.button>
+              
+              <AnimatePresence>
+                {showBankDropdown && (
+                  <motion.ul
+                    className="absolute z-10 w-full mt-1 rounded-lg border border-white/20 bg-gray-900/95 backdrop-blur-sm shadow-lg overflow-hidden"
+                    variants={animationVariants.wrapper}
                     initial="closed"
                     animate="open"
                     exit="closed"
-                    className="relative z-10 w-full rounded mt-1 shadow text-white">
-                      {wallets.map((wallet, idx) => (
-                        <motion.li
-                        key={idx}
-                        variants={itemVariants}
-                        className="px-4 flex py-2 space-between items-center hover:border-b-2 cursor-pointer"
+                  >
+                    {banks.map((bank) => (
+                      <motion.li
+                        key={bank.name}
+                        className="px-4 py-2 hover:bg-white/5 cursor-pointer flex items-center gap-2 border-b border-white/5 last:border-b-0"
+                        variants={animationVariants.item}
+                        onClick={() => {
+                          setSelectedBank(bank.name);
+                          setShowBankDropdown(false);
+                        }}
+                      >
+                        <span className="text-lg">{bank.icon}</span>
+                        <span>{bank.name}</span>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* Crypto Selection */}
+          {selectedMethod === "Crypto Payment" && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ duration: 0.3 }}
+              className="relative"
+            >
+              <motion.button
+                className="w-full flex justify-between items-center px-4 py-3 rounded-lg border border-white/20 bg-white/5 hover:bg-white/10 transition-colors"
+                onClick={() => {
+                  setShowCryptoDropdown(!showCryptoDropdown);
+                  setShowBankDropdown(false);
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{selectedCrypto?.name || "Select Cryptocurrency"}</span>
+                <motion.span
+                  animate={showCryptoDropdown ? "open" : "closed"}
+                  variants={animationVariants.icon}
+                >
+                  <IoIosArrowDown />
+                </motion.span>
+              </motion.button>
+              
+              <AnimatePresence>
+                {showCryptoDropdown && (
+                  <motion.ul
+                    className="absolute z-10 w-full mt-1 rounded-lg border border-white/20 bg-gray-900/95 backdrop-blur-sm shadow-lg overflow-hidden"
+                    variants={animationVariants.wrapper}
+                    initial="closed"
+                    animate="open"
+                    exit="closed"
+                  >
+                    {wallets.map((wallet) => (
+                      <motion.li
+                        key={wallet.name}
+                        className="px-4 py-2 hover:bg-white/5 cursor-pointer flex items-center gap-2 border-b border-white/5 last:border-b-0"
+                        variants={animationVariants.item}
                         onClick={() => {
                           setSelectedCrypto(wallet);
-                          setSelectedNetwork(Wallet.name);
                           setShowCryptoDropdown(false);
-                          setSelectedBank(false);
-                        }}>
-                          <span className="mr-2">{wallet.icon}</span> {wallet.name}
-                        </motion.li>
-                      ))}
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </div>
-            )
-          }
-        </motion.div>
-        {
-          selectedBank && (
-            <div className="text-white border p-4 rounded shadow max-w-xl mx-auto">
-              <p className="text-white"><strong>Bank:</strong> {selectedBank}</p>
-              <p className="text-white"><strong>Account Name:</strong> Oog Joshua Agama</p>
-              <p className="text-white"><strong>NUBAN:</strong> {banks.find(bank => bank.name === selectedBank)?.NUBAN}</p>
+                        }}
+                      >
+                        <span className="text-lg">{wallet.icon}</span>
+                        <span>{wallet.name}</span>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Bank Details Display */}
+        {selectedBank && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="border border-white/20 bg-gradient-to-br from-white/5 to-black/30 p-4 rounded-lg shadow-lg backdrop-blur-sm"
+          >
+            <h3 className="font-medium mb-3 text-center">Bank Transfer Details</h3>
+            <div className="space-y-2">
+              <p className="text-white"><span className="text-white/70">Bank:</span> {selectedBank}</p>
+              <p className="text-white"><span className="text-white/70">Account Name:</span> Ogo Joshua Agama</p>
+              <p className="text-white"><span className="text-white/70">Account Number:</span> {banks.find(b => b.name === selectedBank)?.NUBAN}</p>
             </div>
-          )
-        }
-        {
-          selectedCrypto && (
-            <div className="text-white border p-4 rounded-md shadow max-w-xl mx-auto mt-4">
-              <p className="text-gray-300"><strong>Coin:</strong> {selectedCrypto.name}
-              </p>
+          </motion.div>
+        )}
+
+        {/* Crypto Details Display */}
+        {selectedCrypto && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="border border-white/20 bg-gradient-to-br from-white/5 to-black/30 p-4 rounded-lg shadow-lg backdrop-blur-sm"
+          >
+            <h3 className="font-medium mb-3 text-center">{selectedCrypto.name} Wallet Address</h3>
+            <div className="space-y-3">
               {selectedCrypto.networks.map((network, index) => (
-                <div
-                key={index}
-                className="border text-white border-gray-600 p-3 rounded-lg bg-gray-800 flex flex-col sm:flex-row sm:items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-400"><strong>Network:</strong>{network.network}</p>
-                    <p className="text-sm text-gray-400"><strong>Address:</strong>{network.address}</p>
-                    <button
-                    className="text-sm mt-2 sm:mt-0 sm:ml-4 mx-auto hover:text-green-400 transition"
-                    onClick={() => {
-                      navigator.clipboard.writeText(network.address);
-                    }}><FaCopy inline-block mr-1 /> Copy
-                    </button>
+                <div key={index} className="p-3 rounded-lg bg-white/5 border border-white/10">
+                  <p className="text-sm text-white/70 mb-1">Network: <span className="text-white">{network.network}</span></p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-mono break-all"><span>{network.address}</span></p>
+                    <motion.button
+                      className="ml-2 p-2 rounded-full hover:bg-white/10 transition-colors"
+                      onClick={() => copyToClipboard(network.address, network.network)}
+                      variants={animationVariants.copyButton}
+                      initial="initial"
+                      whileTap="tapped"
+                      animate={copiedAddress === network.network ? "success" : "initial"}
+                    >
+                      {copiedAddress === network.network ? (
+                        <FaCheck className="text-green-400" />
+                      ) : (
+                        <FaCopy />
+                      )}
+                    </motion.button>
                   </div>
                 </div>
               ))}
             </div>
-          )
-        }
-      </motion.section>
-    </>
-  )
+          </motion.div>
+        )}
+      </div>
+    </motion.section>
+  );
 }

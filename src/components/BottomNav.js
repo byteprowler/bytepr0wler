@@ -2,24 +2,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhoneAlt, FaComments } from "react-icons/fa";
-import { RiCustomerService2Line } from "react-icons/ri";
-import { 
-  HiHome, 
-  HiUser,
-  HiViewColumns, 
-  HiRectangleGroup,
-} from 'react-icons/hi2';
-import { FiCoffee } from "react-icons/fi";
+import { botNav } from '@/data/data';
 
-const botNav = [
-  { name: 'Home', path: '/', icon: <HiHome />, title: "Home", ariaLabel: 'Home' },
-  { name: 'About', path: '/about', icon: <HiUser />, title: "About", ariaLabel: 'About' },
-  { name: 'Projects', path: '/projects', icon: <HiViewColumns />, title: "Projects", ariaLabel: 'Projects' },
-  { name: 'Services', path: '/services', title: "Services", icon: <RiCustomerService2Line />, ariaLabel: 'Services' },
-  { name: 'Testimonials', path: '/testimonials', icon: <FaComments />, title: "Testimonials", ariaLabel: 'Testimonial' },
-  { name: 'Contact', path: '/contact', icon: <FaPhoneAlt />, title: "Contact", ariaLabel: 'Contact' },
-];
 
 const SlideTabs = ({ activeTab, setActiveTab }) => {
   const router = useRouter();

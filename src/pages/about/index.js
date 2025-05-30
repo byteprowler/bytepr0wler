@@ -1,18 +1,3 @@
-import {
-  FaHtml5,
-  FaCss3,
-  FaJs,
-  FaReact,
-} from "react-icons/fa";
-import {
-  SiNextdotjs,
-  SiFramer,
-  SiPython,
-  SiDjango,
-  SiTailwindcss,
-  SiSqlite
-} from "react-icons/si";
-import { BiLogoTypescript } from "react-icons/bi";
 import Curve from "@/components/Curve";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -20,59 +5,10 @@ import Link from "next/link";
 import { motion, useMotionTemplate, animate, useMotionValue } from "framer-motion";
 import { fadeIn } from '@/variants';
 import CountUp from "react-countup";
+import { aboutData } from "@/data/data";
 
 const COLORS_TOP = ["#f0f0f0", "#000000", "#d31010", "#f15090"];
 
-export const aboutData = [
-  {
-    title: 'skills',
-    info: [
-      {
-        title: 'Frontend Developer',
-        icons: [
-          { id: 'html', icon: <FaHtml5 className='text-[#E34F26]' /> },
-          { id: 'css', icon: <FaCss3 className="text-[#38BDF8]" /> },
-          { id: 'taiwindcss', icon: <SiTailwindcss className="text-[#0055FF]" /> },
-          { id: 'js', icon: <FaJs className="text-[#F7DF1E]" /> },
-          { id: 'ts', icon: <BiLogoTypescript className="text-blue-700" /> },
-          { id: 'react', icon: <FaReact className="text-[#61DAFB]" /> },
-          { id: 'nextjs', icon: <SiNextdotjs className="" /> },
-          { id: 'framer', icon: <SiFramer className="text-[#0055FF]" /> },
-        ],
-      },
-      {
-        title: 'Backend Developer',
-        icons: [
-          { id: 'python', icon: <SiPython className='text-[#e0e326]' /> },
-          { id: 'django', icon: <SiDjango className="text-[#38BDF8]" /> },
-          { id: 'sqlite', icon: <SiSqlite className="text-[#e5f838]" /> },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'experience',
-    info: [
-      {
-        title: 'Fullstack Developer (Freelance)',
-        stage: '2024 - current',
-      },
-    ],
-  },
-  {
-    title: 'credentials',
-    info: [
-      {
-        title: 'Mobile Engineer - Samford Dc Phone Hub',
-        stage: '2023',
-      },
-      {
-        title: 'Web Development - Univelcity, Yaba, Lagos',
-        stage: '2024',
-      },
-    ],
-  },
-];
 
 const FlipText = ({children}) => {
   return (  
@@ -177,7 +113,7 @@ export default function Index() {
       className="min-h-screen"
     >
       <div className="py-36 px-4 text-white">
-      <h2 className="h1 text-center text-white">About<span className="text-[#F13024]">.</span></h2>
+      <h2 className="h1 text-center text-white">About Me<span className="text-[#F13024]">.</span></h2>
       <div className="container flex flex-col items-center mx-auto xl:flex-row px-2 gap-x-2 py-10">
         <div className="flex-1 flex flex-col justify-center group">
           <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
@@ -212,9 +148,9 @@ export default function Index() {
             initial='hidden'
             animate='show'
             exit='hidden'
-            className="max-w-[500px] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 text-gray-200 capitalize"
+            className="max-w-[90vw] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 text-gray-200 capitalize"
           >
-            {monthsOfExperience} Months ago, I began my journey as a Fullstack Developer. Since then, I&apos;ve been honing my JavaScript skills, working on various projects, and collaborating with classmates.
+            {monthsOfExperience} Months ago, I began my journey as a Frontend Web Developer. Since then, I&apos;ve been honing my JavaScript skills, working on various projects, and collaborating with me and myself only.
           </motion.p>
           <motion.div
             variants={fadeIn('right', 0.6)}
@@ -234,7 +170,7 @@ export default function Index() {
               {/* Clients */}
               <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
                 <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={10} end={8} duration={5} />+
+                  <CountUp start={5} end={2} duration={5} />+
                 </div>
                 <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Satisfied clients</div>
               </div>
@@ -243,7 +179,7 @@ export default function Index() {
                 <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
                   <CountUp start={8} end={4} duration={5} />+
                 </div>
-                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Finished projects</div>
+                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Completed projects</div>
               </div>
               {/* Technologies */}
               <div className="flex-1">
