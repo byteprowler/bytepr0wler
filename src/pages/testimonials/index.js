@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { testimonials } from "@/data/data";
 import Curve from "@/components/Curve";
-import {NextSeo} from "@/data/data"
+import { NextSeo } from "next-seo"
 import {COLORS_TOP} from "@/data/data"
 
 
