@@ -3,8 +3,9 @@ import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, ani
 import { fadeIn } from '@/variants'
 import Link from 'next/link'
 import { display as disp } from '@/data/data';
-import Curve from "@/components/Curve"
-import { NextSeo } from "next-seo"
+import Curve from "@/components/Curve";
+import { COLORS_TOP } from '@/data/data';
+import { NextSeo } from "next-seo";
 
 
 const Card = ({ card }) => {

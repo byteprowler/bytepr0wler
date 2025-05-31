@@ -6,10 +6,9 @@ import {
   useMotionValue,
   useMotionTemplate,
 } from "framer-motion";
-import { testimonials } from "@/data/data";
+import { testimonials, COLORS_TOP } from "@/data/data";
 import Curve from "@/components/Curve";
-import { NextSeo } from "next-seo"
-import {COLORS_TOP} from "@/data/data"
+import { NextSeo } from "next-seo";
 
 
 

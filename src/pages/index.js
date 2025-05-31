@@ -10,13 +10,13 @@ import { FaEye } from "react-icons/fa6";
 import { useCVActions } from "@/libs/cvUtils";
 import { FiLoader } from "react-icons/fi";
 import { NextSeo } from "next-seo";
+import { COLORS_TOP } from "@/data/data";
 import {
   useMotionTemplate,
   useMotionValue,
   motion,
   animate,
 } from "framer-motion";
-import { serviceData } from "@/data/data"
 
 // FlipText Component
 const DURATION = 0.25;
@@ -73,7 +73,6 @@ const FlipText = ({ children }) => {
 };
 
 // Colors for animation
-const COLORS_TOP = ["#f0f0f0", "#000000", "#dd1133", "#f15090"];
 
 export default function Index() {
 

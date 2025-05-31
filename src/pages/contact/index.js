@@ -13,6 +13,7 @@ import { fadeIn } from '@/variants';
 import { NextSeo } from "next-seo";
 import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
+import { COLORS_TOP } from "@/data/data";
 import Curve from "@/components/Curve";
 
 
@@ -71,7 +72,6 @@ const Screen = () => {
     </div>
   )
 }
-const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 export default function Contact() { 
 
