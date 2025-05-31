@@ -121,13 +121,13 @@ export default function SupportPage() {
   return (
     <>
     <NextSeo
-        title="Buy Me a Coffee ☕| Supprt ByteProwler"
-        description="Creative Coding Brings Idea to Life"
+        title="Support☕| Buy Me a Coffee"
+        description="Fuel my coding sessions with your support"
         canonical="https://byteprowler.vercel.app"
         openGraph={{
           url: "https://byteprowler.vercel.app",
-          title: "ByteProlwer's Portfolio | Welcome",
-          description: "Creative Coding Brings Idea to Life",
+          title: "Support My Work | ByteProwler",
+          description: "Help me creating creating awesome content and projects",
           images: [
             {
               url: '/byteprowler.jpeg',
