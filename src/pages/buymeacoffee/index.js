@@ -1,10 +1,19 @@
-import { motion, AnimatePresence, useMotionTemplate, useMotionValue, animate } from "framer-motion";
+import { 
+  motion, 
+  AnimatePresence,
+  useMotionTemplate, 
+  useMotionValue, 
+  animate 
+} from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { wallets, banks } from "@/data/data";
+import { FiCheckSquare, FiX } from "react-icons/fi";
+import { COLORS_TOP } from "@/data/data";
+import { NextSeo } from "next-seo";
 
-const COLORS_TOP = ["#f0f0f0", "#000000", "#dd3310", "#f15090"];
+const NOTIFICATION_TTL = 3000;
 
 const animationVariants = {
   wrapper: {
@@ -42,11 +51,35 @@ const animationVariants = {
   copyButton: {
     initial: { scale: 1 },
     tapped: { scale: 0.95 },
-    success: { scale: 1.1 }
+    success: { scale: 1.1, color: "#4ade80" }
   }
 };
 
+const Notification = ({ text, id, removeNotif }) => {
+  useEffect(() => {
+    const timeoutRef = setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
+    return () => clearTimeout(timeoutRef);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ y: -15, scale: 0.95 }}
+      animate={{ y: 0, scale: 1 }}
+      exit={{ x: "100%", opacity: 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="p-3 flex items-center rounded-lg gap-2 text-sm font-medium shadow-lg text-white bg-indigo-600 pointer-events-auto"
+    >
+      <FiCheckSquare />
+      <span>{text}</span>
+      <button onClick={() => removeNotif(id)} className="ml-auto">
+        <FiX />
+      </button>
+    </motion.div>
+  );
+};
+
 export default function SupportPage() {
+  const [notifications, setNotifications] = useState([]);
   const [selectedMethod, setSelectedMethod] = useState("");
   const [selectedBank, setSelectedBank] = useState("");
   const [selectedCrypto, setSelectedCrypto] = useState(null);
@@ -54,6 +87,7 @@ export default function SupportPage() {
   const [showBankDropdown, setShowBankDropdown] = useState(false);
   const [showCryptoDropdown, setShowCryptoDropdown] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(null);
+  
   const color = useMotionValue(COLORS_TOP[0]);
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
@@ -66,23 +100,62 @@ export default function SupportPage() {
     });
   }, [color]);
 
-  const copyToClipboard = (text, network) => {
-    navigator.clipboard.writeText(text);
-    setCopiedAddress(network);
-    setTimeout(() => setCopiedAddress(null), 2000);
+  const addNotification = (text) => {
+    const id = Date.now();
+    setNotifications((prev) => [{ id, text }, ...prev]);
+    return id;
   };
 
-  const resetSelection = () => {
-    setSelectedBank("");
-    setSelectedCrypto(null);
-    setSelectedMethod("");
+  const removeNotification = (id) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
+
+  const copyToClipboard = (text, identifier) => {
+  navigator.clipboard.writeText(text);
+  setCopiedAddress(identifier);
+  const notifId = addNotification(`${identifier} copied!`);
+  setTimeout(() => removeNotification(notifId), NOTIFICATION_TTL);
+  setTimeout(() => setCopiedAddress(null), 2000);
+};
 
   return (
+    <>
+    <NextSeo
+        title="Buy Me a Coffee ☕| Supprt ByteProwler"
+        description="Creative Coding Brings Idea to Life"
+        canonical="https://byteprowler.vercel.app"
+        openGraph={{
+          url: "https://byteprowler.vercel.app",
+          title: "ByteProlwer's Portfolio | Welcome",
+          description: "Creative Coding Brings Idea to Life",
+          images: [
+            {
+              url: '/byteprowler.jpeg',
+              width: 600,
+              height: 600,
+              alt: 'ByteProwler Portfolio'
+            }
+          ] 
+        }} />
+
     <motion.section
       style={{ backgroundImage }}
       className="min-h-screen py-20 px-4 text-white grid place-items-center"
     >
+      {/* Notifications Container */}
+      <div className="fixed top-4 right-4 z-50 space-y-2 pointer-events-none">
+        <AnimatePresence>
+          {notifications.map((notification) => (
+            <Notification
+              key={notification.id}
+              id={notification.id}
+              text={notification.text}
+              removeNotif={removeNotification}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+
       <div className="w-full max-w-xl mx-auto space-y-6">
         {/* Header Section */}
         <motion.div 
@@ -129,7 +202,7 @@ export default function SupportPage() {
                   animate="open"
                   exit="closed"
                 >
-                  {["Bank Transfer", "Crypto Payment"].map((method, i) => (
+                  {["Bank Transfer", "Crypto Payment"].map((method) => (
                     <motion.li
                       key={method}
                       className="px-4 py-2 hover:bg-white/5 cursor-pointer border-b border-white/5 last:border-b-0"
@@ -150,6 +223,7 @@ export default function SupportPage() {
           {/* Bank Selection */}
           {selectedMethod === "Bank Transfer" && (
             <motion.div
+              key="bank-details"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               transition={{ duration: 0.3 }}
@@ -167,12 +241,12 @@ export default function SupportPage() {
                 <motion.span
                   animate={showBankDropdown ? "open" : "closed"}
                   variants={animationVariants.icon}
-                >
+                  >
                   <IoIosArrowDown />
                 </motion.span>
               </motion.button>
               
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {showBankDropdown && (
                   <motion.ul
                     className="absolute z-10 w-full mt-1 rounded-lg border border-white/20 bg-gray-900/95 backdrop-blur-sm shadow-lg overflow-hidden"
@@ -189,6 +263,8 @@ export default function SupportPage() {
                         onClick={() => {
                           setSelectedBank(bank.name);
                           setShowBankDropdown(false);
+                          setSelectedCrypto(null);
+                          setShowCryptoDropdown(false);
                         }}
                       >
                         <span className="text-lg">{bank.icon}</span>
@@ -204,7 +280,8 @@ export default function SupportPage() {
           {/* Crypto Selection */}
           {selectedMethod === "Crypto Payment" && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+            key="crypto-details"
+            initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               transition={{ duration: 0.3 }}
               className="relative"
@@ -234,7 +311,7 @@ export default function SupportPage() {
                     initial="closed"
                     animate="open"
                     exit="closed"
-                  >
+                    >
                     {wallets.map((wallet) => (
                       <motion.li
                         key={wallet.name}
@@ -243,6 +320,8 @@ export default function SupportPage() {
                         onClick={() => {
                           setSelectedCrypto(wallet);
                           setShowCryptoDropdown(false);
+                          setSelectedBank(null);
+                          setShowBankDropdown("")
                         }}
                       >
                         <span className="text-lg">{wallet.icon}</span>
@@ -263,13 +342,33 @@ export default function SupportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className="border border-white/20 bg-gradient-to-br from-white/5 to-black/30 p-4 rounded-lg shadow-lg backdrop-blur-sm"
-          >
+            >
             <h3 className="font-medium mb-3 text-center">Bank Transfer Details</h3>
             <div className="space-y-2">
               <p className="text-white"><span className="text-white/70">Bank:</span> {selectedBank}</p>
               <p className="text-white"><span className="text-white/70">Account Name:</span> Ogo Joshua Agama</p>
-              <p className="text-white"><span className="text-white/70">Account Number:</span> {banks.find(b => b.name === selectedBank)?.NUBAN}</p>
-            </div>
+              <div className="flex items-center justify-between gap-2">
+              <p className="text-white flex-1"><span className="text-white/70">Account Number:</span> {banks.find(b => b.name === selectedBank)?.NUBAN}</p>
+            <motion.button
+          className="p-2 rounded-full hover:bg-white/10 transition-colors"
+          onClick={() => copyToClipboard(
+            banks.find(b => b.name === selectedBank)?.NUBAN,
+            `${selectedBank} Account Number`
+          )}
+          variants={animationVariants.copyButton}
+          initial="initial"
+          whileTap="tapped"
+          animate={copiedAddress === `${selectedBank} Account Number` ? "success" : "initial"}
+          aria-label="Copy Account Number"
+          >
+          {copiedAddress === `${selectedBank} Account Number` ? (
+            <FaCheck className="text-lg text-green-400" />
+          ) : (
+            <FaCopy className="text-lg hover:cursor-pointer" />
+          )}
+        </motion.button>
+        </div>
+          </div>
           </motion.div>
         )}
 
@@ -280,26 +379,31 @@ export default function SupportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className="border border-white/20 bg-gradient-to-br from-white/5 to-black/30 p-4 rounded-lg shadow-lg backdrop-blur-sm"
-          >
+            >
             <h3 className="font-medium mb-3 text-center">{selectedCrypto.name} Wallet Address</h3>
             <div className="space-y-3">
               {selectedCrypto.networks.map((network, index) => (
                 <div key={index} className="p-3 rounded-lg bg-white/5 border border-white/10">
-                  <p className="text-sm text-white/70 mb-1">Network: <span className="text-white">{network.network}</span></p>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-mono break-all"><span>{network.address}</span></p>
+                  <p className="text-sm text-white/70 mb-1">
+                    <span className="font-medium text-white">Network:</span> {network.network}
+                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm text-white font-mono break-all flex-1">
+                      {network.address}
+                    </p>
                     <motion.button
-                      className="ml-2 p-2 rounded-full hover:bg-white/10 transition-colors"
+                      className="p-2 rounded-full hover:bg-white/10 transition-colors flex-shrink-0"
                       onClick={() => copyToClipboard(network.address, network.network)}
                       variants={animationVariants.copyButton}
                       initial="initial"
                       whileTap="tapped"
                       animate={copiedAddress === network.network ? "success" : "initial"}
+                      aria-label="Copy address"
                     >
                       {copiedAddress === network.network ? (
-                        <FaCheck className="text-green-400" />
+                        <FaCheck className="text-lg" />
                       ) : (
-                        <FaCopy />
+                        <FaCopy className="text-lg" />
                       )}
                     </motion.button>
                   </div>
@@ -310,5 +414,6 @@ export default function SupportPage() {
         )}
       </div>
     </motion.section>
+    </>
   );
 }

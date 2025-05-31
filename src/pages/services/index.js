@@ -1,107 +1,19 @@
-import { 
-  FaAccessibleIcon, 
-  FaLaptop 
-} from "react-icons/fa";
-import {
-  RxPencil2,
-  RxDesktop,
-  RxReader,
-  RxRocket,
-  RxArrowTopRight,
-  RxGlobe,
-  RxHome,
-  RxGear,
-  RxLaptop,
-} from "react-icons/rx";
+
+import { NextSeo } from "next-seo"
 import { 
   useEffect ,
   useRef
 } from "react";
-import { AiOutlineMobile } from "react-icons/ai";
-import {
-  BsTools, 
-  BsLaptop 
-} from "react-icons/bs"
-import {IoMdColorPalette, IoMdSearch} from 'react-icons/io'
 import {
   motion, 
   animate,
   useMotionValue,
   useMotionTemplate
- } from "framer-motion"
-import { fadeIn } from "@/variants"
-import Curve from "@/components/Curve"
-
-const serviceData = [
-  {
-    icon: <RxGlobe />,
-    title: 'Website Design and Development',
-    description: 'Create stunning, responsive websites that look great on any device, tailored to meet your business needs.',
-  },
-  {
-    icon: <IoMdColorPalette />,
-    title: 'UI/UX Design',
-    description: 'Design intuitive and engaging user interfaces that provide an exceptional user experience through thoughtful research and testing.',
-  },
-  {
-    icon: <RxDesktop />,
-    title: 'Web App Development',
-    description: 'Build dynamic and interactive web applications that offer seamless performance and integrate smoothly with backend services.',
-  },
-  {
-    icon: <RxReader />,
-    title: 'Copywriting',
-    description: 'Craft compelling and persuasive content that engages your audience, enhances your brand voice, and drives conversions.',
-  },
-  {
-    icon: <IoMdSearch />,
-    title: 'SEO Optimization',
-    description: 'Improve your website’s search engine rankings through effective keyword research, on-page and technical SEO, and quality content creation.',
-  },
-  {
-    icon: <RxRocket />,
-    title: 'Performance Optimization',
-    description: 'Enhance website speed and performance through comprehensive audits and optimizations to ensure fast loading times and smooth user experience.',
-  },
-  {
-    icon: <AiOutlineMobile />,
-    title: 'Responsive Design',
-    description: 'Ensure your website is fully responsive and mobile-friendly, providing an optimal viewing experience across all devices.',
-  },
-  {
-    icon: <RxHome />,
-    title: 'Landing Page Design',
-    description: 'Develop high-converting landing pages optimized for marketing campaigns to drive user engagement and conversions.',
-  },
-  {
-    icon: <RxPencil2 />,
-    title: 'HTML/CSS Development',
-    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
-  },
-  {
-    icon: <RxGear />,
-    title: 'JavaScript Development',
-    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
-  },
-  {
-    icon: <BsTools />,
-    title: 'Website Maintenance',
-    description: 'Provide ongoing website maintenance and support, including regular updates, security checks, and bug fixes to keep your site running smoothly.',
-  },
-  {
-    icon: <FaAccessibleIcon />,
-    title: 'Accessibility Optimization',
-    description: 'Ensure your website meets accessibility standards, making it usable for everyone, including people with disabilities. ',
-  },
-  
-  {
-    icon: <RxLaptop />,
-    title: 'Freelance',
-    description: 'Flexible and professional freelance web development services tailored to meet the specific needs and timelines of your projects.',
-  },
-];
-
-const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
+ } from "framer-motion";
+import { COLORS_TOP } from "@/data/data";
+import { serviceData } from "@/data/data";
+import { fadeIn } from "@/variants";
+import Curve from "@/components/Curve";
 
 export default function Services() {
 
@@ -119,6 +31,21 @@ const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #
 
   return (
     <>
+    <NextSeo
+      title="Services | ByteProwler"
+      description="What I can build for you"
+      canonical="https://byteprowler.vercel.app"
+      openGraph={{
+        url: "https://byteprowler.vercel.app",
+        title: "My Services | ByteProwler",
+        description: "Creative Solutions for your digital needs",
+        images: [{
+          url: '/byteprowler.jpeg',
+          width: 800,
+          height: 800
+        }]
+      }} />
+    
     <Curve />
     <motion.div
     style={{

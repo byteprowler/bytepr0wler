@@ -112,7 +112,7 @@ export default function ContactForm() {
         'S-qjrJXN9BeEZmDl3'
       );
 
-      addNotification("Email sent successfully!");
+      addNotification("Your Message has been delivered successfully!");
       setFormData({
         name: "",
         email: "",

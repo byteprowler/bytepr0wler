@@ -4,8 +4,8 @@ import { fadeIn } from '@/variants'
 import Link from 'next/link'
 import { display as disp } from '@/data/data';
 import Curve from "@/components/Curve"
+import { NextSeo } from "next-seo"
 
-const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 const Card = ({ card }) => {
   return (
@@ -71,6 +71,21 @@ const color = useMotionValue(COLORS_TOP[0]);
 
   return (
     <>
+    <NextSeo
+      title="Projects | ByteProwler"
+      description="Collection of my development projects and case studies"
+      canonical="https://byteprowler.vercel.app"
+      openGraph={{
+        url: "https://byteprowler.vercel.app",
+        title: "My Project | ByteProwler",
+        description: "See my work and what I can create",
+        images: [{
+          url: '/byteprowler.jpeg',
+          width: 600,
+          height: 600
+        }]
+      }} />
+    
     <Curve />
       <motion.div
       style={{

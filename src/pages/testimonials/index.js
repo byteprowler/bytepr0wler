@@ -6,38 +6,12 @@ import {
   useMotionValue,
   useMotionTemplate,
 } from "framer-motion";
-import Curve from "@/components/Curve"
+import { testimonials } from "@/data/data";
+import Curve from "@/components/Curve";
+import {NextSeo} from "@/data/data"
+import {COLORS_TOP} from "@/data/data"
 
-const testimonials = [
-  {
-    id: 1,
-    image: "/micode.jpg",
-    name: "Miracle King",
-    position: "Backend Tutor",
-    message: "Awaiting Response.",
-    rating: 5,
-    date: "2023-01-15",
-  },
-  {
-    id: 2,
-    image: "/t-avt-2.png",
-    name: "Coderite",
-    position: "Frontend Tutor",
-    message: "Awaiting Response.",
-    rating: 4,
-    date: "2023-02-10",
-  },
-  {
-    id: 3,
-    image: "/byteprowler.jpeg",
-    name: "ByteProwler",
-    position: "Myself",
-    message:
-      "Byte once said, 'Good things take time. Don’t feel pressured by peers chasing quick money through fraud. Stay focused, stay consistent, and success will come.",
-    rating: 5,
-    date: "2023-03-05",
-  },
-];
+
 
 const Card = ({ id, image, name, position, message, setCards, cards }) => {
   const x = useMotionValue(0);
@@ -95,15 +69,13 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
     >
       <div className="p-4">
         <img src={image} alt={name} className="h-16 w-16 rounded-full mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-center">{name}</h3>
+        <h3 className="text-lg font-semibold text-center text-gray-500">{name}</h3>
         <p className="text-center text-xl text-white">{position}</p>
         <p className="text-center mt-4 text-md text-white">{message}</p>
       </div>
     </motion.div>
   );
 };
-
-const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 export default function Index() {
   const [cards, setCards] = useState(testimonials);
@@ -123,6 +95,24 @@ export default function Index() {
 
   return (
   <>
+    <NextSeo
+        title="Testimonials | ByteProwler"
+        description="What Others say about working with me"
+        canonical="https://byteprowler.vercel.app"
+        openGraph={{
+          url: "https://byteprowler.vercel.app",
+          title: "Testimonials | ByteProwler",
+          description: "Feedback from clients and collaborators",
+          images: [
+            {
+              url: '/byteprowler.jpeg',
+              width: 600,
+              height: 600,
+              alt: 'ByteProwler Portfolio'
+            }
+          ] 
+        }} />
+
   <Curve />
     <motion.div
       style={{

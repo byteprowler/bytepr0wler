@@ -35,7 +35,7 @@ const SlideTabs = ({ activeTab, setActiveTab }) => {
                 nav.path === currentPath ? 'text-accent' : ''
               } ${activeTab === index ? 'text-white' : 'text-black'}`}
             >
-              <span title={nav.title} className="text-xl">{nav.icon}</span>
+              <span title={nav.title} className="text-[22px]">{nav.icon}</span>
               {/* <span className="md:flex hidden text-xl font-extralight">{nav.name}</span> */}
             </div>
           </Link>

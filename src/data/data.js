@@ -10,8 +10,11 @@ import {
   FaReact,
   FaQuoteLeft,
   FaBitcoin,
-  FaEthereum
+  FaEthereum,
+  FaAccessibleIcon, 
+  FaLaptop 
 } from "react-icons/fa";
+import {IoMdColorPalette, IoMdSearch} from 'react-icons/io'
 import {
   SiNextdotjs,
   SiFramer,
@@ -23,9 +26,21 @@ import {
   SiTether,
   SiPinetwork
 } from "react-icons/si";
+import { AiOutlineMobile } from "react-icons/ai";
 import { BiLogoTypescript } from "react-icons/bi";
-import { BsBank } from "react-icons/bs";
+import { BsBank, BsLaptop, BsTools } from "react-icons/bs";
 import { FaGitAlt, FaRegCircleUser } from "react-icons/fa6";
+import {
+  RxPencil2,
+  RxDesktop,
+  RxReader,
+  RxRocket,
+  RxArrowTopRight,
+  RxGlobe,
+  RxHome,
+  RxGear,
+  RxLaptop,
+} from "react-icons/rx";
 
 export const display = [
   {
@@ -206,4 +221,106 @@ export const botNav = [
   { name: 'Services', path: '/services', title: "Services", icon: <TbSettingsCog />, ariaLabel: 'Services' },
   { name: 'Testimonials', path: '/testimonials', icon: <FaQuoteLeft />, title: "Testimonials", ariaLabel: 'Testimonial' },
   { name: 'Contact', path: '/contact', icon: <IoMailOpen />, title: "Contact", ariaLabel: 'Contact' },
+];
+
+export const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
+
+export const testimonials = [
+  {
+    id: 1,
+    image: "/micode.jpg",
+    name: "Miracle King",
+    position: "Backend Tutor",
+    message: "Awaiting Response.",
+    rating: 5,
+    date: "2023-01-15",
+  },
+  {
+    id: 2,
+    image: "/t-avt-2.png",
+    name: "Coderite",
+    position: "Frontend Tutor",
+    message: "Awaiting Response.",
+    rating: 4,
+    date: "2023-02-10",
+  },
+  {
+    id: 3,
+    image: "/byteprowler.jpeg",
+    name: "ByteProwler",
+    position: "Myself",
+    message:
+      "Byte once said, 'Good things take time. Don’t feel pressured by peers chasing quick money through fraud. Stay focused, stay consistent, and success will come.",
+    rating: 5,
+    date: "2023-03-05",
+  },
+];
+
+export const serviceData = [
+  {
+    icon: <RxGlobe />,
+    title: 'Website Design and Development',
+    description: 'Create stunning, responsive websites that look great on any device, tailored to meet your business needs.',
+  },
+  {
+    icon: <IoMdColorPalette />,
+    title: 'UI/UX Design',
+    description: 'Design intuitive and engaging user interfaces that provide an exceptional user experience through thoughtful research and testing.',
+  },
+  {
+    icon: <RxDesktop />,
+    title: 'Web App Development',
+    description: 'Build dynamic and interactive web applications that offer seamless performance and integrate smoothly with backend services.',
+  },
+  {
+    icon: <RxReader />,
+    title: 'Copywriting',
+    description: 'Craft compelling and persuasive content that engages your audience, enhances your brand voice, and drives conversions.',
+  },
+  {
+    icon: <IoMdSearch />,
+    title: 'SEO Optimization',
+    description: 'Improve your website’s search engine rankings through effective keyword research, on-page and technical SEO, and quality content creation.',
+  },
+  {
+    icon: <RxRocket />,
+    title: 'Performance Optimization',
+    description: 'Enhance website speed and performance through comprehensive audits and optimizations to ensure fast loading times and smooth user experience.',
+  },
+  {
+    icon: <AiOutlineMobile />,
+    title: 'Responsive Design',
+    description: 'Ensure your website is fully responsive and mobile-friendly, providing an optimal viewing experience across all devices.',
+  },
+  {
+    icon: <RxHome />,
+    title: 'Landing Page Design',
+    description: 'Develop high-converting landing pages optimized for marketing campaigns to drive user engagement and conversions.',
+  },
+  {
+    icon: <RxPencil2 />,
+    title: 'HTML/CSS Development',
+    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
+  },
+  {
+    icon: <RxGear />,
+    title: 'JavaScript Development',
+    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
+  },
+  {
+    icon: <BsTools />,
+    title: 'Website Maintenance',
+    description: 'Provide ongoing website maintenance and support, including regular updates, security checks, and bug fixes to keep your site running smoothly.',
+  },
+  {
+    icon: <FaAccessibleIcon />,
+    title: 'Accessibility Optimization',
+    description: 'Ensure your website meets accessibility standards, making it usable for everyone, including people with disabilities. ',
+  },
+  
+  {
+    icon: <RxLaptop />,
+    title: 'Freelance',
+    description: 'Flexible and professional freelance web development services tailored to meet the specific needs and timelines of your projects.',
+  },
 ];

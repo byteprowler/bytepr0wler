@@ -10,8 +10,8 @@ import {
   animate,
 } from "framer-motion";
 import { fadeIn } from '@/variants';
+import { NextSeo } from "next-seo";
 import ContactForm from "@/components/ContactForm";
-import Coffee from "@/components/Coffee"
 import Image from "next/image";
 import Curve from "@/components/Curve";
 
@@ -92,6 +92,21 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
 
   return (
     <>
+    <NextSeo
+      title="Contact | ByteProwler"
+      description="Get in touch for collaborations and opportunities"
+      canonical="https://byteprowler.vercel.app"
+      openGraph={{
+        url: "https://byteprowler.vercel.app",
+        title: "Contact | ByteProwler",
+        description: "Let's build something amazing together",
+        images: [{
+          url: '/byteprowler.jpeg',
+          width: 600,
+          height: 600,
+          alt: 'ByteProwler'
+        }]
+      }} />
     <Curve />
     <div className="bg-secondary/30">
       <motion.div
@@ -125,7 +140,6 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
         </div>
       </div>
       </motion.div>
-      <Coffee />
     </div>
     </>
   );

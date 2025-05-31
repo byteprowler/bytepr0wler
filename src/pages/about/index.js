@@ -5,9 +5,9 @@ import Link from "next/link";
 import { motion, useMotionTemplate, animate, useMotionValue } from "framer-motion";
 import { fadeIn } from '@/variants';
 import CountUp from "react-countup";
+import { NextSeo } from "next-seo";
 import { aboutData } from "@/data/data";
-
-const COLORS_TOP = ["#f0f0f0", "#000000", "#d31010", "#f15090"];
+import { COLORS_TOP } from "@/data/data";
 
 
 const FlipText = ({children}) => {
@@ -105,6 +105,23 @@ export default function Index() {
 
   return (
     <>
+    <NextSeo
+        title="About | ByteProwler"
+        description="The journey of a passionate developer creating digital experiences"
+        canonical="https://byteprowler.vercel.app"
+        openGraph={{
+          url: "https://byteprowler.vercel.app",
+          title: "ByteProlwer's Portfolio | Welcome",
+          description: "From curiosity to code - my developer journey",
+          images: [
+            {
+              url: '/byteprowler.jpeg',
+              width: 600,
+              height: 600,
+              alt: 'ByteProwler'
+            }
+          ] 
+        }} />
     <Curve />
     <motion.div
       style={{
@@ -119,7 +136,7 @@ export default function Index() {
           <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-white text-left">
-        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">Who We Are ?</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">Who is <span className="text-[#F13024]">ByteProwler</span> ?</h2>
           <p className="mb-4 text-white max-w-[500px] mx-auto text-center">
             I&apos;m Ogo Joshua, a solo passionate freelance developer dedicated to creating innovative solutions. Our mission is to deliver high-quality software that exceeds our clients&apos; expectations.
           </p>

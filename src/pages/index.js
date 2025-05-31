@@ -9,12 +9,14 @@ import { IoLayers } from "react-icons/io5";
 import { FaEye } from "react-icons/fa6";
 import { useCVActions } from "@/libs/cvUtils";
 import { FiLoader } from "react-icons/fi";
+import { NextSeo } from "next-seo";
 import {
   useMotionTemplate,
   useMotionValue,
   motion,
   animate,
 } from "framer-motion";
+import { serviceData } from "@/data/data"
 
 // FlipText Component
 const DURATION = 0.25;
@@ -98,10 +100,28 @@ export default function Index() {
   const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
 
   return (
+    <>
+    <NextSeo
+    title="Home | ByteProwler's Portfolio"
+    description="Creative developer bringing Ideas to Life"
+    canonical="https://byteprowler.vercel.app"
+    openGraph={{
+      url: "https://byteprowler.vercel.app",
+      title: "ByteProwler's Portfolio | Welcome",
+      description: "Creative Coding Brings Idea to Life",
+      images: [
+        {
+          url: '/byteprowler.jpeg',
+          width: 800,
+          height: 600,
+          alt: 'ByteProwler Portfolio'
+        }
+      ] 
+    }} />
     <motion.section
       style={{ backgroundImage }}
       className="grid min-h-screen py-40 px-4 text-white"
-    >
+      >
       <div className="flex flex-col items-center justify-center">
         {/* Avatar (Mobile) */}
         <motion.div
@@ -125,7 +145,7 @@ export default function Index() {
           animate="show"
           exit="hidden"
           className="mb-1.5 inline-block rounded-full bg-gray-600/50 px-3 py-1.5 text-md"
-        >
+          >
           ByteProwler
         </motion.span>
 
@@ -135,7 +155,7 @@ export default function Index() {
           animate="show"
           exit="hidden"
           className="max-w-3xl bg-gradient-to-br from-white to-gray-200 bg-clip-text text-center text-3xl font-medium leading-tight sm:text-5xl sm:leading-tight md:text-7xl md:leading-tight"
-        >
+          >
           Where <span className="text-[#F13024] font-semibold">Code</span> Meets{" "}
           <FlipText>Creativity</FlipText>
         </motion.h1>
@@ -156,7 +176,7 @@ export default function Index() {
           animate="show"
           exit="hidden"
           className="mt-4"
-        >
+          >
           <SocialIcons />
         </motion.div>
 
@@ -202,5 +222,6 @@ export default function Index() {
         </motion.div>
       </div>
     </motion.section>
+    </>
   );
 }
