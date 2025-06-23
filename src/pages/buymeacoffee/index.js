@@ -1,16 +1,12 @@
 import { 
   motion, 
-  AnimatePresence,
-  useMotionTemplate, 
-  useMotionValue, 
-  animate 
+  AnimatePresence
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { wallets, banks } from "@/data/data";
 import { FiCheckSquare, FiX } from "react-icons/fi";
-import { COLORS_TOP } from "@/data/data";
 import { NextSeo } from "next-seo";
 
 const NOTIFICATION_TTL = 3000;
@@ -87,18 +83,6 @@ export default function SupportPage() {
   const [showBankDropdown, setShowBankDropdown] = useState(false);
   const [showCryptoDropdown, setShowCryptoDropdown] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(null);
-  
-  const color = useMotionValue(COLORS_TOP[0]);
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
-
-  useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
 
   const addNotification = (text) => {
     const id = Date.now();
@@ -138,8 +122,7 @@ export default function SupportPage() {
           ] 
         }} />
 
-    <motion.section
-      style={{ backgroundImage }}
+    <section
       className="min-h-screen py-20 px-4 text-white grid place-items-center"
     >
       {/* Notifications Container */}
@@ -413,7 +396,7 @@ export default function SupportPage() {
           </motion.div>
         )}
       </div>
-    </motion.section>
+    </section>
     </>
   );
 }

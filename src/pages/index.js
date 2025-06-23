@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect } from "react";
 import { fadeIn } from "@/variants";
 import SocialIcons from "@/components/SocialIcons";
 import Image from "next/image";
@@ -10,13 +9,7 @@ import { FaEye } from "react-icons/fa6";
 import { useCVActions } from "@/libs/cvUtils";
 import { FiLoader } from "react-icons/fi";
 import { NextSeo } from "next-seo";
-import { COLORS_TOP } from "@/data/data";
-import {
-  useMotionTemplate,
-  useMotionValue,
-  motion,
-  animate,
-} from "framer-motion";
+import { motion } from "framer-motion";
 
 // FlipText Component
 const DURATION = 0.25;
@@ -83,21 +76,6 @@ export default function Index() {
     downloadError 
   } = useCVActions();  
 
-  const color = useMotionValue(COLORS_TOP[0]);
-
-  useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
-  const border = useMotionTemplate`1px solid ${color}`;
-  const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
-
   return (
     <>
     <NextSeo
@@ -117,8 +95,7 @@ export default function Index() {
         }
       ] 
     }} />
-    <motion.section
-      style={{ backgroundImage }}
+    <section
       className="grid min-h-screen py-40 px-4 text-white"
       >
       <div className="flex flex-col items-center justify-center">
@@ -220,7 +197,7 @@ export default function Index() {
           </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
     </>
   );
 }

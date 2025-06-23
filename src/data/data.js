@@ -66,9 +66,9 @@ export const display = [
     url: "/j&lpowertools.png",
     title: "J&L Powertools",
     id: 3, 
-    link: "https://seo-optimized.vercel.app",
+    link: "https://www.jlpowertools.biz",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A website for a power tools company, showcasing their products and services with a focus on SEO optimization and user experience.",
+    description: "An website for a power tools company, showcasing their products and services with a focus on SEO optimization and user experience.",
     color: "#FACC15",
     slug: "j&lpowertools",
   },
@@ -250,9 +250,18 @@ export const testimonials = [
     name: "ByteProwler",
     position: "Myself",
     message:
-      "Byte once said, 'Good things take time. Don’t feel pressured by peers chasing quick money through fraud. Stay focused, stay consistent, and success will come.",
+    "Byte once said, 'Good things take time. Don’t feel pressured by peers chasing quick money through fraud. Stay focused, stay consistent, and success will come.",
     rating: 5,
     date: "2023-03-05",
+  },
+  {
+    id: 4,
+    image: "/t-avt-2.png",
+    name: "Charles Chibuzo Igweze",
+    position: "Backend Classmate",
+    message: "Awaiting Response.",
+    rating: 4,
+    date: "2025-05-31",
   },
 ];
 

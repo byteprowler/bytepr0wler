@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
 import { 
   FiBatteryCharging,
   FiWifi,
 } from "react-icons/fi";
 import {
-  useMotionTemplate,
-  useMotionValue,
-  motion, 
-  animate,
+  motion
 } from "framer-motion";
 import { fadeIn } from '@/variants';
 import { NextSeo } from "next-seo";
 import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
-import { COLORS_TOP } from "@/data/data";
+import React from "react";
 import Curve from "@/components/Curve";
 
 
@@ -77,19 +73,6 @@ export default function Contact() {
 
   const [mode, setMode] = React.useState("contact");
 
-  const color = useMotionValue(COLORS_TOP[0]);
-
-  useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
-  
-const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #020617 50%, ${color})`;
-
   return (
     <>
     <NextSeo
@@ -109,10 +92,7 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
       }} />
     <Curve />
     <div className="bg-secondary/30">
-      <motion.div
-      style={{
-        backgroundImage,
-      }}
+      <section
       className='grid min-h-screen place-content-center overflow-hidden bg-gray-950 text-gray-200'>
       <div className="mx-auto py-32 lg:px-0 sm:px-4 xl:text-left justify-center h-full w-full max-w-[700px]">
         <motion.h2 
@@ -139,7 +119,7 @@ const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #
         <ContactForm />
         </div>
       </div>
-      </motion.div>
+      </section>
     </div>
     </>
   );

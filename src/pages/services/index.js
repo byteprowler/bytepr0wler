@@ -1,33 +1,13 @@
 
 import { NextSeo } from "next-seo"
-import { 
-  useEffect ,
-  useRef
-} from "react";
 import {
-  motion, 
-  animate,
-  useMotionValue,
-  useMotionTemplate
+  motion
  } from "framer-motion";
-import { COLORS_TOP } from "@/data/data";
 import { serviceData } from "@/data/data";
 import { fadeIn } from "@/variants";
 import Curve from "@/components/Curve";
 
 export default function Services() {
-
-const color = useMotionValue(COLORS_TOP[0]);
-useEffect(() => {
-  animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-}, [color]);
-
-const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
   return (
     <>
@@ -47,10 +27,7 @@ const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #
       }} />
     
     <Curve />
-    <motion.div
-    style={{
-      backgroundImage
-    }}
+    <section
      className="min-h-screen">
       <div className="py-36">
         <h1 className="h1 text-center text-white">Our Services<span className="text-3xl text-[#F13024]">.</span></h1>
@@ -80,7 +57,7 @@ const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #
           ))}
         </div>
       </div>
-    </motion.div>
+    </section>
     </>
   )
 }

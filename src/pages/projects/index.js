@@ -1,10 +1,9 @@
-import { useRef, useEffect } from 'react'
-import { motion, useTransform, useScroll, useMotionTemplate, useMotionValue, animate } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useTransform, useScroll } from 'framer-motion'
 import { fadeIn } from '@/variants'
 import Link from 'next/link'
 import { display as disp } from '@/data/data';
 import Curve from "@/components/Curve";
-import { COLORS_TOP } from '@/data/data';
 import { NextSeo } from "next-seo";
 
 
@@ -57,19 +56,6 @@ const HorizontalScrollCarousel = () => {
 
 export default function Projects() {
 
-const color = useMotionValue(COLORS_TOP[0]);
-
-    useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
-
   return (
     <>
     <NextSeo
@@ -88,10 +74,7 @@ const color = useMotionValue(COLORS_TOP[0]);
       }} />
     
     <Curve />
-      <motion.div
-      style={{
-        backgroundImage,
-      }}
+      <section
       className='py-36 min-h-screen text-white place-content-center px-4'>
         <div>
         <motion.h2
@@ -124,7 +107,7 @@ const color = useMotionValue(COLORS_TOP[0]);
        </div>
      </motion.div>
         </div>
-      </motion.div>
+      </section>
     </>
   )
 }

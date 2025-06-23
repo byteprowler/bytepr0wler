@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   motion,
-  animate,
   useTransform,
   useMotionValue,
-  useMotionTemplate,
 } from "framer-motion";
-import { testimonials, COLORS_TOP } from "@/data/data";
+import { testimonials } from "@/data/data";
 import Curve from "@/components/Curve";
 import { NextSeo } from "next-seo";
 
@@ -79,19 +77,6 @@ const Card = ({ id, image, name, position, message, setCards, cards }) => {
 export default function Index() {
   const [cards, setCards] = useState(testimonials);
 
-  const color = useMotionValue(COLORS_TOP[0]);
-
-  useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
-
   return (
   <>
     <NextSeo
@@ -113,10 +98,7 @@ export default function Index() {
         }} />
 
   <Curve />
-    <motion.div
-      style={{
-        backgroundImage,
-      }}
+    <section
       className="min-h-screen flex items-center justify-center"
     >
       <div className="grid h-[500px] w-full place-items-center relative">
@@ -131,7 +113,7 @@ export default function Index() {
           </p>
         )}
       </div>
-    </motion.div>
+    </section>
       </>
   );
 }

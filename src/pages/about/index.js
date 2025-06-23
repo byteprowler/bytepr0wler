@@ -1,14 +1,12 @@
 import Curve from "@/components/Curve";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { motion, useMotionTemplate, animate, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { fadeIn } from '@/variants';
 import CountUp from "react-countup";
 import { NextSeo } from "next-seo";
 import { aboutData } from "@/data/data";
-import { COLORS_TOP } from "@/data/data";
-
 
 const FlipText = ({children}) => {
   return (  
@@ -87,19 +85,6 @@ const getMonthsOfExperience = () => {
 const monthsOfExperience = getMonthsOfExperience();
 
 export default function Index() {
-  
-  const color = useMotionValue(COLORS_TOP[0]);
-
-  useEffect(() => {
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-  }, [color]);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
 
   const [index, setIndex] = useState(0);
 
@@ -123,10 +108,7 @@ export default function Index() {
           ] 
         }} />
     <Curve />
-    <motion.div
-      style={{
-        backgroundImage,
-      }}
+    <section
       className="min-h-screen"
     >
       <div className="py-36 px-4 text-white">
@@ -249,7 +231,7 @@ export default function Index() {
         </motion.div>
       </div>
       </div>
-    </motion.div>
+    </section>
     </>
   );
 }

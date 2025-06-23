@@ -1,31 +1,16 @@
-import { motion, AnimatePresence, useMotionValue, useMotionTemplate, animate } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/Button";
 import { BsArrowRight } from 'react-icons/bs';
 import emailjs from '@emailjs/browser';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { fadeIn } from "@/variants";
 import { FiCheckSquare, FiX, FiAlertCircle, FiLoader } from "react-icons/fi";
 import { FaUserFriends } from "react-icons/fa";
 
 const NOTIFICATION_TTL = 5000;
-const COLORS_TOP = ["#f0f0f0", "#000000", "#dd3310", "#f15090"];
 
 const Notification = ({ text, type = "success", id, removeNotif }) => {
-  const color = useMotionValue(COLORS_TOP[0]);
-
-  useEffect(() => {
-    const timeoutRef = setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
-    animate(color, COLORS_TOP, {
-      ease: "easeInOut",
-      duration: 10,
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-    return () => clearTimeout(timeoutRef);
-  }, []);
-
-  const backgroundImage = useMotionTemplate`radial-gradient(100% 100% at 50% 0%, #020617 50%, ${color})`;
 
   return (
     <motion.div

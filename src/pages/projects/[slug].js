@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { motion, useMotionValue, useMotionTemplate, animate } from "framer-motion";
 import Link from "next/link";
-
-const COLORS_TOP = ["#f0f0f0", "#000000", "#d31010", "#f15090"];
+import { COLORS_TOP } from "@/data/data";
 
 export default function ShowPost() {
   const color = useMotionValue(COLORS_TOP[0]);
@@ -35,8 +34,7 @@ export default function ShowPost() {
   }
 
   return (
-    <motion.main
-      style={{ backgroundImage }}
+    <main
       className="min-h-screen py-20 px-6 text-white text-center"
     >
       <div className="max-w-3xl mx-auto">
@@ -80,6 +78,6 @@ export default function ShowPost() {
           </Link>
         )}
       </div>
-    </motion.main>
+    </main>
   );
 }

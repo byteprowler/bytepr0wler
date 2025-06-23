@@ -1,11 +1,31 @@
 import Head from "next/head";
 import BottomNav from "./BottomNav";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Header from "./Header";
-import Coffee from "./Coffee"
+import { animate, motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import Coffee from "./Coffee";
+import { COLORS_TOP } from "@/data/data";
 
 export default function Layout({ children }) {
-    const isCoffee = useRouter().pathname === "/buymeacoffee"
+
+  const color = useMotionValue(COLORS_TOP[0]);
+
+  useEffect(() => {
+    animate(color, COLORS_TOP, {
+      ease: "easeInOut",
+      duration: 10,
+      repeat: Infinity,
+      repeatType: "mirror",
+    });
+  }, [color]);
+
+  const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
+  const border = useMotionTemplate`1px solid ${color}`;
+  const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;  
+
+  const isCoffee = useRouter().pathname === "/buymeacoffee";
+
   return (
     <div>
       <Head>
@@ -37,7 +57,12 @@ export default function Layout({ children }) {
       <BottomNav />
       {!isCoffee && <Coffee />}
       {/* <Curve /> */}
+      <motion.div
+      style={{
+        backgroundImage
+      }}>
       {children}
+      </motion.div>
     </div>
   );
 }
