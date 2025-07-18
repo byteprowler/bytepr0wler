@@ -2,7 +2,7 @@ import {
   motion, 
   AnimatePresence
 } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaCopy, FaCheck } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { wallets, banks } from "@/data/data";

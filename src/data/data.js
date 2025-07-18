@@ -68,7 +68,7 @@ export const display = [
     id: 3, 
     link: "https://www.jlpowertools.biz",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "An website for a power tools company, showcasing their products and services with a focus on SEO optimization and user experience.",
+    description: "A website for a power tools company, showcasing their products and services with a focus on SEO optimization and user experience.",
     color: "#FACC15",
     slug: "j&lpowertools",
   },

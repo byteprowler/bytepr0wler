@@ -107,7 +107,7 @@ export default function Contact() {
         initial='hidden' 
         animate='show'
         exit='hidden'
-        className='grid p-12'>
+        className='grid p-12' >
         <Phone />
         </motion.section>
         <motion.h2 

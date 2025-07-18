@@ -118,14 +118,19 @@ export default function Index() {
           <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
         </div>
         <div className="flex-1 flex flex-col justify-center text-white text-left">
-        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">Who is <span className="text-[#F13024]">ByteProwler</span> ?</h2>
-          <p className="mb-4 text-white max-w-[500px] mx-auto text-center">
-            I&apos;m Ogo Joshua, a solo passionate freelance developer dedicated to creating innovative solutions. Our mission is to deliver high-quality software that exceeds our clients&apos; expectations.
-          </p>
-           <p className="mb-4 text-white text-center"><span className="text-[#F13024]">PS:</span> I also go by the Alias Of ByteProwler  || The Founder Of ByteCorp  ||</p>
-          <p className="mb-4 text-white">
-            Our expertise spans across various domains, including web development, mobile apps, and AI-driven applications. We believe in the power of technology to transform businesses and improve lives.
-          </p>
+        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">
+          Who is <span className="text-[#F13024]">ByteProwler</span>?
+        </h2>
+        <p className="mb-4 text-white max-w-[500px] mx-auto text-center">
+          I&apos;m Ogo Joshua, a passionate solo freelance developer dedicated to creating innovative digital solutions. My mission is to deliver high-quality software that not only meets but exceeds client expectations.
+        </p>
+        <p className="mb-4 text-white text-center">
+        <span className="text-[#F13024]">PS:</span> I also go by the alias <strong>ByteProwler</strong> — Founder of <strong>ByteCorp</strong> 🚀
+        </p>
+      <p className="mb-4 text-white max-w-[600px] mx-auto text-center">
+        My expertise spans web development, mobile apps, and AI-driven solutions. I believe in the power of technology to transform businesses and elevate everyday experiences.
+      </p>
+
           <p className=" text-white">
             <Link href={'/contact'}><span>Contact Us</span></Link> to learn more about our services and how we can help you achieve your goals.
           </p>

@@ -45,12 +45,13 @@ export default function ShowPost() {
         <div className="mb-6">
           <span className="text-sm uppercase text-gray-400">Tech Stack:</span>
           <ul className="flex flex-wrap justify-center gap-2 mt-2">
+            {showroom.techStack.map((tech, index) => (
               <li
-                key={showroom.id}
-                className="bg-[#1f2937] px-3 py-1 rounded-full text-sm text-white"
-              >
-                {showroom.techStack.join(",")}
+              key={index}
+              className="bg-[#1f2937] px-3 py-1 rounded-full text-sm text-white">
+                {tech}
               </li>
+            ))}
           </ul>
         </div>
 

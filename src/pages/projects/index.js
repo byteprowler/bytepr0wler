@@ -95,14 +95,14 @@ export default function Projects() {
         animate="show"
         exit="hidden">
       <div className="flex h-48 items-center justify-center">
-      <span className="font-semibold uppercase text-neutral-500 place-content-center">
-           Scroll down
-         </span>
+      <span className="font-semibold uppercase text-neutral-500 animate-pulse">
+        {/* ⬇️ Scroll Down to Slide Projects ➡️ */}  ↓ Keep Scrolling... Projects Slide Sideways 😎
+      </span>
        </div>
        <HorizontalScrollCarousel />
        <div className="flex h-40 items-center justify-center">
          <span className="font-semibold backdrop-blur-lg uppercase text-neutral-500">
-           Sorry About the Blank Space Projects are to Be Uploaded Soon
+           ⚒️ ByteProwler is cooking up some dope projects. Stay tuned! 
          </span>
        </div>
      </motion.div>
