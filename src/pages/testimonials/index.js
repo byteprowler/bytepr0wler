@@ -1,87 +1,71 @@
+"use client";
 import { useState } from "react";
-import {
-  motion,
-  useTransform,
-  useMotionValue,
-} from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { testimonials } from "@/data/data";
 import Curve from "@/components/Curve";
 import { NextSeo } from "next-seo";
 
-
-
-const Card = ({ id, image, name, position, message, setCards, cards }) => {
+const FanCard = ({ card, index, total, onSwipe }) => {
   const x = useMotionValue(0);
 
-  const rotateRaw = useTransform(x, [-150, 150], [-18, 18]);
+  const rotate = useTransform(x, [-150, 150], [-20, 20]);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
 
-  const isFront = id === cards[cards.length - 1].id;
+  // Fan-style position & scale for the "peeking" cards behind
+  const offsetY = index * -10;
+  const scale = 1 - index * 0.05;
+  const rotateFan = index * 3; // Slight fan curve
 
-  const rotate = useTransform(() => {
-    const offset = isFront ? 0 : id % 2 ? 6 : -6;
-
-    return `${rotateRaw.get() + offset}deg`;
-  });
+  const isTop = index === 0;
 
   const handleDragEnd = () => {
     if (Math.abs(x.get()) > 100) {
-      setCards((prev) => {
-        const newCards = prev.filter((v) => v.id !== id);
-        if (newCards.length === 0) {
-          // Reset the cards when they are all swiped
-          return testimonials;
-        }
-        return newCards;
-      });
+      onSwipe(card.id);
     }
   };
 
   return (
     <motion.div
-    className="h-96 w-[90vw] max-w-sm origin-bottom rounded-lg object-cover hover:cursor-grab active:cursor-grabbing shadow-lg"
-      style={{
-        gridRow: 1,
-        gridColumn: 1,
-        x,
-        opacity,
-        rotate,
-        transition: "0.125s transform",
-        boxShadow: isFront
-          ? "0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5)"
-          : undefined,
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(255, 255, 255, 0.3)",
-      }}
-      animate={{
-        scale: isFront ? 1 : 0.90,
-      }}
-      drag={isFront ? "x" : false}
-      dragConstraints={{
-        left: -1,
-        right: 0,
-      }}
+      className="absolute h-96 w-[90vw] max-w-sm rounded-xl p-6 bg-white/10 border border-white/20 backdrop-blur-md text-white shadow-xl cursor-grab active:cursor-grabbing"
+      drag={isTop ? "x" : false}
+      dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={handleDragEnd}
+      style={{
+        x: isTop ? x : 0,
+        rotate: isTop ? rotate : `${rotateFan}deg`,
+        opacity,
+        zIndex: total - index,
+        top: offsetY,
+        scale,
+      }}
     >
-      <div className="p-4">
-        <img src={image} alt={name} className="h-16 w-16 rounded-full mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-center text-gray-500">{name}</h3>
-        <p className="text-center text-xl text-white">{position}</p>
-        <p className="text-center mt-4 text-md text-white">{message}</p>
-      </div>
+      <img
+        src={card.image}
+        alt={card.name}
+        className="h-16 w-16 rounded-full mx-auto mb-3"
+      />
+      <h3 className="text-lg font-bold text-center">{card.name}</h3>
+      <p className="text-sm text-center text-gray-400">{card.position}</p>
+      <p className="text-sm text-center mt-3 italic">"{card.message}"</p>
     </motion.div>
   );
 };
 
-export default function Index() {
+export default function Testimonials() {
   const [cards, setCards] = useState(testimonials);
 
+  const handleSwipe = (id) => {
+    setCards((prev) => {
+      const updated = prev.filter((card) => card.id !== id);
+      return updated.length ? updated : testimonials;
+    });
+  };
+
   return (
-  <>
-    <NextSeo
+    <>
+      <NextSeo
         title="Testimonials | ByteProwler"
-        description="What Others say about working with me"
+        description="What others say about working with me"
         canonical="https://byteprowler.vercel.app"
         openGraph={{
           url: "https://byteprowler.vercel.app",
@@ -89,31 +73,38 @@ export default function Index() {
           description: "Feedback from clients and collaborators",
           images: [
             {
-              url: '/byteprowler.jpeg',
+              url: "/byteprowler.jpeg",
               width: 600,
               height: 600,
-              alt: 'ByteProwler Portfolio'
-            }
-          ] 
-        }} />
+              alt: "ByteProwler Portfolio",
+            },
+          ],
+        }}
+      />
+      <Curve />
 
-  <Curve />
-    <section
-      className="min-h-screen flex items-center justify-center"
-    >
-      <div className="grid h-[500px] w-full place-items-center relative">
-        {cards.map((card) => {
-          return (
-            <Card key={card.id} cards={cards} setCards={setCards} {...card} />
-          );
-        })}
+      <section className="min-h-screen flex items-center justify-center px-4">
+        <div className="relative h-[420px] w-full max-w-sm flex items-center justify-center">
+          {cards
+            .map((card, i) => ({ ...card, index: cards.length - 1 - i }))
+            .sort((a, b) => a.index - b.index) // top card has index 0
+            .map((card, i) => (
+              <FanCard
+                key={card.id}
+                card={card}
+                index={i}
+                total={cards.length}
+                onSwipe={handleSwipe}
+              />
+            ))}
+        </div>
+
         {cards.length === 0 && (
-          <p className="text-lg font-semibold text-gray-600">
-            No more testimonials left!
+          <p className="mt-8 text-center text-gray-400">
+            No more testimonials left.
           </p>
         )}
-      </div>
-    </section>
-      </>
+      </section>
+    </>
   );
 }
