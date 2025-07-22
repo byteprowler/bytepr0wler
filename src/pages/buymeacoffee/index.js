@@ -55,7 +55,7 @@ const Notification = ({ text, id, removeNotif }) => {
   useEffect(() => {
     const timeoutRef = setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
     return () => clearTimeout(timeoutRef);
-  }, []);
+  }, [id, removeNotif]);
 
   return (
     <motion.div

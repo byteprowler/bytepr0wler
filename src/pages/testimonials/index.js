@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { testimonials } from "@/data/data";
 import Curve from "@/components/Curve";
 import { NextSeo } from "next-seo";
+import Image from "next/image";
 
 const FanCard = ({ card, index, total, onSwipe }) => {
   const x = useMotionValue(0);
@@ -11,10 +12,9 @@ const FanCard = ({ card, index, total, onSwipe }) => {
   const rotate = useTransform(x, [-150, 150], [-20, 20]);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
 
-  // Fan-style position & scale for the "peeking" cards behind
   const offsetY = index * -10;
   const scale = 1 - index * 0.05;
-  const rotateFan = index * 3; // Slight fan curve
+  const rotateFan = index * 3;
 
   const isTop = index === 0;
 
@@ -39,14 +39,14 @@ const FanCard = ({ card, index, total, onSwipe }) => {
         scale,
       }}
     >
-      <img
+      <Image
         src={card.image}
         alt={card.name}
         className="h-16 w-16 rounded-full mx-auto mb-3"
       />
       <h3 className="text-lg font-bold text-center">{card.name}</h3>
       <p className="text-sm text-center text-gray-400">{card.position}</p>
-      <p className="text-sm text-center mt-3 italic">"{card.message}"</p>
+      <p className="text-sm text-center mt-3 italic">&apos;{card.message}&apos;</p>
     </motion.div>
   );
 };
@@ -87,7 +87,7 @@ export default function Testimonials() {
         <div className="relative h-[420px] w-full max-w-sm flex items-center justify-center">
           {cards
             .map((card, i) => ({ ...card, index: cards.length - 1 - i }))
-            .sort((a, b) => a.index - b.index) // top card has index 0
+            .sort((a, b) => a.index - b.index)
             .map((card, i) => (
               <FanCard
                 key={card.id}
