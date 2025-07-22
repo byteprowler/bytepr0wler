@@ -7,7 +7,7 @@ const CYCLES_PER_LETTER = 3;
 const SHUFFLE_TIME = 60;
 const CHARS = "!@#$%^&*():{};|,.<>/?";
 
-export default function Button({ children, href, type, onClick, disabled, icon = <FiLock /> }) {
+export default function Button({ children, style, href, type, onClick, disabled, icon = <FiLock /> }) {
   const TARGET_TEXT = children;
   const intervalRef = useRef(null);
   const [text, setText] = useState(TARGET_TEXT);
@@ -59,6 +59,7 @@ export default function Button({ children, href, type, onClick, disabled, icon =
       href={href}
       disabled={disabled}
       onClick={onClick}
+      style={style}
       type={type}
       className="group relative overflow-hidden hover:cursor-pointer rounded-lg border-[1px] border-neutral-500 bg-transparent px-4 py-2 font-mono font-medium uppercase text-neutral-300 transition-colors hover:text-indigo-300"
     >

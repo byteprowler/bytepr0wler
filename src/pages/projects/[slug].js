@@ -1,12 +1,15 @@
-import { display } from "@/data/data";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useMotionValue, animate } from "framer-motion";
-import Link from "next/link";
-import { COLORS_TOP } from "@/data/data";
+import { motion } from "framer-motion";
+import { FaLink } from "react-icons/fa6";
+import { fadeIn } from "@/variants";
+import { COLORS_TOP, display } from "@/data/data";
+import Button from "@/components/Button";
 import {
-  FaReact, FaHtml5, FaCss3, FaJs
+  FaReact, FaHtml5, FaCss3, FaJs,
+  FaGithub
 } from "react-icons/fa";
 import {
   SiNextdotjs, SiTailwindcss, SiFramer
@@ -50,7 +53,7 @@ export default function ShowPost() {
 
   return (
     <main
-      className="min-h-screen py-20 px-6 text-white text-center"
+      className="min-h-screen py-36 px-4 text-white text-center"
     >
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold mb-4">{showroom.title}<span style={{ color: showroom.color }}>.</span></h1>
@@ -79,20 +82,35 @@ export default function ShowPost() {
               className="mx-auto rounded-2xl shadow-lg w-full max-w-lg"
             />
           </div>
-
+      <motion.div
+      variants={fadeIn('up', 0.6)}
+      initial="hidden"
+      animate="show"
+      exit="hidden"
+      className="mt-6 flex flex-col items-center gap-4">
         {showroom.link && (
-          <Link
-            href={showroom.link}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Button
+          icon={<FaLink className="text=lg" />}
+          href={showroom.link}
+          style={{
+              backgroundColor: showroom.color,
+            }}
+          >
+            Live Demo
+          </Button>
+        )}
+        {showroom.sourceCode && (
+          <Button
+            icon={<FaGithub className="text-lg" />}
+            href={showroom.sourceCode}
             style={{
               backgroundColor: showroom.color,
             }}
-            className={`inline-block text-white font-semibold py-2 px-6 rounded-full transition-all duration-300`}
           >
-            Visit Live Site
-          </Link>
-        )}
+            Source Code
+          </Button>
+      )}
+      </motion.div>
       </div>
     </main>
   );
