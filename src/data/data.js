@@ -94,6 +94,7 @@ export const display = [
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
     description: "A project description goes here. This is a placeholder for the actual project details.",
     link: "https://mentorled-landing-nine.vercel.app/",
+    slug: "landing-page",
   },
   {
     id: 6,
@@ -103,6 +104,7 @@ export const display = [
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
     description: "An Admin Interface for an E-Commerce Site.",
     link: "https://mentorled-admin.vercel.app/",
+    slug: "admin-interface",
   },
   {
     id: 7,
@@ -112,6 +114,7 @@ export const display = [
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
     description: "A multi-step form for collecting user information, designed to enhance user experience and streamline data entry.",
     link: "https://mentorled-form.vercel.app/",
+    slug: "multi-step-form",
   },
   {
     id: 8,

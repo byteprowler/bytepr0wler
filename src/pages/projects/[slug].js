@@ -25,7 +25,6 @@ const techIcons = {
   "JavaScript": <FaJs className="text-[#f7df1e]" />,
 };
 
-
 export default function ShowPost() {
   const color = useMotionValue(COLORS_TOP[0]);
 

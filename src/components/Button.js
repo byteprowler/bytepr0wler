@@ -5,7 +5,7 @@ import { fadeIn } from "@/variants";
 
 const CYCLES_PER_LETTER = 3;
 const SHUFFLE_TIME = 60;
-const CHARS = "!@#$%^&*():{};|,.<>/?";
+const CHARS = "!@#$%^&*()-=_+:{};|,.<>/?";
 
 export default function Button({ children, style, href, type, onClick, disabled, icon = <FiLock /> }) {
   const TARGET_TEXT = children;
