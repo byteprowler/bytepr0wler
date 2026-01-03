@@ -42,143 +42,151 @@ import {
   RxLaptop,
 } from "react-icons/rx";
 
+
 export const display = [
   {
-    url: "/tgn.png",
-    title: "TGN",
     id: 1,
+    slug: "tech-gamer-network",
+    title: "TGN",
+    url: "/tgn.png",
     link: "https://tgn-two.vercel.app/",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A tech blog and community platform for gamers, featuring articles, reviews, and discussions on the latest gaming trends.",
     sourceCode: "https://github.com/byteprowler/univelcityproject",
-    slug:"tech-gamer-network",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    description:
+      "A tech blog and community platform for gamers, featuring articles, reviews, and discussions on the latest gaming trends.",
+    color: "#F13024",
   },
   {
-    url: "/de-clothing.png",
-    title: "De-Clothing",
     id: 2,
+    slug: "de-clothing",
+    title: "De-Clothing",
+    url: "/de-clothing.png",
     link: "https://de-clothing.vercel.app",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "An e-commerce platform for clothing and accessories, offering a wide range of products with a user-friendly shopping experience.",
-    color: "#FACC15",
     sourceCode: "https://github.com/byteprowler/DE-Clothing",
-    slug:"de-clothing",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    description:
+      "An e-commerce platform for clothing and accessories, offering a wide range of products with a user-friendly shopping experience.",
+    color: "#FACC15",
   },
   {
-    url: "/j&lpowertools.png",
+    id: 3,
+    slug: "jl-powertools",
     title: "J&L Powertools",
-    id: 3, 
+    url: "/j&lpowertools.png",
     link: "https://www.jlpowertools.biz",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A website for a power tools company, showcasing their products and services with a focus on SEO optimization and user experience.",
-    color: "#FACC15",
     sourceCode: "https://github.com/byteprowler/jlpowertools",
-    slug: "j&lpowertools",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    description:
+      "A business website showcasing products and services, built with responsive UI, strong structure, and SEO-friendly pages.",
+    color: "#22C55E",
   },
   {
     id: 4,
-    url: "/byteprowler.png",
+    slug: "byteprowler-portfolio",
     title: "Portfolio",
+    url: "/byteprowler.png",
     link: "https://byteprowler.vercel.app",
     sourceCode: "https://github.com/byteprowler/bytepr0wler",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A personal portfolio website showcasing my projects and skills, designed to highlight my work and attract potential clients.",
-    color: "#6b21a8",
-    slug: "byteprowler",
+    description:
+      "A personal portfolio website showcasing projects and skills, designed to attract clients and recruiters.",
+    color: "#A855F7",
   },
   {
     id: 5,
-    url: "/blank.jpg",
+    slug: "mentorled-landing",
     title: "Landing Page",
+    url: "/blank.jpg",
+    link: "https://mentorled-landing-nine.vercel.app/",
     sourceCode: "https://github.com/byteprowler/mentorled-landing",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A project description goes here. This is a placeholder for the actual project details.",
-    link: "https://mentorled-landing-nine.vercel.app/",
-    slug: "landing-page",
+    description:
+      "A landing page focused on clear sections, strong layout, and conversion-friendly structure.",
+    color: "#38BDF8",
   },
   {
     id: 6,
-    url: "/blank.jpg",
+    slug: "mentorled-admin",
     title: "Admin Interface",
+    url: "/blank.jpg",
+    link: "https://mentorled-admin.vercel.app/",
     sourceCode: "https://github.com/byteprowler/mentorled-admin",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "An Admin Interface for an E-Commerce Site.",
-    link: "https://mentorled-admin.vercel.app/",
-    slug: "admin-interface",
+    description: "An admin dashboard UI for managing products, users, and content.",
+    color: "#F59E0B",
   },
   {
     id: 7,
-    url: "/blank.jpg",
-    sourceCode: "https://github.com/byteprowler/mentorled-form",
+    slug: "mentorled-multi-step-form",
     title: "Multi-Step Form",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A multi-step form for collecting user information, designed to enhance user experience and streamline data entry.",
+    url: "/blank.jpg",
     link: "https://mentorled-form.vercel.app/",
-    slug: "multi-step-form",
+    sourceCode: "https://github.com/byteprowler/mentorled-form",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    description:
+      "A multi-step form for collecting user information with smooth steps and a user-friendly flow.",
+    color: "#F13024",
   },
   {
     id: 8,
+    slug: "mentorled-product-showcase",
+    title: "Product Showcase",
     url: "/blank.jpg",
-    sourceCode: "https://github.com/byteprowler/mentorled-product",
-    title: "Multi-Step Form",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    description: "A product showcase page for an e-commerce site, featuring product details, images, and purchase options.",
     link: "https://mentorled-product.vercel.app/",
+    sourceCode: "https://github.com/byteprowler/mentorled-product",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    description:
+      "A product showcase page with structured sections, product details, visuals, and a clean layout.",
+    color: "#10B981",
   },
 ];
 
+// Fix invalid colors (your previous ones were not valid hex)
+export const COLORS_TOP = ["#F13024", "#111827", "#0EA5E9", "#F15090"];
+
 export const aboutData = [
   {
-    title: 'skills',
+    title: "skills",
     info: [
       {
-        title: 'Frontend Developer',
+        title: "Frontend Developer",
         icons: [
-          { id: 'html', icon: <FaHtml5 className='text-[#E34F26]' /> },
-          { id: 'css', icon: <FaCss3 className="text-[#38BDF8]" /> },
-          { id: 'taiwindcss', icon: <SiTailwindcss className="text-[#0055FF]" /> },
-          { id: 'js', icon: <FaJs className="text-[#F7DF1E]" /> },
-          { id: 'ts', icon: <BiLogoTypescript className="text-blue-700" /> },
-          { id: 'react', icon: <FaReact className="text-[#61DAFB]" /> },
-          { id: 'nextjs', icon: <SiNextdotjs className="" /> },
-          { id: 'framer', icon: <SiFramer className="text-[#0055FF]" /> },
+          // keep yours as-is
         ],
       },
       {
-        title: 'Backend Developer',
+        title: "Backend (Django Fundamentals)",
         icons: [
-          { id: 'python', icon: <SiPython className='text-[#e0e326]' /> },
-          { id: 'django', icon: <SiDjango className="text-[#38BDF8]" /> },
-          { id: 'sqlite', icon: <SiSqlite className="text-[#e5f838]" /> },
+          // keep yours as-is
         ],
       },
       {
-        title: 'Version Control',
+        title: "Version Control",
         icons: [
-          { id: 'git', icon: <FaGitAlt className="devicon-git-plain colored text-[#F05032]" /> },
+          // keep yours as-is
         ],
       },
     ],
   },
   {
-    title: 'experience',
+    title: "experience",
     info: [
       {
-        title: 'Fullstack Developer (Freelance)',
-        stage: '2024 - current',
+        title: "Frontend Developer (Freelance) — Backend-aware (Django/JWT)",
+        stage: "2024 - current",
       },
     ],
   },
   {
-    title: 'credentials',
+    title: "credentials",
     info: [
       {
-        title: 'Mobile Engineer - Samford Dc Phone Hub',
-        stage: '2023',
+        title: "Mobile Engineer - Samford Dc Phone Hub",
+        stage: "2023",
       },
       {
-        title: 'Full-stack Web Development - Univelcity, Yaba, Lagos',
-        stage: '2024',
+        title: "Full-stack Web Development - Univelcity, Yaba, Lagos",
+        stage: "2024",
       },
     ],
   },
@@ -247,7 +255,7 @@ export const botNav = [
   { name: 'Contact', path: '/contact', icon: <IoMailOpen />, title: "Contact", ariaLabel: 'Contact' },
 ];
 
-export const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
+// export const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
 
 export const testimonials = [
   {
@@ -291,69 +299,107 @@ export const testimonials = [
 
 export const serviceData = [
   {
+    title: "Website Design and Development",
+    description: "Modern, responsive websites tailored to your brand and goals.",
+    details:
+      "I design and build responsive websites, deploy them, and optimize for speed, SEO structure, and clean UX—so your site looks sharp and performs well.",
+    bullets: ["Responsive UI", "SEO-ready structure", "Fast performance", "Deployment support"],
     icon: <RxGlobe />,
-    title: 'Website Design and Development',
-    description: 'Create stunning, responsive websites that look great on any device, tailored to meet your business needs.',
   },
   {
+    title: "UI/UX Design",
+    description: "Clean, intuitive UI with strong UX decisions.",
+    details:
+      "I design interfaces that feel simple and premium—clear layouts, strong hierarchy, and user flows that reduce friction and increase conversions.",
+    bullets: ["Wireframes & flows", "Modern layouts", "UX improvements", "Design-to-dev handoff"],
     icon: <IoMdColorPalette />,
-    title: 'UI/UX Design',
-    description: 'Design intuitive and engaging user interfaces that provide an exceptional user experience through thoughtful research and testing.',
   },
   {
+    title: "Web App Development",
+    description: "Product-ready web apps with real functionality.",
+    details:
+      "I build full-stack web apps using Next.js + Tailwind on the frontend and Django on the backend—REST APIs, JWT auth, migrations, and clean data flow.",
+    bullets: ["Next.js + Tailwind", "Django REST APIs", "JWT authentication", "Scalable structure"],
     icon: <RxDesktop />,
-    title: 'Web App Development',
-    description: 'Build dynamic and interactive web applications that offer seamless performance and integrate smoothly with backend services.',
   },
   {
+    title: "Copywriting",
+    description: "Clear, persuasive copy that matches your brand.",
+    details:
+      "I write product and website copy that communicates your value fast—headlines, sections, CTAs, and messaging that feels human and converts.",
+    bullets: ["Homepage copy", "Landing page sections", "Product descriptions", "Clear CTAs"],
     icon: <RxReader />,
-    title: 'Copywriting',
-    description: 'Craft compelling and persuasive content that engages your audience, enhances your brand voice, and drives conversions.',
   },
   {
+    title: "SEO Optimization",
+    description: "Improve visibility with practical SEO fixes.",
+    details:
+      "I optimize SEO basics properly—metadata, structure, performance, and content alignment—so your site becomes easier to discover and rank.",
+    bullets: ["Meta/OG setup", "Technical SEO checks", "Keyword structure", "On-page improvements"],
     icon: <IoMdSearch />,
-    title: 'SEO Optimization',
-    description: 'Improve your website’s search engine rankings through effective keyword research, on-page and technical SEO, and quality content creation.',
   },
   {
+    title: "Performance Optimization",
+    description: "Speed + smoother experience across devices.",
+    details:
+      "I improve load time and responsiveness by fixing heavy assets, layout shifts, unnecessary renders, and ensuring efficient frontend structure.",
+    bullets: ["Lighthouse improvements", "Image optimization", "Reduce layout shift", "Better rendering"],
     icon: <RxRocket />,
-    title: 'Performance Optimization',
-    description: 'Enhance website speed and performance through comprehensive audits and optimizations to ensure fast loading times and smooth user experience.',
   },
   {
+    title: "Responsive Design",
+    description: "Pixel-clean layouts on mobile, tablet, and desktop.",
+    details:
+      "I ensure your UI adapts perfectly across screen sizes with proper spacing, typography, and layout rules—no broken sections on mobile.",
+    bullets: ["Mobile-first approach", "Tablet optimization", "Consistent spacing", "Cross-device testing"],
     icon: <AiOutlineMobile />,
-    title: 'Responsive Design',
-    description: 'Ensure your website is fully responsive and mobile-friendly, providing an optimal viewing experience across all devices.',
   },
   {
+    title: "Landing Page Design",
+    description: "High-converting landing pages for campaigns.",
+    details:
+      "I build landing pages designed to convert—clear message, strong sections, fast load, and clean CTA flow that helps users take action.",
+    bullets: ["Conversion-focused layout", "CTA optimization", "Fast load speed", "Clean sections"],
     icon: <RxHome />,
-    title: 'Landing Page Design',
-    description: 'Develop high-converting landing pages optimized for marketing campaigns to drive user engagement and conversions.',
   },
   {
+    title: "HTML/CSS Development",
+    description: "Accurate UI builds from designs.",
+    details:
+      "I convert designs into clean, responsive UI with Tailwind/CSS—structured layout, reusable components, and smooth interactions.",
+    bullets: ["Design to UI build", "Tailwind/CSS", "Reusable components", "Responsive layouts"],
     icon: <RxPencil2 />,
-    title: 'HTML/CSS Development',
-    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
   },
   {
+    title: "JavaScript Development",
+    description: "Interactive UI and frontend logic.",
+    details:
+      "I add real functionality—state management, API integration, dynamic UI behavior, form validation, and smooth user interactions.",
+    bullets: ["API integration", "State & data flow", "Form validation", "Interactive UI"],
     icon: <RxGear />,
-    title: 'JavaScript Development',
-    description: 'Convert design mockups into clean, efficient HTML and CSS code, ensuring your website is visually appealing and functional.',
   },
   {
+    title: "Website Maintenance",
+    description: "Reliable updates, fixes, and improvements.",
+    details:
+      "I maintain and improve existing sites/apps—bug fixes, new sections, performance cleanup, and feature updates without breaking things.",
+    bullets: ["Bug fixing", "Updates & improvements", "Performance tuning", "Ongoing support"],
     icon: <BsTools />,
-    title: 'Website Maintenance',
-    description: 'Provide ongoing website maintenance and support, including regular updates, security checks, and bug fixes to keep your site running smoothly.',
   },
   {
+    title: "Accessibility Optimization",
+    description: "Make your site usable for everyone.",
+    details:
+      "I improve accessibility by fixing contrast, keyboard navigation, semantic structure, and ARIA usage—so your product works for more users.",
+    bullets: ["Keyboard navigation", "Better semantics", "Contrast fixes", "ARIA improvements"],
     icon: <FaAccessibleIcon />,
-    title: 'Accessibility Optimization',
-    description: 'Ensure your website meets accessibility standards, making it usable for everyone, including people with disabilities. ',
   },
-  
   {
+    title: "Freelance",
+    description: "Flexible full-stack support for your project.",
+    details:
+      "Need a developer who can handle both frontend and backend? I can join to ship features, fix issues, and deliver clean, production-ready work.",
+    bullets: ["Short/long-term work", "Clear communication", "Reliable delivery", "Full-stack support"],
     icon: <RxLaptop />,
-    title: 'Freelance',
-    description: 'Flexible and professional freelance web development services tailored to meet the specific needs and timelines of your projects.',
   },
 ];

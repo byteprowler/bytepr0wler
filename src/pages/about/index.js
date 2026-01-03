@@ -1,67 +1,71 @@
 import Curve from "@/components/Curve";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { fadeIn } from '@/variants';
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeIn } from "@/variants";
 import CountUp from "react-countup";
 import { NextSeo } from "next-seo";
-import { aboutData } from "@/data/data";
+import { aboutData, display } from "@/data/data";
 
-const FlipText = ({children}) => {
-  return (  
+/** ----------------------------
+ *  FlipText constants
+ *  ---------------------------- */
+const DURATION = 0.3;
+const STAGGER = 0.025;
+
+/** ----------------------------
+ *  FlipText (reduced-motion safe)
+ *  ---------------------------- */
+const FlipText = ({ children }) => {
+  const reduceMotion = useReducedMotion();
+  const text = typeof children === "string" ? children : "";
+
+  if (reduceMotion) {
+    return <span className="text-[#F13024] font-semibold uppercase">{text}</span>;
+  }
+
+  return (
     <motion.span
       initial="initial"
       whileHover="hovered"
       className="relative inline-flex overflow-hidden text-3xl uppercase font-sans sm:text-3xl md:text-4xl lg:text-5xl text-[#F13024]"
-      style={{
-        lineHeight: 0.80,
-      }}
+      style={{ lineHeight: 0.8 }}
     >
       <div>
-        {children.split("").map((l, i) => (
+        {text.split("").map((l, i) => (
           <motion.span
+            key={`top-${i}`}
+            className="inline-flex"
             variants={{
-              initial: {
-                y: 0,
-                x: 0,
-              },
-              hovered: {
-                y: "100%",
-                x: "100%"
-              },
+              initial: { y: 0, x: 0 },
+              hovered: { y: "100%", x: "100%" },
             }}
             transition={{
               duration: DURATION,
               ease: "easeInOut",
               delay: STAGGER * i,
             }}
-            className="inline-flex"
-            key={i}
           >
             {l}
           </motion.span>
         ))}
       </div>
+
       <div className="absolute inset-0">
-        {children.split("").map((l, i) => (
+        {text.split("").map((l, i) => (
           <motion.span
+            key={`bottom-${i}`}
+            className="inline-flex"
             variants={{
-              initial: {
-                y: "-100%",
-              },
-              hovered: {
-                y: 0,
-                x: 0,
-              },
+              initial: { y: "-100%", x: 0 },
+              hovered: { y: 0, x: 0 },
             }}
             transition={{
               duration: DURATION,
               ease: "easeInOut",
               delay: STAGGER * i,
             }}
-            className="inline-flex"
-            key={i}
           >
             {l}
           </motion.span>
@@ -71,172 +75,269 @@ const FlipText = ({children}) => {
   );
 };
 
-const DURATION = 0.30;
-const STAGGER = 0.025;
-
-const getMonthsOfExperience = () => {
-  const startDate = new Date("2024-05-31"); // Your starting date here
+/** ----------------------------
+ *  Helpers
+ *  ---------------------------- */
+const getMonthsOfExperience = (startISO = "2024-05-31") => {
+  const startDate = new Date(startISO);
   const now = new Date();
   const years = now.getFullYear() - startDate.getFullYear();
   const months = now.getMonth() - startDate.getMonth();
-  return years * 12 + months;
+  return Math.max(0, years * 12 + months);
 };
 
-const monthsOfExperience = getMonthsOfExperience();
+const uniqueSlugCount = (arr = []) => {
+  const s = new Set();
+  arr.forEach((p) => {
+    if (p?.slug) s.add(p.slug);
+  });
+  return s.size;
+};
 
-export default function Index() {
+export default function About() {
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const [index, setIndex] = useState(0);
+  const monthsOfExperience = useMemo(() => getMonthsOfExperience("2024-05-31"), []);
+  const projectsCount = useMemo(() => uniqueSlugCount(display), []);
+
+  // Set these to whatever is true for you
+  const CLIENTS_COUNT = 2;
+  const TECH_COUNT = 6;
+
+  const stats = useMemo(
+    () => [
+      { label: "Months of experience", value: monthsOfExperience, suffix: "+" },
+      { label: "Satisfied clients", value: CLIENTS_COUNT, suffix: "+" },
+      { label: "Completed projects", value: Math.max(4, projectsCount), suffix: "+" },
+      { label: "Technologies used", value: TECH_COUNT, suffix: "+" },
+    ],
+    [monthsOfExperience, projectsCount]
+  );
+
+  const safeAboutData = Array.isArray(aboutData) ? aboutData : [];
+  const activeTab = safeAboutData[tabIndex] || safeAboutData[0] || { info: [] };
 
   return (
     <>
-    <NextSeo
+      <NextSeo
         title="About | ByteProwler"
-        description="The journey of a passionate developer creating digital experiences"
-        canonical="https://byteprowler.vercel.app"
+        description="About ByteProwler — Full-Stack Developer building product-ready web apps with Next.js and Django."
+        canonical="https://byteprowler.vercel.app/about"
         openGraph={{
-          url: "https://byteprowler.vercel.app",
-          title: "ByteProlwer's Portfolio | Welcome",
-          description: "From curiosity to code - my developer journey",
+          url: "https://byteprowler.vercel.app/about",
+          title: "About | ByteProwler",
+          description: "From curiosity to code — my developer journey.",
           images: [
             {
-              url: '/byteprowler.jpeg',
-              width: 600,
-              height: 600,
-              alt: 'ByteProwler'
-            }
-          ] 
-        }} />
-    <Curve />
-    <section
-      className="min-h-screen"
-    >
-      <div className="py-36 px-4 text-white">
-      <h2 className="h1 text-center text-white">About Me<span className="text-[#F13024]">.</span></h2>
-      <div className="container flex flex-col items-center mx-auto xl:flex-row px-2 gap-x-2 py-10">
-        <div className="flex-1 flex flex-col justify-center group">
-          <Image alt="Photo of Byte Prowler" src="/byteprowler.jpeg" width={400} height={400} className="bg-center xl:h-[400] xl:w-[400] sm:h-[200] sm:w-[200] border border-white rounded-full overflow-hidden group-hover:scale-110 transition-transform duration-300" />
-        </div>
-        <div className="flex-1 flex flex-col justify-center text-white text-left">
-        <h2 className="text-2xl font-semibold mb-4 text-center mx-auto mt-4 justify-center">
-          Who is <span className="text-[#F13024]">ByteProwler</span>?
-        </h2>
-        <p className="mb-4 text-white max-w-[500px] mx-auto text-center">
-          I&apos;m Ogo Joshua, a passionate solo freelance developer dedicated to creating innovative digital solutions. My mission is to deliver high-quality software that not only meets but exceeds client expectations.
-        </p>
-        <p className="mb-4 text-white text-center">
-        <span className="text-[#F13024]">PS:</span> I also go by the alias <strong>ByteProwler</strong> — Founder of <strong>Prowler Labs</strong> 🚀
-        </p>
-      <p className="mb-4 text-white max-w-[600px] mx-auto text-center">
-        My expertise spans web development, mobile apps, and AI-driven solutions. I believe in the power of technology to transform businesses and elevate everyday experiences.
-      </p>
+              url: "https://byteprowler.vercel.app/byteprowler.jpeg",
+              width: 800,
+              height: 800,
+              alt: "ByteProwler",
+            },
+          ],
+        }}
+        twitter={{ cardType: "summary_large_image" }}
+      />
 
-          <p className=" text-white">
-            <Link href={'/contact'}><span>Contact Us</span></Link> to learn more about our services and how we can help you achieve your goals.
-          </p>
-        </div>
-      </div>
-      <div className="container mx-auto flex flex-col items-center xl:flex-row gap-x-6">
-        <div className="flex-1 flex flex-col justify-center">
-          <motion.h2 
-            variants={fadeIn('right', 0.2)}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-            className="h2 sm:text-3xl md:text-4xl lg:text-5xl text-center xl:text-left mb-4"
-          >
-            Creative <FlipText>Coding</FlipText> brings ideas to <FlipText  >Life</FlipText>
-          </motion.h2>
-          <motion.p
-            variants={fadeIn('right', 0.4)}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-            className="max-w-[90vw] mx-auto xl:mx-0 mb-6 xl:mb-12 px-2 xl:px-0 text-gray-200 capitalize"
-          >
-            {monthsOfExperience} Months ago, I began my journey as a Frontend Web Developer. Since then, I&apos;ve been honing my JavaScript skills, working on various projects, and collaborating with me and myself only.
-          </motion.p>
-          <motion.div
-            variants={fadeIn('right', 0.6)}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-            className="hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
-          >
-            <div className="flex flex-1 xl:gap-x-6">
-              {/* Experience */}
-              <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
-                <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={0} end={monthsOfExperience} duration={5} />+
-                </div>
-                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Months of experience</div>
-              </div>
-              {/* Clients */}
-              <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
-                <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={5} end={2} duration={5} />+
-                </div>
-                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Satisfied clients</div>
-              </div>
-              {/* Projects */}
-              <div className="relative flex-1 after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0">
-                <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={8} end={4} duration={5} />+
-                </div>
-                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Completed projects</div>
-              </div>
-              {/* Technologies */}
-              <div className="flex-1">
-                <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
-                  <CountUp start={0} end={6} duration={6} />
-                </div>
-                <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[100px]">Technologies used</div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+      <Curve />
 
-        <motion.div
-          variants={fadeIn('right', 0.4)}
-          initial='hidden'
-          animate='show'
-          exit='hidden'
-          className="flex flex-col w-full xl:max-w-[48%] h-[480px]"
-        >
-          <div className="flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-4">
-            {aboutData.map((item, itemIndex) => (
-              <div
-                key={itemIndex}
-                className={`cursor-pointer capitalize xl:text-lg relative after:w-8 after:h-[2px] after:bg-[#F13024] after:absolute after:-bottom-1 after:left-0 ${
-                  index === itemIndex && 'text-[#F13024] after:w-[100%] after:bg-[#F13024] after:transition-all after:duration-300'
-                }`}
-                onClick={() => setIndex(itemIndex)}
+      <section className="min-h-screen">
+        <div className="py-28 xl:py-36 px-4 text-white">
+          <h2 className="h1 text-center text-white">
+            About Me<span className="text-[#F13024]">.</span>
+          </h2>
+
+          {/* Intro */}
+          <div className="container mx-auto flex flex-col items-center xl:flex-row gap-8 py-10">
+            <motion.div
+              variants={fadeIn("up", 0.25)}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              className="flex-1 flex justify-center"
+            >
+              <div className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] xl:w-[380px] xl:h-[380px]">
+                <Image
+                  alt="Photo of ByteProwler"
+                  src="/byteprowler.jpeg"
+                  fill
+                  priority
+                  className="rounded-full object-cover border border-white/20 shadow-lg transition-transform duration-300 hover:scale-105"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div
+              variants={fadeIn("up", 0.35)}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              className="flex-1 flex flex-col justify-center text-center xl:text-left"
+            >
+              <h3 className="text-2xl font-semibold mb-4">
+                Who is <span className="text-[#F13024]">ByteProwler</span>?
+              </h3>
+
+              <p className="mb-4 text-white/80 max-w-[640px] mx-auto xl:mx-0">
+                I’m <span className="text-white font-semibold">Ogo Joshua</span> — a{" "}
+                <span className="text-white font-semibold">Full-Stack Developer</span>{" "}
+                building product-ready web apps. I care about clean UI, solid backend logic,
+                and experiences that feel professional.
+              </p>
+
+              <p className="mb-4 text-white/80 max-w-[640px] mx-auto xl:mx-0">
+                <span className="text-[#F13024] font-semibold">Stack:</span>{" "}
+                Next.js + Tailwind (frontend) and Django (backend) — REST APIs, JWT auth, and migrations.
+              </p>
+
+              <p className="mb-6 text-white/80 max-w-[640px] mx-auto xl:mx-0">
+                <span className="text-[#F13024] font-semibold">PS:</span> I also go by{" "}
+                <strong>ByteProwler</strong> — Founder of <strong>Prowler Labs</strong> 🚀
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/80 hover:text-white hover:bg-white/10 transition w-fit mx-auto xl:mx-0"
               >
-                {item.title}
-              </div>
-            ))}
+                Contact me → Let’s build
+              </Link>
+            </motion.div>
           </div>
 
-          <div className="py-2 xl:py-6 flex flex-col gap-y-2 xl:gap-y-4 items-center xl:items-start">
-            {aboutData[index].info.map((item, itemIndex) => (
-              <div key={itemIndex} className="flex-1 flex flex-col md:flex-row max-w-max gap-x-2 items-center text-white/60">
-                <div className="font-light text-gray-200 mb-2 md:mb-0">{item.title}</div>
-                {item.stage && <div className="hidden md:flex">-</div>}
-                <div>{item.stage}</div>
-                <div className="flex gap-x-4">
-                  {item.icons?.map((icon) => (
-                    <div key={icon.id} className="text-2xl inset-0 text-white">
-                      {icon.icon}
+          {/* Main content */}
+          <div className="container mx-auto flex flex-col items-center xl:flex-row gap-x-10">
+            {/* Left side */}
+            <div className="flex-1 flex flex-col justify-center">
+              <motion.h2
+                variants={fadeIn("right", 0.2)}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="h2 sm:text-3xl md:text-4xl lg:text-5xl text-center xl:text-left mb-4"
+              >
+                Creative <FlipText>Coding</FlipText> brings ideas to{" "}
+                <FlipText>Life</FlipText>
+              </motion.h2>
+
+              <motion.p
+                variants={fadeIn("right", 0.35)}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="max-w-[720px] mx-auto xl:mx-0 mb-6 xl:mb-10 px-2 xl:px-0 text-white/75"
+              >
+                {monthsOfExperience} months ago, I started building web apps. Today, I ship full-stack
+                features end-to-end — from UI to APIs — with a focus on clarity, responsiveness,
+                and real-world delivery.
+              </motion.p>
+
+              {/* Stats */}
+              <motion.div
+                variants={fadeIn("right", 0.5)}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="hidden md:flex md:max-w-xl xl:max-w-none mx-auto xl:mx-0 mb-8"
+              >
+                <div className="flex flex-1 xl:gap-x-6">
+                  {stats.map((s, idx) => (
+                    <div
+                      key={s.label}
+                      className={`relative flex-1 ${idx !== stats.length - 1
+                          ? "after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0"
+                          : ""
+                        }`}
+                    >
+                      <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
+                        <CountUp start={0} end={s.value} duration={2.5} />
+                        {s.suffix}
+                      </div>
+                      <div className="text-xs uppercase tracking-[1px] leading-[1.4] max-w-[140px] text-white/70">
+                        {s.label}
+                      </div>
                     </div>
                   ))}
                 </div>
+              </motion.div>
+            </div>
+
+            {/* Right side (Tabs) */}
+            <motion.div
+              variants={fadeIn("left", 0.35)}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              className="flex flex-col w-full xl:max-w-[48%] min-h-[480px]"
+            >
+              <div className="flex gap-x-4 xl:gap-x-8 mx-auto xl:mx-0 mb-6 flex-wrap justify-center xl:justify-start">
+                {safeAboutData.map((item, itemIndex) => (
+                  <button
+                    key={item.title || itemIndex}
+                    type="button"
+                    onClick={() => setTabIndex(itemIndex)}
+                    className={`capitalize xl:text-lg relative pb-1 outline-none transition ${tabIndex === itemIndex
+                        ? "text-[#F13024]"
+                        : "text-white/70 hover:text-white"
+                      }`}
+                  >
+                    {item.title}
+                    <span
+                      className={`absolute left-0 -bottom-1 h-[2px] bg-[#F13024] transition-all duration-300 ${tabIndex === itemIndex ? "w-full" : "w-0"
+                        }`}
+                    />
+                  </button>
+                ))}
               </div>
-            ))}
+
+              <div className="py-2 xl:py-6 flex flex-col gap-y-3 xl:gap-y-5 items-center xl:items-start">
+                {(activeTab.info || []).map((item, itemIndex) => (
+                  <div
+                    key={`${item.title}-${itemIndex}`}
+                    className="flex flex-col md:flex-row max-w-max gap-x-2 items-center text-white/70"
+                  >
+                    <div className="font-light text-white mb-1 md:mb-0">
+                      {item.title}
+                    </div>
+
+                    {item.stage ? (
+                      <>
+                        <div className="hidden md:flex text-white/40">-</div>
+                        <div className="text-white/60">{item.stage}</div>
+                      </>
+                    ) : null}
+
+                    {Array.isArray(item.icons) && item.icons.length > 0 ? (
+                      <div className="flex gap-x-4 mt-2 md:mt-0 md:ml-3">
+                        {item.icons.map((icon) => (
+                          <div
+                            key={icon.id}
+                            className="text-2xl text-white"
+                            aria-label={icon.id}
+                            title={icon.id}
+                          >
+                            {icon.icon}
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
-      </div>
-    </section>
+
+          {/* Tiny closing CTA */}
+          <div className="container mx-auto mt-10 text-center">
+            <p className="text-white/70">
+              Want a full-stack web app built clean and fast?{" "}
+              <Link href="/contact" className="text-[#F13024] font-semibold">
+                Contact me
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
