@@ -11,7 +11,8 @@ const getSpanClass = (i) => {
     "sm:col-span-2 sm:row-span-1",
     "sm:col-span-1 sm:row-span-1",
     "sm:col-span-1 sm:row-span-1",
-    "sm:col-span-1 sm:row-span-2", // tall
+    "sm:col-span-2 sm:row-span-1",
+    // "sm:col-span-1 sm:row-span-2", // tall
     "sm:col-span-2 sm:row-span-1",
     "sm:col-span-1 sm:row-span-1",
     "sm:col-span-1 sm:row-span-1",

@@ -1,19 +1,19 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useTransform, useScroll, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useTransform,
+  useScroll,
+  useReducedMotion,
+} from "framer-motion";
 import { NextSeo } from "next-seo";
-
 import { fadeIn } from "@/variants";
 import { display as disp } from "@/data/data";
 import Curve from "@/components/Curve";
 
-/**
- * Card width + gap are used to compute a reasonable translate range.
- * Keep these in sync with tailwind classes in Card/Track.
- */
 const CARD_W = 450;
-const GAP = 16; // gap-4 = 1rem = 16px
+const GAP = 16;
 
 const dedupeBySlug = (items = []) => {
   const seen = new Set();
@@ -26,64 +26,135 @@ const dedupeBySlug = (items = []) => {
 };
 
 const Card = ({ card }) => {
+  const href = `/projects/${card.slug}`;
+  const [open, setOpen] = useState(false);
+
+  const togglePreview = (e) => {
+    // If user clicked the MORE link, don't toggle the preview
+    if (e.target.closest?.('[data-more="true"]')) return;
+    setOpen((v) => !v);
+  };
+
   return (
-    <Link
-      href={`/projects/${card.slug}`}
-      aria-label={`Open project: ${card.title}`}
-      className="group relative h-[360px] w-[320px] sm:h-[420px] sm:w-[420px] xl:h-[450px] xl:w-[450px]
-                 overflow-hidden rounded-xl bg-neutral-900 shadow-md outline-none ring-offset-2
-                 focus-visible:ring-2 focus-visible:ring-white/70"
+    <section
+      data-open={open}
+      tabIndex={0}
+      onClick={togglePreview}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }
+        if (e.key === "Escape") setOpen(false);
+      }}
+      className={[
+        "group relative block select-none",
+        "h-[360px] w-[320px] sm:h-[420px] sm:w-[420px] xl:h-[450px] xl:w-[450px]",
+        "overflow-hidden rounded-2xl",
+        "border border-white/10 bg-white/[0.06] shadow-lg",
+        "outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+      ].join(" ")}
     >
-      {/* Background image (optimized) */}
-      <Image
-        src={card.url}
-        alt={card.title}
-        fill
-        sizes="(max-width: 640px) 320px, (max-width: 1280px) 420px, 450px"
-        className="object-cover transition-transform duration-300 group-hover:scale-110"
-        priority={false}
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
-
-      {/* Title chip */}
-      <div className="absolute inset-0 grid place-content-center px-6">
-        <p
-          className="max-w-[90%] rounded-xl border border-white/10 bg-white/10 px-6 py-4 text-center
-                     text-2xl sm:text-3xl xl:text-4xl font-black uppercase text-white backdrop-blur-md
-                     translate-x-[500%] group-hover:translate-x-0 transition-all duration-300 delay-150"
-        >
-          {card.title}
-        </p>
+      {/* DEFAULT: Full image */}
+      <div className="absolute inset-0">
+        <Image
+          src={card.url}
+          alt={card.title}
+          fill
+          sizes="(max-width: 640px) 320px, (max-width: 1280px) 420px, 450px"
+          className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
       </div>
 
-      {/* Subtle bottom hint */}
-      <div className="absolute bottom-4 left-4 text-xs text-white/70">
-        View details →
+      {/* DEFAULT chip */}
+      <div className="absolute left-4 top-4 z-10">
+        <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-white/80 backdrop-blur">
+          Tap to preview
+        </span>
       </div>
-    </Link>
+
+      {/* HOVER/TAP reveal (desktop hover + keyboard focus + mobile tap via data-open) */}
+      <div
+        className={[
+          "absolute inset-0",
+          "opacity-0 transition-opacity duration-300",
+          "pointer-events-none",
+          "group-hover:opacity-100 group-hover:pointer-events-auto",
+          "group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
+          "data-[open=true]:opacity-100 data-[open=true]:pointer-events-auto",
+        ].join(" ")}
+      >
+        <div className="grid h-full w-full grid-cols-[1.05fr_0.95fr] grid-rows-2">
+          {/* Top-left info */}
+          <div className="relative overflow-hidden bg-black text-white p-6 col-span-2">
+            <h3 className="text-2xl font-extrabold leading-tight">{card.title}</h3>
+            <p className="mt-3 text-sm text-white/75 leading-relaxed line-clamp-4">
+              {card.description ?? "Project description coming soon."}
+            </p>
+          </div>
+
+          {/* Right panel (ONLY CLICKABLE PART) */}
+          <div className="col-start-1 row-span-1 bg-white text-black flex items-center justify-center">
+            <Link
+              data-more="true"
+              href={href}
+              aria-label={`Open project: ${card.title}`}
+              className="group/more rounded-xl px-6 py-4 text-center transition hover:scale-[1.02] active:scale-[0.99]"
+              onClick={() => setOpen(false)}
+            >
+              <div className="text-xs font-semibold tracking-widest text-black/60 uppercase">
+                Open
+              </div>
+              <div className="mt-2 text-2xl font-black">
+                MORE <span className="inline-block translate-y-[-1px]">↗</span>
+              </div>
+              <div className="mt-2 text-xs text-black/60">
+                (tap to open)
+              </div>
+            </Link>
+          </div>
+
+          {/* Bottom-left cropped image */}
+          <div className="relative overflow-hidden">
+            <Image
+              src={card.url}
+              alt={`${card.title} preview`}
+              fill
+              sizes="(max-width: 640px) 320px, (max-width: 1280px) 420px, 450px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white/80 backdrop-blur">
+                Preview
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Subtle hover ring */}
+      <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10 group-hover:ring-white/20 transition" />
+    </section>
   );
 };
+
 
 const HorizontalScrollCarousel = ({ projects }) => {
   const shouldReduceMotion = useReducedMotion();
   const targetRef = useRef(null);
 
-  // Desktop: vertical scroll controls horizontal movement
   const { scrollYProgress } = useScroll({ target: targetRef });
 
-  // Estimate track width in pixels (good enough without measuring DOM)
   const maxShiftPx = useMemo(() => {
     const count = projects.length;
     if (count <= 1) return 0;
     return (CARD_W + GAP) * (count - 1);
   }, [projects.length]);
 
-  // Move left as user scrolls down the section
   const x = useTransform(scrollYProgress, [0, 1], [0, -maxShiftPx]);
 
-  // Mobile / reduced motion: swipe horizontally instead of scroll-transform
   if (shouldReduceMotion) {
     return (
       <section className="py-6">
@@ -112,10 +183,9 @@ const HorizontalScrollCarousel = ({ projects }) => {
         </motion.div>
       </div>
 
-      {/* Mobile helper hint (still shows, but swipe works better there) */}
       <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex justify-center">
         <span className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-xs text-white/70 backdrop-blur">
-          Tip: On mobile, you can swipe sideways.
+          ↓ Keep scrolling… projects slide sideways
         </span>
       </div>
     </section>
@@ -129,12 +199,12 @@ export default function Projects() {
     <>
       <NextSeo
         title="Projects | ByteProwler"
-        description="A collection of my projects—frontend builds, UI engineering, and product-ready interfaces."
+        description="A collection of my projects—clean UI, responsive builds, and product-ready interfaces."
         canonical="https://byteprowler.vercel.app/projects"
         openGraph={{
           url: "https://byteprowler.vercel.app/projects",
           title: "Projects | ByteProwler",
-          description: "Explore my work—projects, builds, and case-study style breakdowns.",
+          description: "Explore my work—projects and case-study style breakdowns.",
           images: [
             {
               url: "https://byteprowler.vercel.app/byteprowler.jpeg",
@@ -165,23 +235,11 @@ export default function Projects() {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="mx-auto mb-6 max-w-[520px] text-center text-white/85"
+            className="mx-auto mb-6 max-w-[560px] text-center text-white/85"
           >
-            A mix of frontend builds and product UI work. Each project highlights clean UI,
-            responsive layout, and real-world integration patterns.
+            Hover a card to see the “swap layout” reveal. Click to open the full
+            project page.
           </motion.p>
-
-          <motion.div
-            variants={fadeIn("down", 0.55)}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="mb-8 flex items-center justify-center"
-          >
-            <span className="animate-pulse rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase text-white/70 backdrop-blur">
-              ↓ Keep scrolling… projects slide sideways 😎
-            </span>
-          </motion.div>
 
           {projects.length === 0 ? (
             <div className="rounded-xl border border-white/10 bg-white/5 p-10 text-center text-white/70">
@@ -190,12 +248,6 @@ export default function Projects() {
           ) : (
             <HorizontalScrollCarousel projects={projects} />
           )}
-
-          <div className="mt-10 flex items-center justify-center">
-            <span className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white/70 backdrop-blur">
-              ⚒️ More projects shipping soon. Stay tuned.
-            </span>
-          </div>
         </div>
       </section>
     </>
