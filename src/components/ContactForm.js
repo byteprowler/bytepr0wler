@@ -1,26 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
-import emailjs from "@emailjs/browser";
 import { fadeIn } from "@/variants";
-import {
-  FiCheckSquare,
-  FiX,
-  FiAlertCircle,
-  FiLoader,
-} from "react-icons/fi";
+import { FiCheckSquare, FiX, FiAlertCircle, FiLoader } from "react-icons/fi";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaUserFriends } from "react-icons/fa";
 
 const NOTIFICATION_TTL = 5000;
-
-/**
- * IMPORTANT (security + consistency)
- * Move your EmailJS IDs into .env.local:
- * NEXT_PUBLIC_EMAILJS_SERVICE_ID=xxxx
- * NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=xxxx
- * NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=xxxx
- */
 
 const Notification = ({ text, type = "success", id, removeNotif }) => {
   const isError = type === "error";
@@ -38,7 +24,12 @@ const Notification = ({ text, type = "success", id, removeNotif }) => {
         }`}
       role={isError ? "alert" : "status"}
     >
-      {isError ? <FiAlertCircle className="mt-[2px]" /> : <FiCheckSquare className="mt-[2px]" />}
+      {isError ? (
+        <FiAlertCircle className="mt-[2px]" />
+      ) : (
+        <FiCheckSquare className="mt-[2px]" />
+      )}
+
       <span className="pr-2">{text}</span>
 
       <button
@@ -55,19 +46,23 @@ const Notification = ({ text, type = "success", id, removeNotif }) => {
 
 export default function ContactForm() {
   const [notifications, setNotifications] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
-    mode: "individual", // "individual" | "company"
+    mode: "individual",
     projectType: "",
     budget: "",
     timeline: "",
-    website: "", // honeypot (anti-spam)
+    website: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const API_BASE = useMemo(
+    () => (process.env.NEXT_PUBLIC_CONTACT_API_URL || "").replace(/\/+$/, ""),
+    []
+  );
 
   const removeNotif = useCallback((id) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
@@ -77,8 +72,6 @@ export default function ContactForm() {
     (text, type = "success") => {
       const id = Date.now();
       setNotifications((prev) => [{ id, text, type }, ...prev]);
-
-      // auto-remove
       window.setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
     },
     [removeNotif]
@@ -90,8 +83,25 @@ export default function ContactForm() {
   };
 
   const validateEmail = (email) => {
-    // simple + solid check
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isCompany = formData.mode === "company";
+
+  const buildMessage = () => {
+    const baseMsg = formData.message.trim();
+
+    if (!isCompany) return baseMsg;
+
+    return [
+      `Mode: Company`,
+      `Project Type: ${formData.projectType || "-"}`,
+      `Budget: ${formData.budget || "-"}`,
+      `Timeline: ${formData.timeline || "-"}`,
+      ``,
+      `Message:`,
+      baseMsg,
+    ].join("\n");
   };
 
   const handleSubmit = async (e) => {
@@ -100,14 +110,12 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
 
-    // Honeypot (bots fill hidden fields)
     if (formData.website?.trim()) {
       addNotification("Message received. I’ll get back to you soon!", "success");
       setIsSubmitting(false);
       return;
     }
 
-    // Required fields
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       addNotification("Please fill all required fields.", "error");
       setIsSubmitting(false);
@@ -121,7 +129,7 @@ export default function ContactForm() {
     }
 
     if (
-      formData.mode === "company" &&
+      isCompany &&
       (!formData.projectType || !formData.budget.trim() || !formData.timeline.trim())
     ) {
       addNotification("Please fill all company/project details.", "error");
@@ -129,31 +137,43 @@ export default function ContactForm() {
       return;
     }
 
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      addNotification("Email service is not configured yet. Please try later.", "error");
+    if (!API_BASE) {
+      addNotification("API URL not configured. Set NEXT_PUBLIC_CONTACT_API_URL.", "error");
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const templateParams = {
-        from_name: formData.name.trim(),
-        from_email: formData.email.trim().toLowerCase(),
-        to_name: "ByteProwler",
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
         message: formData.message.trim(),
         mode: formData.mode,
-        project_type: formData.mode === "company" ? formData.projectType : "",
-        budget: formData.mode === "company" ? formData.budget.trim() : "",
-        timeline: formData.mode === "company" ? formData.timeline.trim() : "",
+        project_type: isCompany ? formData.projectType : "",
+        budget: isCompany ? formData.budget.trim() : "",
+        timeline: isCompany ? formData.timeline.trim() : "",
       };
 
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
-      addNotification("Message delivered ✅ I’ll reply soon!");
+      const res = await fetch(`${API_BASE}/api/contact/send/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const errMsg =
+          (typeof data?.error === "string" && data.error) ||
+          (data?.error && JSON.stringify(data.error)) ||
+          "Failed to send. Please try again.";
+        addNotification(errMsg, "error");
+        setIsSubmitting(false);
+        return;
+      }
+
+      addNotification(data?.message || "Message delivered ✅ I’ll reply soon!");
       setFormData({
         name: "",
         email: "",
@@ -165,14 +185,12 @@ export default function ContactForm() {
         website: "",
       });
     } catch (error) {
-      console.error("EmailJS error:", error);
-      addNotification("Failed to send. Please try again in a moment.", "error");
+      console.error("Contact API error:", error);
+      addNotification("Network error. Please try again in a moment.", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  const isCompany = formData.mode === "company";
 
   return (
     <motion.form
@@ -347,8 +365,8 @@ export default function ContactForm() {
         type="submit"
         disabled={isSubmitting}
         className={`btn rounded-full border border-white/50 max-w-[170px] px-8 transition-all duration-300
-                    flex items-center justify-center overflow-hidden hover:border-[#F13024] group relative ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-          }`}
+          flex items-center justify-center overflow-hidden hover:border-[#F13024] group relative
+          ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
       >
         {isSubmitting ? (
           <span className="flex items-center gap-2">

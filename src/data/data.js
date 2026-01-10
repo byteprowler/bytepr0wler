@@ -188,6 +188,10 @@ export const aboutData = [
         title: "Full-stack Web Development - Univelcity, Yaba, Lagos",
         stage: "2024",
       },
+      {
+        title: "Junior Frontend Engineer - Mentorled, Lagos",
+        stage: "2025",
+      },
     ],
   },
 ];

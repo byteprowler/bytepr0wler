@@ -8,15 +8,9 @@ import CountUp from "react-countup";
 import { NextSeo } from "next-seo";
 import { aboutData, display } from "@/data/data";
 
-/** ----------------------------
- *  FlipText constants
- *  ---------------------------- */
 const DURATION = 0.3;
 const STAGGER = 0.025;
 
-/** ----------------------------
- *  FlipText (reduced-motion safe)
- *  ---------------------------- */
 const FlipText = ({ children }) => {
   const reduceMotion = useReducedMotion();
   const text = typeof children === "string" ? children : "";
@@ -75,9 +69,6 @@ const FlipText = ({ children }) => {
   );
 };
 
-/** ----------------------------
- *  Helpers
- *  ---------------------------- */
 const getMonthsOfExperience = (startISO = "2024-05-31") => {
   const startDate = new Date(startISO);
   const now = new Date();
@@ -100,7 +91,6 @@ export default function About() {
   const monthsOfExperience = useMemo(() => getMonthsOfExperience("2024-05-31"), []);
   const projectsCount = useMemo(() => uniqueSlugCount(display), []);
 
-  // Set these to whatever is true for you
   const CLIENTS_COUNT = 2;
   const TECH_COUNT = 6;
 
@@ -116,6 +106,30 @@ export default function About() {
 
   const safeAboutData = Array.isArray(aboutData) ? aboutData : [];
   const activeTab = safeAboutData[tabIndex] || safeAboutData[0] || { info: [] };
+
+  const certificates = useMemo(
+    () => [
+      {
+        title: "Frontend Web Development Certificate",
+        org: "Univelcity",
+        img: "/certificates/frontend_certificate_by_univelcity.webp",
+        pdf: "/certificates/frontend_certificate_by_univelcity.pdf",
+      },
+      {
+        title: "Backend Web Development Certificate",
+        org: "Univelcity",
+        img: "/certificates/backend_certificate_by_univelcity.webp",
+        pdf: "/certificates/backend_certificate_by_univelcity.pdf",
+      },
+      {
+        title: "Junior Frontend Engineer Certificate",
+        org: "Mentorled",
+        img: "/certificates/junior_frontend_mentorled.webp",
+        pdf: "/certificates/junior_frontend_mentorled.pdf",
+      },
+    ],
+    []
+  );
 
   return (
     <>
@@ -147,7 +161,6 @@ export default function About() {
             About Me<span className="text-[#F13024]">.</span>
           </h2>
 
-          {/* Intro */}
           <div className="container mx-auto flex flex-col items-center xl:flex-row gap-8 py-10">
             <motion.div
               variants={fadeIn("up", 0.25)}
@@ -243,10 +256,11 @@ export default function About() {
                   {stats.map((s, idx) => (
                     <div
                       key={s.label}
-                      className={`relative flex-1 ${idx !== stats.length - 1
+                      className={`relative flex-1 ${
+                        idx !== stats.length - 1
                           ? "after:w-[1px] after:h-full after:bg-white/10 after:absolute after:top-0 after:right-0"
                           : ""
-                        }`}
+                      }`}
                     >
                       <div className="text-2xl xl:text-4xl font-extrabold text-[#F13024] mb-2">
                         <CountUp start={0} end={s.value} duration={2.5} />
@@ -275,15 +289,15 @@ export default function About() {
                     key={item.title || itemIndex}
                     type="button"
                     onClick={() => setTabIndex(itemIndex)}
-                    className={`capitalize xl:text-lg relative pb-1 outline-none transition ${tabIndex === itemIndex
-                        ? "text-[#F13024]"
-                        : "text-white/70 hover:text-white"
-                      }`}
+                    className={`capitalize xl:text-lg relative pb-1 outline-none transition ${
+                      tabIndex === itemIndex ? "text-[#F13024]" : "text-white/70 hover:text-white"
+                    }`}
                   >
                     {item.title}
                     <span
-                      className={`absolute left-0 -bottom-1 h-[2px] bg-[#F13024] transition-all duration-300 ${tabIndex === itemIndex ? "w-full" : "w-0"
-                        }`}
+                      className={`absolute left-0 -bottom-1 h-[2px] bg-[#F13024] transition-all duration-300 ${
+                        tabIndex === itemIndex ? "w-full" : "w-0"
+                      }`}
                     />
                   </button>
                 ))}
@@ -295,9 +309,7 @@ export default function About() {
                     key={`${item.title}-${itemIndex}`}
                     className="flex flex-col md:flex-row max-w-max gap-x-2 items-center text-white/70"
                   >
-                    <div className="font-light text-white mb-1 md:mb-0">
-                      {item.title}
-                    </div>
+                    <div className="font-light text-white mb-1 md:mb-0">{item.title}</div>
 
                     {item.stage ? (
                       <>
@@ -326,7 +338,51 @@ export default function About() {
             </motion.div>
           </div>
 
-          {/* Tiny closing CTA */}
+          {/* ✅ Certificates Section (ADDED HERE) */}
+          {certificates.length > 0 && (
+            <motion.div
+              variants={fadeIn("up", 0.2)}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              className="container mx-auto mt-10"
+            >
+              <h3 className="text-xl md:text-2xl font-semibold text-white text-center xl:text-left mb-4">
+                Certificates<span className="text-[#F13024]">.</span>
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {certificates.map((c) => (
+                  <Link
+                    key={c.title}
+                    href={c.pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden hover:bg-white/10 transition"
+                  >
+                    <div className="relative w-full aspect-[4/3]">
+                      <Image
+                        src={c.img}
+                        alt={c.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      />
+                    </div>
+
+                    <div className="p-4">
+                      <p className="text-white font-semibold leading-tight">{c.title}</p>
+                      {c.org && <p className="text-white/70 text-sm mt-1">{c.org}</p>}
+                      <p className="text-[#F13024] text-sm mt-3 group-hover:underline">
+                        View certificate →
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           <div className="container mx-auto mt-10 text-center">
             <p className="text-white/70">
               Want a full-stack web app built clean and fast?{" "}

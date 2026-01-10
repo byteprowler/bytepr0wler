@@ -4,8 +4,8 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import { useCVActions } from "@/libs/cvUtils";
 import { NextSeo } from "next-seo";
-import { motion, useReducedMotion } from "framer-motion";
-
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { IoLayers } from "react-icons/io5";
 import { FaEye, FaPhone } from "react-icons/fa6";
 import { BsDownload } from "react-icons/bs";
@@ -16,22 +16,21 @@ const STAGGER = 0.025;
 
 const FlipText = ({ children }) => {
   const reduceMotion = useReducedMotion();
+  const text = typeof children === "string" ? children : String(children ?? "");
 
   if (reduceMotion) {
-    return (
-      <span className="text-[#F13024] font-black uppercase">{children}</span>
-    );
+    return <span className="text-[#F13024] font-black uppercase">{text}</span>;
   }
 
   return (
     <motion.span
       initial="initial"
       whileHover="hovered"
-      className="relative block overflow-hidden whitespace-nowrap text-4xl font-black uppercase sm:text-4xl md:text-6xl lg:text-7xl text-[#F13024]"
+      className="relative inline-block overflow-hidden whitespace-nowrap text-4xl font-black uppercase sm:text-4xl md:text-6xl lg:text-7xl text-[#F13024]"
       style={{ lineHeight: 0.85 }}
     >
       <div>
-        {children.split("").map((l, i) => (
+        {text.split("").map((l, i) => (
           <motion.span
             key={`top-${i}`}
             className="inline-block"
@@ -48,7 +47,7 @@ const FlipText = ({ children }) => {
       </div>
 
       <div className="absolute inset-0">
-        {children.split("").map((l, i) => (
+        {text.split("").map((l, i) => (
           <motion.span
             key={`bottom-${i}`}
             className="inline-block"
@@ -67,10 +66,61 @@ const FlipText = ({ children }) => {
   );
 };
 
-export default function Index() {
-  const { handleViewCV, handleDownloadCV, isDownloading, downloadError } =
-    useCVActions();
+const VanishFlipText = ({
+  words = ["Creativity", "Innovation", "Impact", "Excellence"],
+  intervalMs = 5000,
+}) => {
+  const reduceMotion = useReducedMotion();
+  const safeWords = Array.isArray(words) ? words.map((w) => String(w ?? "")) : ["Creativity"];
+  const [idx, setIdx] = useState(0);
 
+  const maxCh = useMemo(() => {
+    return Math.max(...safeWords.map((w) => w.length), 1);
+  }, [safeWords]);
+
+  useEffect(() => {
+    if (safeWords.length <= 1) return;
+
+    const id = setInterval(() => {
+      setIdx((prev) => (prev + 1) % safeWords.length);
+    }, intervalMs);
+
+    return () => clearInterval(id);
+  }, [safeWords.length, intervalMs]);
+
+  const word = safeWords[idx] ?? safeWords[0];
+
+  if (reduceMotion) {
+    return (
+      <span
+        className="inline-block text-[#F13024] font-black uppercase"
+        style={{ minWidth: `${maxCh}ch` }}
+      >
+        {word}
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-block align-baseline" style={{ minWidth: `${maxCh}ch` }}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={word}
+          initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          // exit={{ opacity: 0, y: -14, filter: "blur(12px)" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="inline-block"
+        >
+          <FlipText>{word}</FlipText>
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+};
+
+export default function Index() {
+  const { handleViewCV, handleDownloadCV, isDownloading, downloadError } = useCVActions();
   const reduceMotion = useReducedMotion();
 
   return (
@@ -97,15 +147,10 @@ export default function Index() {
 
       <section className="relative grid min-h-screen px-4 py-28 sm:py-36 text-white">
         <div className="flex flex-col items-center justify-center">
-          {/* Avatar (Mobile) */}
           <motion.div
             className="flex sm:hidden mt-10 mb-4 mx-auto w-28 h-28"
             animate={reduceMotion ? {} : { y: [0, -10, 0] }}
-            transition={
-              reduceMotion
-                ? {}
-                : { duration: 4, repeat: Infinity, ease: "easeInOut" }
-            }
+            transition={reduceMotion ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
               src="/Avatar.png"
@@ -117,7 +162,6 @@ export default function Index() {
             />
           </motion.div>
 
-          {/* Name tag */}
           <motion.span
             variants={fadeIn("down", 0.2)}
             initial="hidden"
@@ -128,7 +172,6 @@ export default function Index() {
             ByteProwler
           </motion.span>
 
-          {/* Headline */}
           <motion.h1
             variants={fadeIn("up", 0.35)}
             initial="hidden"
@@ -138,10 +181,12 @@ export default function Index() {
           >
             Where{" "}
             <span className="text-[#F13024] font-extrabold">Code</span> Meets{" "}
-            <FlipText>Creativity</FlipText>
+            <VanishFlipText
+              intervalMs={4000}
+              words={["Creativity", "Innovation", "Impact", "Excellence"]}
+            />
           </motion.h1>
 
-          {/* Positioning */}
           <motion.p
             variants={fadeIn("up", 0.45)}
             initial="hidden"
@@ -158,7 +203,6 @@ export default function Index() {
             I ship clean UI and reliable end-to-end features.
           </motion.p>
 
-          {/* Socials */}
           <motion.div
             variants={fadeIn("up", 0.55)}
             initial="hidden"
@@ -169,7 +213,6 @@ export default function Index() {
             <SocialIcons />
           </motion.div>
 
-          {/* CTAs */}
           <motion.div
             variants={fadeIn("up", 0.65)}
             initial="hidden"
@@ -199,7 +242,7 @@ export default function Index() {
               Projects
             </Button>
           </motion.div>
-          {/* Download CV */}
+
           <motion.div
             variants={fadeIn("up", 0.75)}
             initial="hidden"
@@ -209,20 +252,16 @@ export default function Index() {
           >
             <Button
               onClick={handleDownloadCV}
-              icon={
-              isDownloading ? <FiLoader className="animate-spin" /> : <BsDownload />}
+              icon={isDownloading ? <FiLoader className="animate-spin" /> : <BsDownload />}
               disabled={isDownloading}
               className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition"
             >
               {isDownloading ? "Downloading..." : "Download CV"}
             </Button>
 
-            {downloadError ? (
-              <p className="mt-2 text-xs text-red-400">{downloadError}</p>
-            ) : null}
+            {downloadError ? <p className="mt-2 text-xs text-red-400">{downloadError}</p> : null}
           </motion.div>
 
-          {/* Avatar (Desktop) */}
           <motion.div
             className="hidden sm:block absolute right-10 top-16 w-52 h-52 z-20"
             variants={fadeIn("up", 0.45)}
@@ -232,11 +271,7 @@ export default function Index() {
             <motion.div
               className="relative w-full h-full"
               animate={reduceMotion ? {} : { y: [0, -10, 0] }}
-              transition={
-                reduceMotion
-                  ? {}
-                  : { duration: 4, repeat: Infinity, ease: "easeInOut" }
-              }
+              transition={reduceMotion ? {} : { duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <Image
                 src="/Avatar.png"

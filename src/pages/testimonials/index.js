@@ -1,74 +1,33 @@
 "use client";
-import { useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { testimonials } from "@/data/data";
 import Curve from "@/components/Curve";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
 
-const FanCard = ({ card, index, total, onSwipe }) => {
-  const x = useMotionValue(0);
-
-  const rotate = useTransform(x, [-150, 150], [-20, 20]);
-  const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
-
-  const offsetY = index * -10;
-  const scale = 1 - index * 0.05;
-  const rotateFan = index * 3;
-
-  const isTop = index === 0;
-
-  const handleDragEnd = () => {
-    if (Math.abs(x.get()) > 100) {
-      onSwipe(card.id);
-    }
-  };
-
-  return (
-    <motion.div
-      className="absolute h-96 w-[90vw] max-w-sm rounded-xl p-6 bg-white/10 border border-white/20 backdrop-blur-md text-white shadow-xl cursor-grab active:cursor-grabbing"
-      drag={isTop ? "x" : false}
-      dragConstraints={{ left: 0, right: 0 }}
-      onDragEnd={handleDragEnd}
-      style={{
-        x: isTop ? x : 0,
-        rotate: isTop ? rotate : `${rotateFan}deg`,
-        opacity,
-        zIndex: total - index,
-        top: offsetY,
-        scale,
-      }}
-    >
-      <Image
-        src={card.image}
-        alt={card.name}
-        className="h-16 w-16 rounded-full mx-auto mb-3"
-      />
-      <h3 className="text-lg font-bold text-center">{card.name}</h3>
-      <p className="text-sm text-center text-gray-400">{card.position}</p>
-      <p className="text-sm text-center mt-3 italic">&apos;{card.message}&apos;</p>
-    </motion.div>
-  );
-};
-
 export default function Testimonials() {
-  const [cards, setCards] = useState(testimonials);
+  const [activeId, setActiveId] = useState(testimonials?.[0]?.id ?? null);
 
-  const handleSwipe = (id) => {
-    setCards((prev) => {
-      const updated = prev.filter((card) => card.id !== id);
-      return updated.length ? updated : testimonials;
-    });
-  };
+  const safeTestimonials = useMemo(
+    () => (Array.isArray(testimonials) ? testimonials : []),
+    []
+  );
+
+  const active = useMemo(
+    () => safeTestimonials.find((t) => t.id === activeId) || safeTestimonials[0],
+    [activeId, safeTestimonials]
+  );
 
   return (
     <>
       <NextSeo
         title="Testimonials | ByteProwler"
         description="What others say about working with me"
-        canonical="https://byteprowler.vercel.app"
+        canonical="https://byteprowler.vercel.app/testimonials"
         openGraph={{
-          url: "https://byteprowler.vercel.app",
+          url: "https://byteprowler.vercel.app/testimonials",
           title: "Testimonials | ByteProwler",
           description: "Feedback from clients and collaborators",
           images: [
@@ -81,29 +40,122 @@ export default function Testimonials() {
           ],
         }}
       />
+
       <Curve />
 
-      <section className="min-h-screen flex items-center justify-center px-4">
-        <div className="relative h-[420px] w-full max-w-sm flex items-center justify-center">
-          {cards
-            .map((card, i) => ({ ...card, index: cards.length - 1 - i }))
-            .sort((a, b) => a.index - b.index)
-            .map((card, i) => (
-              <FanCard
-                key={card.id}
-                card={card}
-                index={i}
-                total={cards.length}
-                onSwipe={handleSwipe}
-              />
-            ))}
-        </div>
+      <section className="min-h-screen px-4 text-white">
+        <div className="container mx-auto pt-28 xl:pt-36 pb-16">
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-extrabold">
+              Testimonials<span className="text-[#F13024]">.</span>
+            </h1>
+            <p className="text-white/70 mt-3">
+              Words from clients and collaborators I’ve worked with.
+            </p>
+          </div>
 
-        {cards.length === 0 && (
-          <p className="mt-8 text-center text-gray-400">
-            No more testimonials left.
-          </p>
-        )}
+          {/* Featured */}
+          {active && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="mt-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
+            >
+              <div className="p-6 md:p-10 grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 items-start">
+                <div className="flex md:flex-col items-center md:items-start gap-4">
+                  <div className="relative h-20 w-20 rounded-full overflow-hidden border border-white/15">
+                    <Image
+                      src={active.image}
+                      alt={active.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </div>
+                  <div className="md:hidden">
+                    <p className="font-semibold">{active.name}</p>
+                    <p className="text-white/60 text-sm">{active.position}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="hidden md:block">
+                    <p className="text-xl font-semibold">{active.name}</p>
+                    <p className="text-white/60">{active.position}</p>
+                  </div>
+
+                  <p className="mt-4 text-white/85 text-lg leading-relaxed">
+                    “{active.message}”
+                  </p>
+
+                  {/* Optional: small proof line if you have it */}
+                  {/* <p className="mt-4 text-white/50 text-sm">Project: XYZ • 2025</p> */}
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {safeTestimonials.slice(0, 6).map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setActiveId(t.id)}
+                        className={`rounded-full px-3 py-1 text-sm border transition ${t.id === activeId
+                            ? "border-[#F13024] text-white bg-[#F13024]/10"
+                            : "border-white/10 text-white/70 hover:text-white hover:border-white/20"
+                          }`}
+                      >
+                        {t.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Grid */}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {safeTestimonials.map((t) => (
+              <motion.button
+                key={t.id}
+                type="button"
+                onClick={() => setActiveId(t.id)}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.25 }}
+                className={`text-left rounded-2xl p-5 border backdrop-blur-md transition ${t.id === activeId
+                    ? "border-[#F13024]/60 bg-[#F13024]/10"
+                    : "border-white/10 bg-white/5 hover:bg-white/10"
+                  }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="relative h-11 w-11 rounded-full overflow-hidden border border-white/10">
+                    <Image
+                      src={t.image}
+                      alt={t.name}
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-semibold leading-tight">{t.name}</p>
+                    <p className="text-white/60 text-sm">{t.position}</p>
+                  </div>
+                </div>
+
+                <p className="mt-4 text-white/75 text-sm leading-relaxed line-clamp-4">
+                  “{t.message}”
+                </p>
+
+                <p className="mt-4 text-[#F13024] text-sm">
+                  Read full →
+                </p>
+              </motion.button>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );
