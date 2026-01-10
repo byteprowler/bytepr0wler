@@ -148,7 +148,6 @@ export default function ContactForm() {
         name: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),
         message: formData.message.trim(),
-
         mode: formData.mode,
         project_type: formData.mode === "company" ? formData.projectType : "",
         budget: formData.mode === "company" ? formData.budget.trim() : "",
