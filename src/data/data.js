@@ -259,8 +259,6 @@ export const botNav = [
   { name: 'Contact', path: '/contact', icon: <IoMailOpen />, title: "Contact", ariaLabel: 'Contact' },
 ];
 
-// export const COLORS_TOP = ["#f0f0f0", "#00000", "#d310", "#f15090"];
-
 export const testimonials = [
   {
     id: 1,

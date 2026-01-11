@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import { fadeIn } from "@/variants";
@@ -8,8 +8,13 @@ import { FaUserFriends } from "react-icons/fa";
 
 const NOTIFICATION_TTL = 5000;
 
-const Notification = ({ text, type = "success", id, removeNotif }) => {
+function Notification({ text, type = "success", id, removeNotif }) {
   const isError = type === "error";
+
+  useEffect(() => {
+    const t = setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
+    return () => clearTimeout(t);
+  }, [id, removeNotif]);
 
   return (
     <motion.div
@@ -19,17 +24,12 @@ const Notification = ({ text, type = "success", id, removeNotif }) => {
       exit={{ x: "100%", opacity: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
       className={`p-3 flex items-start rounded-lg gap-2 text-sm font-medium shadow-lg pointer-events-auto border ${isError
-          ? "bg-red-600/90 border-red-300/30"
-          : "bg-indigo-600/90 border-indigo-300/30"
+          ? "bg-red-600/90 border-red-300/30 text-white"
+          : "bg-[#f15090] border-white/10 text-white"
         }`}
       role={isError ? "alert" : "status"}
     >
-      {isError ? (
-        <FiAlertCircle className="mt-[2px]" />
-      ) : (
-        <FiCheckSquare className="mt-[2px]" />
-      )}
-
+      {isError ? <FiAlertCircle className="mt-[2px]" /> : <FiCheckSquare className="mt-[2px]" />}
       <span className="pr-2">{text}</span>
 
       <button
@@ -42,7 +42,7 @@ const Notification = ({ text, type = "success", id, removeNotif }) => {
       </button>
     </motion.div>
   );
-};
+}
 
 export default function ContactForm() {
   const [notifications, setNotifications] = useState([]);
@@ -56,7 +56,7 @@ export default function ContactForm() {
     projectType: "",
     budget: "",
     timeline: "",
-    website: "",
+    website: "", 
   });
 
   const API_BASE = useMemo(
@@ -68,41 +68,19 @@ export default function ContactForm() {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
-  const addNotification = useCallback(
-    (text, type = "success") => {
-      const id = Date.now();
-      setNotifications((prev) => [{ id, text, type }, ...prev]);
-      window.setTimeout(() => removeNotif(id), NOTIFICATION_TTL);
-    },
-    [removeNotif]
-  );
+  const addNotification = useCallback((text, type = "success") => {
+    const id = Date.now();
+    setNotifications((prev) => [{ id, text, type }, ...prev].slice(0, 3));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const isCompany = formData.mode === "companypayload";
-
-  const buildMessage = () => {
-    const baseMsg = formData.message.trim();
-
-    if (!isCompany) return baseMsg;
-
-    return [
-      `Mode: Company`,
-      `Project Type: ${formData.projectType || "-"}`,
-      `Budget: ${formData.budget || "-"}`,
-      `Timeline: ${formData.timeline || "-"}`,
-      ``,
-      `Message:`,
-      baseMsg,
-    ].join("\n");
-  };
+  const isCompany = formData.mode === "company";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,13 +89,17 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     if (formData.website?.trim()) {
-      addNotification("Message received. I’ll get back to you soon!", "success");
+      addNotification(
+        "Thank you — your message has been received. I’ll get back to you shortly.",
+        "success"
+      );
       setIsSubmitting(false);
       return;
     }
 
+
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      addNotification("Please fill all required fields.", "error");
+      addNotification("Please complete the required fields (name, email, and message).", "error");
       setIsSubmitting(false);
       return;
     }
@@ -128,33 +110,28 @@ export default function ContactForm() {
       return;
     }
 
-    if (
-      isCompany &&
-      (!formData.projectType || !formData.budget.trim() || !formData.timeline.trim())
-    ) {
-      addNotification("Please fill all company/project details.", "error");
+    if (isCompany && (!formData.projectType || !formData.budget.trim() || !formData.timeline.trim())) {
+      addNotification("Please provide project type, budget, and timeline.", "error");
       setIsSubmitting(false);
       return;
     }
 
     if (!API_BASE) {
-      addNotification("API URL not configured. Set NEXT_PUBLIC_CONTACT_API_URL.", "error");
+      addNotification("Contact API is not configured. Set NEXT_PUBLIC_CONTACT_API_URL.", "error");
       setIsSubmitting(false);
       return;
     }
 
     try {
       const payload = {
-        email: formData.email.trim().toLowerCase(),
         name: formData.name.trim(),
-        mode: formData.mode,
-        project_type: formData.projectType || "N/A",
-        budget: formData.budget || "N/A",
-        timeline: formData.timeline || "N/A",
-        subject: formData.mode === "company"
-          ? `Company Inquiry from ${formData.name}`
-          : `Individual Inquiry from ${formData.name}`,
+        email: formData.email.trim().toLowerCase(),
         message: formData.message.trim(),
+
+        mode: formData.mode,
+        project_type: isCompany ? formData.projectType : "",
+        budget: isCompany ? formData.budget.trim() : "",
+        timeline: isCompany ? formData.timeline.trim() : "",
       };
 
       const res = await fetch(`${API_BASE}/api/contact/send/`, {
@@ -166,12 +143,24 @@ export default function ContactForm() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        const errMsg = data.error || "Failed to send message. Please try again.";
+        const errMsg =
+          (typeof data?.error === "string" && data.error) ||
+          (data?.error && JSON.stringify(data.error)) ||
+          "Unable to send your message at the moment. Please try again shortly.";
         addNotification(errMsg, "error");
+        setIsSubmitting(false);
         return;
       }
 
-      addNotification(data?.message || "Message delivered ✅ I’ll reply soon!");
+      const successMsg = (
+        (typeof data?.message === "string" && data.message
+      ) || "Thanks for reaching out — your message has been received. I’ll respond as soon as possible.",
+      "success");
+
+      addNotification(
+        successMsg, "success"
+      );
+
       setFormData({
         name: "",
         email: "",
@@ -184,7 +173,7 @@ export default function ContactForm() {
       });
     } catch (error) {
       console.error("Contact API error:", error);
-      addNotification("Network error. Please try again in a moment.", "error");
+      addNotification("Network error — please check your connection and try again.", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -199,7 +188,7 @@ export default function ContactForm() {
       onSubmit={handleSubmit}
       className="flex-1 flex flex-col gap-6 w-full mx-auto"
     >
-      {/* Honeypot (hidden) */}
+      {/* Honeypot */}
       <input
         type="text"
         name="website"
@@ -358,7 +347,6 @@ export default function ContactForm() {
         </div>
       )}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
@@ -381,7 +369,6 @@ export default function ContactForm() {
         )}
       </button>
 
-      {/* Notifications */}
       <div
         className="flex flex-col gap-2 w-80 fixed top-4 right-4 z-50 pointer-events-none"
         aria-live="polite"

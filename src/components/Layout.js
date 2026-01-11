@@ -8,6 +8,8 @@ import Coffee from "./Coffee";
 import { COLORS_TOP } from "@/data/data";
 
 export default function Layout({ children }) {
+  const router = useRouter();
+  const isCoffee = router.pathname === "/buymeacoffee";
 
   const color = useMotionValue(COLORS_TOP[0]);
 
@@ -21,10 +23,6 @@ export default function Layout({ children }) {
   }, [color]);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
-  const border = useMotionTemplate`1px solid ${color}`;
-  const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;  
-
-  const isCoffee = useRouter().pathname === "/buymeacoffee";
 
   return (
     <div>
@@ -33,7 +31,6 @@ export default function Layout({ children }) {
         <meta name="description" content="Coding Ideas to Life" />
         <meta name="keywords" content="html, tailwindcss, js, javascript" />
 
-        {/* Open Graph Tags */}
         <meta property="og:title" content="ByteProwler - Coding Ideas to Life" />
         <meta
           property="og:description"
@@ -43,7 +40,6 @@ export default function Layout({ children }) {
         <meta property="og:url" content={process.env.NEXT_PUBLIC_BASE_URL} />
         <meta property="og:type" content="website" />
 
-        {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="ByteProwler - Coding Ideas to Life" />
         <meta
@@ -53,15 +49,14 @@ export default function Layout({ children }) {
         <meta name="twitter:image" content="/byteprowler.jpeg" />
         <meta name="twitter:url" content={process.env.NEXT_PUBLIC_BASE_URL} />
       </Head>
+
       <Header />
       <BottomNav />
+
       {!isCoffee && <Coffee />}
-      {/* <Curve /> */}
-      <motion.div
-      style={{
-        backgroundImage
-      }}>
-      {children}
+
+      <motion.div style={{ backgroundImage }}>
+        {children}
       </motion.div>
     </div>
   );
