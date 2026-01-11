@@ -145,13 +145,11 @@ export default function ContactForm() {
 
     try {
       const payload = {
-        name: formData.name.trim(),
         email: formData.email.trim().toLowerCase(),
-        message: formData.message.trim(),
-        mode: formData.mode,
-        project_type: formData.mode === "company" ? formData.projectType : "",
-        budget: formData.mode === "company" ? formData.budget.trim() : "",
-        timeline: formData.mode === "company" ? formData.timeline.trim() : "",
+        subject: formData.mode === "company"
+          ? `Company Inquiry from ${formData.name}`
+          : `Individual Inquiry from ${formData.name}`,
+        message: buildMessage() + `\n\n- From: ${formData.name.trim()}`,
       };
 
       const res = await fetch(`${API_BASE}/api/contact/send/`, {
