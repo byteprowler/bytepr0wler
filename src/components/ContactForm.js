@@ -86,7 +86,7 @@ export default function ContactForm() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const isCompany = formData.mode === "company";
+  const isCompany = formData.mode === "companypayload";
 
   const buildMessage = () => {
     const baseMsg = formData.message.trim();
@@ -148,9 +148,9 @@ export default function ContactForm() {
         email: formData.email.trim().toLowerCase(),
         name: formData.name.trim(),
         mode: formData.mode,
-        project_type: formData.projectType,
-        budget: formData.budget,
-        timeline: formData.timeline,
+        project_type: formData.projectType || "N/A",
+        budget: formData.budget || "N/A",
+        timeline: formData.timeline || "N/A",
         subject: formData.mode === "company"
           ? `Company Inquiry from ${formData.name}`
           : `Individual Inquiry from ${formData.name}`,
@@ -166,12 +166,8 @@ export default function ContactForm() {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        const errMsg =
-          (typeof data?.error === "string" && data.error) ||
-          (data?.error && JSON.stringify(data.error)) ||
-          "Failed to send. Please try again.";
+        const errMsg = data.error || "Failed to send message. Please try again.";
         addNotification(errMsg, "error");
-        setIsSubmitting(false);
         return;
       }
 
