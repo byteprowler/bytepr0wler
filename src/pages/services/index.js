@@ -117,7 +117,7 @@ const BentoCard = ({ service, onPreview, onSelect, spanClass, isTall }) => {
 };
 
 export default function Services() {
-  const services = serviceData ?? [];
+  const services = useMemo(() => serviceData ?? [], []);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeService = useMemo(

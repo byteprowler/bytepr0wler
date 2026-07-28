@@ -1,20 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 export default function ScreenFitText({children}) {
     const containerRef = useRef(null)
     const textRef = useRef(null)
 
-    useEffect(() => {
-        resizeText();
-
-        window.addEventListener("resize", resizeText);
-
-        return () => {
-            window.removeEventListener("resize", resizeText)
-        }
-    }, []);
-
-    const resizeText = () => {
+    const resizeText = useCallback(() => {
         const container = containerRef.current;
         const text = textRef.current;
 
@@ -36,7 +26,17 @@ export default function ScreenFitText({children}) {
                 max = mid -1;
             }
         }
-    }
+    }, []);
+
+    useEffect(() => {
+        resizeText();
+
+        window.addEventListener("resize", resizeText);
+
+        return () => {
+            window.removeEventListener("resize", resizeText)
+        }
+    }, [resizeText]);
   return (
     <div
     className='flex h-screen w-full items-center overflow-hidden'
