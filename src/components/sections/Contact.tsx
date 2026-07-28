@@ -476,7 +476,7 @@ export default function Contact() {
 
                 {/* Port 443: LinkedIn */}
                 <Link
-                  href="https://linkedin.com/in/ogo-joshua"
+                  href="https://linkedin.com/in/ogojoshua"
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noreferrer"
