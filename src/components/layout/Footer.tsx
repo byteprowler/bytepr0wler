@@ -1,11 +1,5 @@
 import { profile } from "@/lib/profile";
-
-const footerLinks = [
-  { label: "GITHUB", href: "https://github.com/byteprowler" },
-  { label: "LINKEDIN", href: "https://linkedin.com/in/ogo-joshua" },
-  { label: "EMAIL", href: "mailto:joshuaexcellency1@gmail.com" },
-  { label: "RESUME", href: "/pdf/resume.pdf" },
-];
+import { siteSettings } from "@/lib/content/siteSettings";
 
 export default function Footer() {
   return (
@@ -14,21 +8,21 @@ export default function Footer() {
         <div className="flex flex-col gap-1">
           <span className="text-neon-lime font-black tracking-widest uppercase">BYTEPROWLER</span>
           <span className="uppercase">
-            {`Built by ${profile.realName} // ProwlerLabs Digital Solution`}
+            {`Built by ${profile.realName} // ${siteSettings.businessName}`}
           </span>
-          <span>{`\u00A9 ${new Date().getFullYear()} BYTEPROWLER_SYSTEMS`}</span>
+          <span>{`\u00A9 ${new Date().getFullYear()} ${siteSettings.footerText}`}</span>
           <span
             dir="rtl"
             aria-label="Blessed be YHWH"
             title="Blessed be YHWH"
             className="w-fit text-[12px]"
           >
-            ברוך יהוה
+            {"\u05d1\u05e8\u05d5\u05da \u05d9\u05d4\u05d5\u05d4"}
           </span>
         </div>
 
         <nav aria-label="Footer links" className="flex flex-wrap items-center gap-2 sm:justify-end">
-          {footerLinks.map((link) => (
+          {siteSettings.footerLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
@@ -40,7 +34,7 @@ export default function Footer() {
         </nav>
       </div>
 
-      {/* Place the real resume file at public/resume.pdf when ready. */}
+      {/* Place the real resume file at public/pdf/resume.pdf when ready. */}
     </footer>
   );
 }

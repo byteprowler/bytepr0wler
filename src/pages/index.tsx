@@ -8,6 +8,7 @@ import TechArsenal from "../components/sections/TechArsenal";
 import Projects from "../components/sections/Projects";
 import Certifications from "../components/sections/Certifications";
 import AnimeFeed from "../components/sections/AnimeFeed";
+import SignalLogs from "../components/sections/SignalLogs";
 import Contact from "../components/sections/Contact";
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
         <Projects />
         <Certifications />
         <AnimeFeed />
+        <SignalLogs />
         <Contact />
       </Layout>
     </>

@@ -71,7 +71,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
   };
   const seoDescription =
     project.description || project.longDescription || "A Byteprowler project case study.";
-  const seoImage = project.image || "/og-byteprowler.png";
+  const seoImage = project.ogImage || project.coverImage || project.image || "/og-byteprowler.png";
   const seoUrl = `PASTE_CANONICAL_URL_HERE/projects/${project.slug}`;
 
   return (

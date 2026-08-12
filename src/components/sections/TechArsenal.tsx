@@ -1,64 +1,14 @@
 import React, { useState } from "react";
 import { Codepen, Globe } from "lucide-react";
-import TerminalCard from "../ui/TerminalCard";
-
-interface TechItem {
-    name: string;
-    category: string;
-    status: "CORE" | "ACTIVE" | "LEARNING";
-}
+import { techCategories, techStack, type TechCategoryId } from "../../lib/content/techStack";
 
 export default function TechArsenal() {
-    const [activeFilter, setActiveFilter] = useState<string>("ALL");
+    const [activeFilter, setActiveFilter] = useState<TechCategoryId>("ALL");
 
-    const categories = [
-        { id: "ALL", label: "ALL_SYSTEMS" },
-        { id: "CORE", label: "FRONTEND_CORE" },
-        { id: "FRAMEWORKS", label: "FRAMEWORKS" },
-        { id: "STYLING", label: "STYLING_AND_MOTION" },
-        { id: "SCRIPTING", label: "SHELL_SCRIPTING" },
-        { id: "BACKEND", label: "BACKEND_AND_DATA" },
-        { id: "TOOLS", label: "DEVELOPMENT_TOOLS" },
-    ];
-
-    const techStack: TechItem[] = [
-        // Frontend Core
-        { name: "HTML5", category: "CORE", status: "CORE" },
-        { name: "CSS3", category: "CORE", status: "CORE" },
-        { name: "JavaScript", category: "CORE", status: "CORE" },
-        { name: "TypeScript", category: "CORE", status: "CORE" },
-
-        // Frameworks
-        { name: "React", category: "FRAMEWORKS", status: "CORE" },
-        { name: "Next.js", category: "FRAMEWORKS", status: "ACTIVE" },
-        { name: "Vue", category: "FRAMEWORKS", status: "ACTIVE" },
-        { name: "Angular", category: "FRAMEWORKS", status: "LEARNING" },
-        { name: "Nuxt", category: "FRAMEWORKS", status: "LEARNING" },
-
-        // Styling & Motion
-        { name: "Tailwind CSS", category: "STYLING", status: "CORE" },
-        { name: "motion.dev", category: "STYLING", status: "ACTIVE" },
-        { name: "Vite", category: "STYLING", status: "ACTIVE" },
-
-        // Backend Learning
-        { name: "Node.js", category: "BACKEND", status: "LEARNING" },
-        { name: "Python", category: "BACKEND", status: "LEARNING" },
-        { name: "Django", category: "BACKEND", status: "LEARNING" },
-        { name: "SQL", category: "BACKEND", status: "ACTIVE" },
-        { name: "Supabase", category: "BACKEND", status: "LEARNING" },
-
-        // Scripting and terminal workflows
-        { name: "Bash Scripting", category: "SCRIPTING", status: "LEARNING" },
-
-        // Tools
-        { name: "Git", category: "TOOLS", status: "CORE" },
-        { name: "GitHub", category: "TOOLS", status: "CORE" },
-        { name: "Figma", category: "TOOLS", status: "LEARNING" },
-    ];
 
     const filteredTech = activeFilter === "ALL"
         ? techStack
-        : techStack.filter(tech => tech.category === activeFilter);
+        : techStack.filter((tech) => tech.category === activeFilter);
 
     // Grouped Tech items rendering maps
     const getCategoryTheme = (cat: string) => {
@@ -91,7 +41,6 @@ export default function TechArsenal() {
                         <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight uppercase font-sans tracking-tight">
                             Core Stack & Tools
                         </h3>
-              <span lang="ja" className="font-mono text-sm font-bold text-neon-blue/80">技術武装</span>
                         <p className="text-sm font-mono text-gray-400">
                             [SYSTEM_CHECK] Frontend, styling, scripting, backend, and tooling capabilities ready for deployment.
                         </p>
@@ -99,7 +48,7 @@ export default function TechArsenal() {
 
                     {/* Quick Filter Menu */}
                     <div className="flex flex-wrap gap-2 font-mono">
-                        {categories.map((cat) => (
+                        {techCategories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => setActiveFilter(cat.id)}

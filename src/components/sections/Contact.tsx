@@ -14,6 +14,10 @@ import {
   ChevronRight
 } from "lucide-react";
 import TerminalCard from "../ui/TerminalCard";
+import { siteSettings } from "../../lib/content/siteSettings";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import Textarea from "../ui/Textarea";
 
 interface FormData {
   name: string;
@@ -112,6 +116,7 @@ export default function Contact() {
         throw new Error("CONTACT_ENDPOINT_MISSING");
       }
 
+      // Future ProwlerLabs idea: build a private CRM/admin dashboard for leads and project inquiries.
       const response = await fetch(contactEndpoint, {
         method: "POST",
         headers: {
@@ -181,8 +186,7 @@ export default function Contact() {
               <div className="flex flex-col gap-1 border-b border-white/5 pb-3">
                 <h3 className="text-lg font-bold text-white uppercase font-sans tracking-tight">
                   Initialize Uplink
-                </h3>
-              <span lang="ja" className="font-mono text-sm font-bold text-neon-blue/80">連絡先</span>
+                </h3>
                 <span className="text-[11px] font-mono text-gray-300 uppercase tracking-widest">
                   /contact.transmission --channel-direct
                 </span>
@@ -192,143 +196,67 @@ export default function Contact() {
               <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
                 
                 {/* Responsive Dual Inputs on Desktop, Single Stack on Mobile */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  
-                  {/* Name field */}
-                  <div className="flex flex-col gap-1.5">
-                    <label 
-                      htmlFor="uplink-name" 
-                      className="text-[11px] font-mono font-bold text-gray-300 uppercase tracking-wider flex justify-between"
-                    >
-                      <span>01. SENDER_IDENTITY</span>
-                      <span className="text-neon-lime font-bold select-none">*</span>
-                    </label>
-                    <input
-                      id="uplink-name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      aria-invalid={!!errors.name}
-                      aria-describedby={errors.name ? "uplink-name-error" : undefined}
-                      className={`px-3 py-2 bg-black/85 border text-white font-mono text-sm rounded-sm focus:outline-none focus:border-neon-lime focus:shadow-glow-lime/10 transition-all duration-300 w-full ${
-                        errors.name ? "border-red-500/50 text-red-300" : "border-white/10"
-                      }`}
-                      placeholder="e.g. USER_PROBE_01 [Guest]"
-                      disabled={isSubmitting}
-                    />
-                    {errors.name && (
-                      <span id="uplink-name-error" className="text-[10.5px] font-mono text-red-500 font-bold tracking-tight">
-                        {errors.name}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Return Email field */}
-                  <div className="flex flex-col gap-1.5">
-                    <label 
-                      htmlFor="uplink-email" 
-                      className="text-[11px] font-mono font-bold text-gray-300 uppercase tracking-wider flex justify-between"
-                    >
-                      <span>02. RETURN_ADDRESS</span>
-                      <span className="text-neon-lime font-bold select-none">*</span>
-                    </label>
-                    <input
-                      id="uplink-email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? "uplink-email-error" : undefined}
-                      className={`px-3 py-2 bg-black/85 border text-white font-mono text-sm rounded-sm focus:outline-none focus:border-neon-lime focus:shadow-glow-lime/10 transition-all duration-300 w-full ${
-                        errors.email ? "border-red-500/50 text-red-300" : "border-white/10"
-                      }`}
-                      placeholder="e.g. guest@domain-nexus.com"
-                      disabled={isSubmitting}
-                    />
-                    {errors.email && (
-                      <span id="uplink-email-error" className="text-[10.5px] font-mono text-red-500 font-bold tracking-tight">
-                        {errors.email}
-                      </span>
-                    )}
-                  </div>
-
-                </div>
-
-                {/* Subject field */}
-                <div className="flex flex-col gap-1.5">
-                  <label 
-                    htmlFor="uplink-subject" 
-                    className="text-[11px] font-mono font-bold text-gray-300 uppercase tracking-wider flex justify-between"
-                  >
-                    <span>03. ROUTE_SIGNATURE_SUBJECT</span>
-                    <span className="text-neon-lime font-bold select-none">*</span>
-                  </label>
-                  <input
-                    id="uplink-subject"
-                    name="subject"
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">                  {/* Name field */}
+                  <Input
+                    id="uplink-name"
+                    label="01. SENDER_IDENTITY"
+                    name="name"
                     type="text"
-                    value={formData.subject}
+                    value={formData.name}
                     onChange={handleInputChange}
-                    aria-invalid={!!errors.subject}
-                    aria-describedby={errors.subject ? "uplink-subject-error" : undefined}
-                    className={`px-3 py-2 bg-black/85 border text-white font-mono text-sm rounded-sm focus:outline-none focus:border-neon-lime focus:shadow-glow-lime/10 transition-all duration-300 w-full ${
-                      errors.subject ? "border-red-500/50 text-red-300" : "border-white/10"
-                    }`}
-                    placeholder="e.g. SECURE_INTEGRATION_INTERVIEW"
+                    error={errors.name}
+                    placeholder="e.g. USER_PROBE_01 [Guest]"
                     disabled={isSubmitting}
-                  />
-                  {errors.subject && (
-                    <span id="uplink-subject-error" className="text-[10.5px] font-mono text-red-500 font-bold tracking-tight">
-                      {errors.subject}
-                    </span>
-                  )}
-                </div>
-
-                {/* Message field */}
-                <div className="flex flex-col gap-1.5">
-                  <label 
-                    htmlFor="uplink-message" 
-                    className="text-[11px] font-mono font-bold text-gray-300 uppercase tracking-wider flex justify-between"
-                  >
-                    <span>04. INTEL_TRANSMISSION_PAYLOAD</span>
-                    <span className="text-neon-lime font-bold select-none">*</span>
-                  </label>
-                  <textarea
-                    id="uplink-message"
-                    name="message"
-                    value={formData.message}
+                    required
+                  />                  {/* Return Email field */}
+                  <Input
+                    id="uplink-email"
+                    label="02. RETURN_ADDRESS"
+                    name="email"
+                    type="email"
+                    value={formData.email}
                     onChange={handleInputChange}
-                    aria-invalid={!!errors.message}
-                    aria-describedby={errors.message ? "uplink-message-error" : undefined}
-                    rows={5}
-                    className={`px-3 py-2 bg-black/85 border text-white font-mono text-sm rounded-sm focus:outline-none focus:border-neon-lime focus:shadow-glow-lime/10 transition-all duration-300 w-full resize-none ${
-                      errors.message ? "border-red-500/50 text-red-300" : "border-white/10"
-                    }`}
-                    placeholder="Input detailed brief, system configurations, stack alignment parameters..."
+                    error={errors.email}
+                    placeholder="e.g. guest@domain-nexus.com"
                     disabled={isSubmitting}
+                    required
                   />
-                  {errors.message && (
-                    <span id="uplink-message-error" className="text-[10.5px] font-mono text-red-500 font-bold tracking-tight">
-                      {errors.message}
-                    </span>
-                  )}
-                </div>
 
-                {/* Submit Trigger control */}
-                <button
-                  type="submit"
+                </div>                {/* Subject field */}
+                <Input
+                  id="uplink-subject"
+                  label="03. ROUTE_SIGNATURE_SUBJECT"
+                  name="subject"
+                  type="text"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  error={errors.subject}
+                  placeholder="e.g. SECURE_INTEGRATION_INTERVIEW"
                   disabled={isSubmitting}
-                  className={`w-full py-3 px-4 font-mono text-xs font-black uppercase rounded-sm border select-none transition-all duration-300 flex items-center justify-center gap-2.5 text-center ${
-                    isSubmitting 
-                      ? "bg-neon-lime/10 border-neon-lime/20 text-neon-lime tracking-widest"
-                      : "bg-neon-lime border-transparent text-black shadow-glow-lime/10 hover:shadow-glow-lime/25 hover:bg-[#bbf000]"
-                  } disabled:cursor-not-allowed`}
+                  required
+                />                {/* Message field */}
+                <Textarea
+                  id="uplink-message"
+                  label="04. INTEL_TRANSMISSION_PAYLOAD"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={5}
+                  error={errors.message}
+                  className="resize-y"
+                  placeholder="Input detailed brief, system configurations, stack alignment parameters..."
+                  disabled={isSubmitting}
+                  required
+                />                {/* Submit Trigger control */}
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  variant={isSubmitting ? "secondary" : "primary"}
+                  className="w-full tracking-widest"
                 >
                   <Send className={`w-4 h-4 ${isSubmitting ? "animate-pulse" : ""}`} />
                   <span className="min-w-0 break-words">{isSubmitting ? "TRANSMITTING_ENCRYPTED_SIGNAL..." : "EXECUTE_SECURE_TRANSMIT"}</span>
-                </button>
+                </Button>
 
               </form>
 
@@ -458,7 +386,7 @@ export default function Contact() {
                 
                 {/* Port 80: Github */}
                 <Link
-                  href="https://github.com/byteprowler"
+                  href={siteSettings.githubUrl}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noreferrer"
@@ -476,7 +404,7 @@ export default function Contact() {
 
                 {/* Port 443: LinkedIn */}
                 <Link
-                  href="https://linkedin.com/in/ogojoshua"
+                  href={siteSettings.linkedinUrl}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noreferrer"
@@ -494,7 +422,7 @@ export default function Contact() {
 
                 {/* Port 25: Email channel */}
                 <a
-                  href="mailto:joshuaexcellency1@gmail.com"
+                  href={`mailto:${siteSettings.email}`}
                   className="p-3 border border-white/5 bg-black/40 hover:bg-neon-purple/5 hover:border-neon-purple/30 rounded-xs flex items-center justify-between group/port transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-purple focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
                 >
                   <div className="flex items-center gap-2">

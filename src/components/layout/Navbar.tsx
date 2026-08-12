@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Activity, Cpu, Menu, RefreshCw, Terminal, X } from "lucide-react";
+import Link from "next/link";
 import ViewCounter from "../ui/ViewCounter";
 import { NAV_SECTIONS } from "../../lib/navigation";
-import Link from "next/link";
 
 export default function Navbar() {
   const [sysTime, setSysTime] = useState("");
@@ -30,10 +30,10 @@ export default function Navbar() {
           closeMobileMenu();
         }
       }}
-      className="fixed inset-x-0 top-0 z-[90] mx-auto flex w-full max-w-7xl items-center justify-between overflow-visible border-b border-neon-lime/15 bg-obsidian/95 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-md supports-[backdrop-filter]:bg-obsidian/85 md:px-8"
+      className="fixed inset-x-0 top-0 z-[90] mx-auto flex w-full max-w-7xl items-center justify-between gap-3 overflow-visible border-b border-neon-lime/15 bg-obsidian/95 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-md supports-[backdrop-filter]:bg-obsidian/85 md:px-8"
     >
       {/* Brand Logo and Status */}
-      <div className="flex items-center gap-1.5 sm:gap-3">
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
         <div className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-black border border-neon-lime/30 text-neon-lime shadow-glow-lime/40 shrink-0">
           <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-lime" />
           <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-neon-green"></div>
@@ -50,22 +50,22 @@ export default function Navbar() {
 
       {/* Center Status Logs (Decorative terminal status elements) */}
       <div className="hidden lg:flex items-center gap-6 font-mono text-xs text-gray-300">
-        <div className="flex items-center gap-2 border border-neon-lime/10 bg-black/40 px-2 py-1 rounded-sm">
+        <div className="flex shrink-0 items-center gap-2 rounded-sm border border-neon-lime/10 bg-black/40 px-2 py-1">
           <Cpu className="w-3.5 h-3.5 text-neon-blue" />
           <span>ALLOC_VM_X01: <span className="text-neon-blue">ONLINE</span></span>
         </div>
-        <div className="flex items-center gap-2 border border-neon-lime/10 bg-black/40 px-2 py-1 rounded-sm">
+        <div className="flex shrink-0 items-center gap-2 rounded-sm border border-neon-lime/10 bg-black/40 px-2 py-1">
           <Activity className="w-3.5 h-3.5 text-neon-green" />
           <span>EST_LATENCY: <span className="text-neon-green">24MS</span></span>
         </div>
         <div className="flex items-center gap-2 border border-neon-lime/10 bg-black/40 px-2 py-1 rounded-sm">
-          <RefreshCw className="w-3.5 h-3.5 text-neon-purple animate-spin" style={{ animationDuration: "6s" }} />
+          <RefreshCw className="w-3.5 h-3.5 text-neon-purple motion-safe:animate-spin" style={{ animationDuration: "6s" }} />
           <span>CYBER_HEARTBEAT: <span className="text-neon-purple font-medium">STABLE</span></span>
         </div>
       </div>
 
       {/* System Time and Dynamic View Counter info */}
-      <div className="flex items-center gap-2 sm:gap-4 font-mono text-xs text-right">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-4 font-mono text-xs text-right">
         {/* Responsive View Counter */}
         <div className="hidden sm:flex items-center">
           <ViewCounter />
@@ -112,6 +112,7 @@ export default function Navbar() {
               <span className="text-neon-lime">[ MOBILE_SEC_INDEX ]</span>
               <span className="text-gray-300">ESC_CLOSE</span>
             </div>
+
 
             <div className="grid grid-cols-1 gap-1.5">
               {NAV_SECTIONS.map((item) => {

@@ -15,15 +15,13 @@ export default function OperatorAvatar({
   status = "ARC_ACTIVE",
   className = "",
 }: OperatorAvatarProps) {
-  const [imageFailed, setImageFailed] = useState(false);
+  const [failedImageSrc, setFailedImageSrc] = useState<string | null>(null);
   const [activationCount, setActivationCount] = useState(0);
   const [showHiddenLog, setShowHiddenLog] = useState(false);
   const [phaseActive, setPhaseActive] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const imageFailed = failedImageSrc === imageSrc;
 
-  useEffect(() => {
-    setImageFailed(false);
-  }, [imageSrc]);
 
   useEffect(() => {
     if (!showHiddenLog) {
@@ -73,7 +71,7 @@ export default function OperatorAvatar({
                 alt="Byteprowler operator avatar"
                 width={128}
                 height={128}
-                onError={() => setImageFailed(true)}
+                onError={() => setFailedImageSrc(imageSrc)}
                 className="h-full w-full object-cover opacity-90 grayscale-[25%]"
               />
             ) : (
