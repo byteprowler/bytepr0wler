@@ -1,5 +1,13 @@
 export type RoadmapPhase = "Previous Logs" | "Current Runtime" | "Next Protocol";
 export type RoadmapStatus = "COMPLETED" | "ACTIVE" | "QUEUED" | "UPGRADING";
+export type RoadmapType =
+  | "learning"
+  | "work"
+  | "apprenticeship"
+  | "internship"
+  | "freelance"
+  | "project"
+  | "growth";
 
 export type RoadmapItem = {
   id: string;
@@ -9,9 +17,14 @@ export type RoadmapItem = {
   status: RoadmapStatus;
   description: string;
   skills: string[];
-  type: string;
+  type: RoadmapType;
   startDate?: string;
   endDate?: string;
+  organization?: string;
+  organizationUrl?: string;
+  role?: string;
+  location?: string;
+  isPublic?: boolean;
   showUptime?: boolean;
   showDuration?: boolean;
 };
@@ -69,14 +82,18 @@ export const roadmapItems: RoadmapItem[] = [
     id: "frontend-apprenticeship",
     phase: "Previous Logs",
     title: "Frontend Apprenticeship",
-    period: "2025",
+    period: "August 2025",
     status: "COMPLETED",
-    type: "learning",
+    type: "apprenticeship",
     startDate: "2025-06-19",
     endDate: "2025-11-21",
+    organization: "ORGANIZATION_NAME_HERE",
+    organizationUrl: "",
+    role: "Frontend Apprentice",
+    isPublic: true,
     showDuration: true,
     description: "Completed practical frontend training focused on collaborative builds, responsive interfaces, motion, accessibility, and component architecture.",
-    skills: ["Next.js", "Framer Motion", "Tailwind CSS", "Responsive UI", "Frontend Architecture", "Accessibility"],
+    skills: ["Frontend Development", "React", "Responsive UI", "Accessibility", "Team Collaboration"],
   },
   {
     id: "current-role",
@@ -84,12 +101,30 @@ export const roadmapItems: RoadmapItem[] = [
     title: "Frontend Developer Intern",
     period: "January 2026 - July 2026",
     status: "COMPLETED",
-    type: "work",
+    type: "internship",
     startDate: "2026-01-01",
     endDate: "2026-07-01",
+    role: "Frontend Developer Intern",
+    location: "Remote / Hybrid",
+    isPublic: false,
     showDuration: true,
     description: "Worked on frontend interfaces, reusable components, responsive layouts, UI polish, and production-focused web experiences.",
     skills: ["React", "Vue.js", "Vite", "Next.js", "Tailwind CSS", "TypeScript", "Responsive UI", "Frontend Architecture"],
+  },
+  {
+    id: "freelance-independent-builds",
+    phase: "Current Runtime",
+    title: "Freelance / Independent Builds",
+    period: "Active",
+    status: "ACTIVE",
+    type: "freelance",
+    organization: "",
+    organizationUrl: "",
+    role: "Frontend Developer",
+    isPublic: true,
+    showUptime: false,
+    description: "Working on portfolio websites, landing pages, frontend fixes, UI improvements, and small web experiences for practical client-facing growth.",
+    skills: ["Frontend Development", "Landing Pages", "UI Polish", "Responsive Design"],
   },
   {
     id: "byteprowler-v2",

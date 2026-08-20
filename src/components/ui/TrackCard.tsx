@@ -30,7 +30,7 @@ export default function TrackCard({ track }: TrackCardProps) {
     <a
       href={trackUrl}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label={`Open ${track.title} by ${track.artist} on Last.fm`}
       className="group flex min-w-0 gap-3 rounded-sm border border-white/10 bg-black/55 p-3 transition hover:border-neon-blue/40 hover:bg-neon-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
     >

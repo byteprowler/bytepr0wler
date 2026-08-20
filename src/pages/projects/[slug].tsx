@@ -171,7 +171,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                         <a
                           href={version.liveUrl}
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           referrerPolicy="no-referrer"
                           aria-label={`View ${version.label} Portfolio`}
                           className="mt-2 inline-flex min-h-10 items-center justify-center rounded-sm border border-neon-blue/20 bg-neon-blue/5 px-3 py-2 font-mono text-[11px] font-black uppercase tracking-wider text-neon-blue transition hover:border-neon-blue/40 hover:bg-neon-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
@@ -252,7 +252,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                     href={project.githubUrl}
                     target="_blank"
                     referrerPolicy="no-referrer"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="w-full py-2.5 bg-black hover:bg-neon-blue/10 border border-neon-blue/30 text-neon-blue font-mono text-center text-xs font-bold uppercase rounded-sm flex items-center justify-center gap-2 transition-all duration-300"
                   >
                     <Github className="w-4 h-4" />
@@ -265,7 +265,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                     href={project.liveUrl}
                     target="_blank"
                     referrerPolicy="no-referrer"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="w-full py-2.5 bg-neon-lime hover:bg-[#bbf000] text-black font-mono text-center text-xs font-bold uppercase rounded-sm flex items-center justify-center gap-2 transition-all duration-300 border border-transparent shadow-sm hover:shadow-glow-lime/10"
                   >
                     <ExternalLink className="w-4 h-4" />

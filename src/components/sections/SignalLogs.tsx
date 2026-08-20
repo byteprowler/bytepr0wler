@@ -47,7 +47,7 @@ function AniListActivityCard({ activity }: { activity: AniListActivityItem }) {
     <a
       href={activity.url || "https://anilist.co/"}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label={`Open AniList activity for ${activity.title}`}
       className="group flex min-w-0 gap-3 rounded-sm border border-white/10 bg-black/55 p-3 transition hover:border-neon-purple/40 hover:bg-neon-purple/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-purple focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
     >

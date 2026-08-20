@@ -90,7 +90,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
                             href={anime.siteUrl}
                             target="_blank"
                             referrerPolicy="no-referrer"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             className="text-[10px] font-mono font-bold text-neon-purple hover:text-white flex items-center gap-1 group/link transition-colors duration-200"
                         >
                             <span>ANILIST_LOG</span>

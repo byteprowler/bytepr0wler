@@ -31,7 +31,7 @@ export const profile: ProfileContent = {
   status: "AVAILABLE_FOR_COLLABORATION",
   availabilityStatus: "OPEN_TO_FRONTEND_AND_FULLSTACK",
   responseMode: "async_loop",
-  resumeUrl: "/pdf/resume.pdf",
+  resumeUrl: "/resumes/frontend-resume.pdf",
   avatarImage: "/avatar/operator-avatar-placeholder.png",
   bootStartedAt: "2024-01-01",
   currentArc: "Frontend Systems -> Fullstack Expansion",

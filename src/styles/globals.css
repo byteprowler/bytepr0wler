@@ -357,6 +357,181 @@ textarea:focus-visible {
 .byteprowler-cursor--reduced {
   transition: none;
 }
+
+@keyframes glitch-brand-burst {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    text-shadow: 0 0 3px rgba(197, 255, 0, 0.32), 0 0 8px rgba(197, 255, 0, 0.11);
+  }
+  12% {
+    transform: translate3d(-1px, 0, 0);
+    text-shadow: 3px 0 0 rgba(0, 243, 255, 0.52), -3px 0 0 rgba(255, 42, 94, 0.48), 0 0 10px rgba(197, 255, 0, 0.2);
+  }
+  24% {
+    transform: translate3d(2px, -1px, 0);
+    text-shadow: -3px 0 0 rgba(0, 243, 255, 0.46), 2px 0 0 rgba(255, 42, 94, 0.42), 0 0 8px rgba(255, 255, 255, 0.15);
+  }
+  48% {
+    transform: translate3d(-2px, 1px, 0);
+    text-shadow: 2px 0 0 rgba(0, 243, 255, 0.44), -2px 0 0 rgba(255, 42, 94, 0.38), 0 0 8px rgba(197, 255, 0, 0.18);
+  }
+  72% {
+    transform: translate3d(1px, 0, 0);
+    text-shadow: -1px 0 0 rgba(0, 243, 255, 0.34), 1px 0 0 rgba(255, 42, 94, 0.3), 0 0 6px rgba(197, 255, 0, 0.12);
+  }
+}
+
+@keyframes glitch-brand-red {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  8%, 64% { opacity: 0.72; transform: translate3d(-3px, 0, 0); }
+  28% { opacity: 0.58; transform: translate3d(-5px, -1px, 0); }
+}
+
+@keyframes glitch-brand-cyan {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  10%, 68% { opacity: 0.68; transform: translate3d(3px, 0, 0); }
+  36% { opacity: 0.5; transform: translate3d(5px, 1px, 0); }
+}
+
+@keyframes glitch-brand-slice-top {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  14%, 36% { opacity: 0.86; transform: translate3d(5px, -1px, 0); }
+}
+
+@keyframes glitch-brand-slice-mid {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  24%, 58% { opacity: 0.84; transform: translate3d(-6px, 1px, 0); }
+}
+
+@keyframes glitch-brand-slice-low {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  42%, 76% { opacity: 0.74; transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes glitch-brand-scanline {
+  0%, 100% { opacity: 0; transform: translateY(-35%); }
+  18%, 70% { opacity: 0.38; }
+  84% { opacity: 0; transform: translateY(60%); }
+}
+
+.glitch-brand-title {
+  display: inline-block;
+  max-width: 100%;
+  isolation: isolate;
+  overflow-wrap: anywhere;
+}
+
+.glitch-brand-title__stage {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  min-width: 0;
+  vertical-align: top;
+}
+
+.glitch-brand-title__base {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.glitch-brand-title__layer,
+.glitch-brand-title__scanline {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glitch-brand-title__layer {
+  z-index: 3;
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.92em;
+  line-height: 1;
+  text-transform: none;
+  transform-origin: left center;
+  will-change: auto;
+}
+
+.glitch-brand-title__layer--red {
+  color: rgba(255, 42, 94, 0.86);
+  mix-blend-mode: screen;
+}
+
+.glitch-brand-title__layer--cyan {
+  color: rgba(0, 243, 255, 0.82);
+  mix-blend-mode: screen;
+}
+
+.glitch-brand-title__slice {
+  color: #f8ffe8;
+  text-shadow: 2px 0 0 rgba(0, 243, 255, 0.5), -2px 0 0 rgba(255, 42, 94, 0.45);
+}
+
+.glitch-brand-title__slice--top {
+  clip-path: inset(0 0 66% 0);
+}
+
+.glitch-brand-title__slice--mid {
+  clip-path: inset(36% 0 36% 0);
+}
+
+.glitch-brand-title__slice--low {
+  clip-path: inset(68% 0 0 0);
+}
+
+.glitch-brand-title__scanline {
+  z-index: 4;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.28) 0,
+    rgba(255, 255, 255, 0.28) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  mix-blend-mode: screen;
+}
+
+.glitch-brand-title--active {
+  animation: glitch-brand-burst 520ms steps(4, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__base {
+  color: rgba(197, 255, 0, 0.62);
+  opacity: 0.72;
+}
+
+.glitch-brand-title--active.glitch-brand-title--katakana .glitch-brand-title__base {
+  opacity: 0.18;
+}
+
+.glitch-brand-title--active .glitch-brand-title__layer--red {
+  animation: glitch-brand-red 520ms steps(3, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__layer--cyan {
+  animation: glitch-brand-cyan 520ms steps(3, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__slice--top {
+  animation: glitch-brand-slice-top 520ms steps(2, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__slice--mid {
+  animation: glitch-brand-slice-mid 520ms steps(2, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__slice--low {
+  animation: glitch-brand-slice-low 520ms steps(2, end) both;
+}
+
+.glitch-brand-title--active .glitch-brand-title__scanline {
+  animation: glitch-brand-scanline 520ms linear both;
+}
 /* Hacker Glitch Typography Animation */
 @keyframes glitch {
   0% {
@@ -451,9 +626,17 @@ textarea:focus-visible {
   html {
     scroll-behavior: auto;
   }
-  .title-glitch {
+  .title-glitch,
+  .glitch-brand-title--active,
+  .glitch-brand-title--active .glitch-brand-title__layer,
+  .glitch-brand-title--active .glitch-brand-title__scanline {
     animation: none !important;
     text-shadow: 0 0 5px rgba(197, 255, 0, 0.5) !important;
+  }
+  .glitch-brand-title__layer,
+  .glitch-brand-title__scanline {
+    opacity: 0 !important;
+    transition: none !important;
   }
   .scanline-overlay {
     background: none !important;

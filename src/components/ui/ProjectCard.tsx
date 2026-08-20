@@ -87,7 +87,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             href={project.githubUrl}
                             target="_blank"
                             referrerPolicy="no-referrer"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             title="View Repository On GitHub"
                             className="text-gray-300 hover:text-neon-blue transition-colors duration-200"
                         >
@@ -99,7 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             href={project.liveUrl}
                             target="_blank"
                             referrerPolicy="no-referrer"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             title="Launch Application Node"
                             className="text-gray-300 hover:text-neon-green transition-colors duration-200"
                         >

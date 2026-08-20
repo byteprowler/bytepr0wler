@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, CircleDot, Clock3, Radio } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, CircleDot, Clock3, Radio } from "lucide-react";
 import { getRoadmapUptime, getRoadmapDuration, type RoadmapItem as RoadmapItemType, type RoadmapStatus } from "../../lib/roadmap";
 
 interface RoadmapItemProps {
@@ -27,6 +27,15 @@ export default function RoadmapItem({ item, index }: RoadmapItemProps) {
   const shouldShowDuration = item.showDuration ?? item.status === "COMPLETED";
   const uptime = shouldShowUptime ? getRoadmapUptime(item.startDate) : null;
   const duration = shouldShowDuration ? getRoadmapDuration(item.startDate, item.endDate) : null;
+  const organization = item.organization?.trim();
+  const organizationUrl = item.organizationUrl?.trim();
+  const shouldShowOrganization = item.isPublic !== false && Boolean(organization);
+  const metadataItems = [
+    item.role ? { label: "ROLE", value: item.role } : null,
+    shouldShowOrganization ? { label: "ORG", value: organization ?? "" } : null,
+    item.location ? { label: "LOC", value: item.location } : null,
+    { label: "TYPE", value: item.type },
+  ].filter(Boolean) as { label: string; value: string }[];
 
   return (
     <article className="relative border border-white/5 bg-[#08090d]/75 p-5 rounded-sm transition-all duration-300 hover:border-neon-lime/20 hover:bg-black/70">
@@ -63,6 +72,32 @@ export default function RoadmapItem({ item, index }: RoadmapItemProps) {
             </span>
           </div>
         </div>
+
+        {metadataItems.length > 0 && (
+          <dl className="grid grid-cols-1 gap-2 rounded-sm border border-white/5 bg-black/35 p-3 font-mono text-[11px] uppercase text-gray-300 sm:grid-cols-2">
+            {metadataItems.map((metadata) => (
+              <div key={metadata.label} className="flex min-w-0 flex-wrap items-center gap-1.5">
+                <dt className="font-black tracking-widest text-neon-lime">{metadata.label}:</dt>
+                <dd className="min-w-0 font-bold tracking-wider text-gray-200">
+                  {metadata.label === "ORG" && organizationUrl ? (
+                    <a
+                      href={organizationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Visit ${metadata.value} website`}
+                      className="inline-flex items-center gap-1 text-neon-blue transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+                    >
+                      <span className="break-words">{metadata.value}</span>
+                      <ArrowUpRight className="h-3 w-3 shrink-0" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <span className="break-words">{metadata.value}</span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         {item.description && (
           <p className="border-l border-neon-lime/15 pl-3 text-sm leading-relaxed text-gray-300">

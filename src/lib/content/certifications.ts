@@ -12,8 +12,10 @@ export interface Certification {
   skills: string[];
 }
 
-// Place real certificate files in public/pdf/ and preview images in public/webp/.
-// Public URLs in data should start with /pdf/ or /webp/.
+// Place certificate PDFs in public/certificates/.
+// Example: public/certificates/apprenticeship-certificate.pdf
+// Public PDF URLs should start with /certificates/.
+// Preview images can continue to live in public/webp/.
 export const certifications: Certification[] = [
   {
     id: "CERT-081-PRWLR",
@@ -22,7 +24,7 @@ export const certifications: Certification[] = [
     issuedAt: "2024",
     category: "FRONTEND",
     status: "COMPLETED",
-    certificateFile: "/pdf/frontend_certificate_by_univelcity.pdf",
+    certificateFile: "/certificates/frontend_certificate_by_univelcity.pdf",
     certificateImage: "/webp/frontend_certificate_by_univelcity.webp",
     description: "In-depth specialization covering React Server Components, hydration protocols, low-overhead state routing pipelines, and static generation caching dynamics.",
     skills: ["React Server Components", "Next.js App Router", "Dynamic Caching", "SSR Engines"],
@@ -34,7 +36,7 @@ export const certifications: Certification[] = [
     issuedAt: "2025",
     category: "FRONTEND",
     status: "COMPLETED",
-    certificateFile: "/pdf/junior_frontend_mentorled.pdf",
+    certificateFile: "/certificates/junior_frontend_mentorled.pdf",
     certificateImage: "/webp/junior_frontend_mentorled.webp",
     description: "Certification in layouts, semantic accessibility models, touch-target thresholds, fluid layouts, and cross-browser screen compatibility ratios.",
     skills: ["HTML5 Semantic Node", "CSS Grid & Flexbox", "WAI-ARIA Guidelines", "Responsive Viewports"],
@@ -46,7 +48,7 @@ export const certifications: Certification[] = [
     issuedAt: "2024",
     category: "BACKEND",
     status: "VERIFIED",
-    certificateFile: "/pdf/backend_certificate_by_univelcity.pdf",
+    certificateFile: "/certificates/backend_certificate_by_univelcity.pdf",
     certificateImage: "/webp/backend_certificate_by_univelcity.webp",
     description: "Covers SQL transactions, table modeling index policies, row-level safety rules with server auth setups, and low-latency API proxy routes.",
     skills: ["SQL Data Modeling", "Supabase Row Safety", "API Design", "PostgreSQL Indexes"],

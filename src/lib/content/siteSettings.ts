@@ -18,6 +18,8 @@ export interface SiteSettings {
   footerLinks: FooterLink[];
 }
 
+// Future idea: add a static Discord-style presence card or optional Lanyard-powered presence widget.
+// Do not add real Discord RPC to the public portfolio without a clear need.
 export const siteSettings: SiteSettings = {
   githubUrl: "https://github.com/byteprowler",
   linkedinUrl: "https://linkedin.com/in/ogo-joshua",

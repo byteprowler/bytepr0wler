@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { profile } from "@/lib/profile";
 import { siteSettings } from "@/lib/content/siteSettings";
+import ResumeProtocol from "@/components/ui/ResumeProtocol";
 
 export default function Footer() {
+  const [isResumeProtocolOpen, setIsResumeProtocolOpen] = useState(false);
+
   return (
     <footer className="w-full max-w-7xl mx-auto px-4 md:px-8 py-5 border-t border-neon-lime/10 text-xs font-mono text-gray-300">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -26,6 +30,14 @@ export default function Footer() {
             <a
               key={link.label}
               href={link.href}
+              target={link.label === "EMAIL" ? undefined : "_blank"}
+              rel={link.label === "EMAIL" ? undefined : "noopener noreferrer"}
+              onClick={(event) => {
+                if (link.label === "RESUME") {
+                  event.preventDefault();
+                  setIsResumeProtocolOpen(true);
+                }
+              }}
               className="rounded-sm border border-white/5 bg-white/3 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-300 transition hover:border-neon-lime/25 hover:text-neon-lime focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-lime focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
             >
               {link.label}
@@ -34,7 +46,14 @@ export default function Footer() {
         </nav>
       </div>
 
-      {/* Place the real resume file at public/pdf/resume.pdf when ready. */}
+      <ResumeProtocol
+        isOpen={isResumeProtocolOpen}
+        onClose={() => setIsResumeProtocolOpen(false)}
+        source="footer"
+        fallbackResumeUrl={siteSettings.resumeUrl}
+      />
+
+      {/* Place the real resume file at public/resumes/ when ready. */}
     </footer>
   );
 }

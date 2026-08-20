@@ -4,10 +4,13 @@ import { ArrowRight, FileText, Radio } from "lucide-react";
 import { profile } from "../../lib/profile";
 import { getDevUptimeStats } from "../../lib/devStats";
 import OperatorStatusPanel from "../ui/OperatorStatusPanel";
+import ResumeProtocol from "../ui/ResumeProtocol";
+import GlitchBrandTitle from "../ui/GlitchBrandTitle";
 
 
 export default function Hero() {
   const [typedTagline, setTypedTagline] = useState("");
+  const [isResumeProtocolOpen, setIsResumeProtocolOpen] = useState(false);
 
   const taglineText = profile.tagline;
   const devStats = getDevUptimeStats();
@@ -73,14 +76,7 @@ export default function Hero() {
 
             {/* Giant Branding Heading */}
             <div className="flex flex-col gap-1">
-              <motion.h1
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="text-5xl sm:text-7xl lg:text-8xl font-black font-sans leading-none tracking-tight uppercase text-neon-lime neon-glow-lime title-glitch flex flex-col"
-              >
-                BYTEPROWLER
-              </motion.h1>
+              <GlitchBrandTitle />
 
               {/* Built by Real Name label */}
               <motion.div
@@ -202,15 +198,18 @@ export default function Hero() {
               <span>INITIALIZE UPLINK</span>
             </a>
 
-            {/* Place the real resume file at public/resume.pdf when ready. */}
-            <a
-              href={profile.resumeUrl}
+            <button
+              type="button"
+              onClick={() => setIsResumeProtocolOpen(true)}
               className="px-5 py-3.5 bg-black/70 hover:bg-white/5 border border-white/10 hover:border-neon-blue/35 text-neon-blue font-mono text-sm font-bold uppercase tracking-wider rounded-sm flex items-center gap-2 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
-              aria-label="Access resume placeholder"
+              aria-label="Open role-based resume protocol"
             >
               <FileText className="w-4 h-4 text-neon-blue" />
               <span>ACCESS_RESUME</span>
-            </a>
+            </button>
+            <noscript>
+              <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">ACCESS_RESUME</a>
+            </noscript>
           </motion.div>
 
         </div>
@@ -222,6 +221,12 @@ export default function Hero() {
 
       </div>
 
+      <ResumeProtocol
+        isOpen={isResumeProtocolOpen}
+        onClose={() => setIsResumeProtocolOpen(false)}
+        source="hero"
+        fallbackResumeUrl={profile.resumeUrl}
+      />
     </section>
   );
 }

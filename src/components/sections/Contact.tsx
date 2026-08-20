@@ -18,6 +18,7 @@ import { siteSettings } from "../../lib/content/siteSettings";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Textarea from "../ui/Textarea";
+import ResumeProtocol from "../ui/ResumeProtocol";
 
 interface FormData {
   name: string;
@@ -60,6 +61,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeConsoleLog, setActiveConsoleLog] = useState<string>("[SYS_READY] Ready to transmit secure uplink session.");
+  const [isResumeProtocolOpen, setIsResumeProtocolOpen] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -389,7 +391,7 @@ export default function Contact() {
                   href={siteSettings.githubUrl}
                   target="_blank"
                   referrerPolicy="no-referrer"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="p-3 border border-white/5 bg-black/40 hover:bg-neon-lime/5 hover:border-neon-lime/30 rounded-xs flex items-center justify-between group/port transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-lime focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
                 >
                   <div className="flex items-center gap-2">
@@ -407,7 +409,7 @@ export default function Contact() {
                   href={siteSettings.linkedinUrl}
                   target="_blank"
                   referrerPolicy="no-referrer"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="p-3 border border-white/5 bg-black/40 hover:bg-neon-blue/5 hover:border-neon-blue/30 rounded-xs flex items-center justify-between group/port transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
                 >
                   <div className="flex items-center gap-2">
@@ -437,12 +439,15 @@ export default function Contact() {
 
                 {/* Port 22: Resume/System Documentation */}
                 <a
-                  href="pdf/resume.pdf"
+                  href={siteSettings.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={(e) => {
                     e.preventDefault();
-                    setActiveConsoleLog("[RESTRICTED] Credentials logs are currently encrypted under training buffers.");
+                    setIsResumeProtocolOpen(true);
+                    setActiveConsoleLog("[RESUME_PROTOCOL] Role-based resume packet router initialized.");
                   }}
-                  className="p-3 border border-white/5 bg-black/40 hover:bg-neon-green/5 hover:border-neon-green/30 rounded-xs flex items-center justify-between group/port transition-all duration-300 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-green focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+                  className="p-3 border border-white/5 bg-black/40 hover:bg-neon-green/5 hover:border-neon-green/30 rounded-xs flex items-center justify-between group/port transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-green focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
                 >
                   <div className="flex items-center gap-2">
                     <FileText className="w-4 h-4 text-neon-green group-hover/port:scale-110 duration-200" />
@@ -463,6 +468,12 @@ export default function Contact() {
 
       </div>
 
+      <ResumeProtocol
+        isOpen={isResumeProtocolOpen}
+        onClose={() => setIsResumeProtocolOpen(false)}
+        source="contact"
+        fallbackResumeUrl={siteSettings.resumeUrl}
+      />
     </section>
   );
 }
