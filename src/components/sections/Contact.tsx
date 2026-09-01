@@ -361,8 +361,8 @@ export default function Contact() {
                 <span className="text-white font-bold block uppercase border-b border-white/5 pb-1 mb-1.5 tracking-wider">
                   ENCRYPTION ALIGNED
                 </span>
-                Establishing links preserves complete confidentiality. Raw messaging payloads are validated prior to 
-                relaying securely to external storage databases.
+                Messages are validated before transmission. Contact details stay focused on the reply flow,
+                not public analytics or exposed client-side secrets.
               </div>
 
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Activity, Cpu, Menu, RefreshCw, Terminal, X } from "lucide-react";
@@ -30,12 +31,13 @@ export default function Navbar() {
           closeMobileMenu();
         }
       }}
-      className="fixed inset-x-0 top-0 z-[90] mx-auto flex w-full max-w-7xl items-center justify-between gap-3 overflow-visible border-b border-neon-lime/15 bg-obsidian/95 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-md supports-[backdrop-filter]:bg-obsidian/85 md:px-8"
+      className="fixed inset-x-0 top-0 z-90 mx-auto flex w-full max-w-7xl items-center justify-between gap-3 overflow-visible border-b border-neon-lime/15 bg-obsidian/95 px-4 py-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-md supports-backdrop-filter:bg-obsidian/85 md:px-8"
     >
       {/* Brand Logo and Status */}
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
         <div className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-black border border-neon-lime/30 text-neon-lime shadow-glow-lime/40 shrink-0">
-          <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-lime" />
+          {/* <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-lime" /> */}
+          <img src="/svg/byteprowler.svg" alt="ByteProwler Logo" loading="lazy" className="h-full w-full object-fit" />
           <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-neon-green"></div>
         </div>
         <div className="flex flex-col">

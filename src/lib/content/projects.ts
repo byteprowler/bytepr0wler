@@ -3,11 +3,13 @@ export interface ProjectVersion {
   title: string;
   description: string;
   liveUrl?: string;
+  host?: string;
   status: string;
 }
 
 export type ProjectStatus = "COMPLETE" | "PROTOTYPE" | "ACTIVE_DEV";
-export type RepoVisibility = "PUBLIC" | "PRIVATE" | "RESTRICTED";
+export type RepoVisibility = "public" | "private" | "unavailable";
+export type ProjectCategory = "featured" | "client" | "freelance" | "learning" | "fun" | "lab";
 
 export interface Project {
   slug: string;
@@ -25,9 +27,23 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   repoVisibility?: RepoVisibility;
+  githubOwner?: string;
+  githubRepo?: string;
+  useGithubMetadata?: boolean;
+  preferGithubDescription?: boolean;
+  category?: ProjectCategory;
+  isFeatured?: boolean;
+  showOnHome?: boolean;
   highlights: string[];
   currentVersion?: string;
   versions?: ProjectVersion[];
+}
+
+export function getHomepageProjects(limit = 6): Project[] {
+  return [...projects]
+    .filter((project) => project.showOnHome !== false)
+    .sort((a, b) => Number(Boolean(b.isFeatured)) - Number(Boolean(a.isFeatured)))
+    .slice(0, limit);
 }
 
 export const projects: Project[] = [
@@ -39,12 +55,15 @@ export const projects: Project[] = [
     stack: ["TypeScript", "React", "Tailwind CSS", "motion.dev", "Supabase"],
     type: "Portfolio Revamp",
     status: "ACTIVE_DEV",
-    role: "Lead Architect",
+    role: "Frontend Developer",
     year: "2026",
+    category: "featured",
+    isFeatured: true,
+    showOnHome: true,
     currentVersion: "v2",
     githubUrl: "https://github.com/byteprowler/bytepr0wler",
     liveUrl: "https://byteprowler.vercel.app",
-    repoVisibility: "PRIVATE",
+    repoVisibility: "private",
     highlights: [
       "Evolved from a basic personal portfolio into a branded Byteprowler revamp.",
       "Added terminal-inspired sections for projects, certifications, roadmap, anime feed, contact, and view count.",
@@ -55,13 +74,15 @@ export const projects: Project[] = [
         label: "v1",
         title: "Initial Portfolio",
         description: "A basic personal portfolio with earlier design and structure, created as the foundation for a public developer presence.",
-        liveUrl: "https://byteprowler.netlify.com",
+        host: "Netlify",
+        liveUrl: "PASTE_NETLIFY_V1_LINK_HERE",
         status: "Archived",
       },
       {
         label: "v2",
         title: "Byteprowler Revamp",
         description: "The current hacker/terminal interface with improved branding, responsiveness, architecture, projects, certifications, roadmap, anime feed, contact flow, and view count.",
+        host: "Vercel",
         liveUrl: "https://byteprowler.vercel.app",
         status: "Active",
       },
@@ -77,7 +98,9 @@ export const projects: Project[] = [
     status: "PROTOTYPE",
     role: "Frontend Developer",
     year: "2026",
-    repoVisibility: "PRIVATE",
+    category: "lab",
+    showOnHome: true,
+    repoVisibility: "private",
     highlights: [
       "Built the core wheel-based giveaway draw interface for the MVP stage.",
       "Explored a livestream-first fairness model where OBS could broadcast draw sessions and winner selection.",
@@ -93,16 +116,20 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "quickgas-admin-portal",    title: "Quickgas Admin Portal",
+    slug: "quickgas-admin-portal",
+    title: "Quickgas Admin Portal",
     description: "High-performance fleet management console with real-time route tracing and delivery telemetry visualization.",
-    longDescription: "A specialized fleet dashboard solution engineered to provide low-latency tracking of delivery trucks and secure transaction audit trails. Leverages responsive CSS meshes to render complex high-density tabular records beautifully on desktop and mobile viewports alike.",
+    longDescription: "A specialized fleet dashboard prototype designed for delivery tracking, transaction audit trails, and dense operational records. Uses responsive interface patterns to keep complex table and dashboard views readable across desktop and mobile viewports.",
     stack: ["React", "TypeScript", "Tailwind CSS", "D3.js", "Express", "PostgreSQL"],
     type: "Commercial SaaS",
     status: "PROTOTYPE",
     role: "Junior Frontend Engineer",
     year: "2025",
+    category: "client",
+    isFeatured: true,
+    showOnHome: true,
     githubUrl: "https://github.com/byteprowler/quickgas-portal",
-    repoVisibility: "PRIVATE",
+    repoVisibility: "private",
     highlights: [
       "Reduced render loop overhead during real-time map canvas route alterations by 42%.",
       "Seamless layout density management scaling custom spreadsheet boards from 1920px down to touch targets.",
@@ -119,9 +146,15 @@ export const projects: Project[] = [
     status: "COMPLETE",
     role: "UI Designer & Developer",
     year: "2024",
+    category: "featured",
+    isFeatured: true,
+    showOnHome: true,
     githubUrl: "https://github.com/byteprowler/scholarswipe",
+    githubOwner: "byteprowler",
+    githubRepo: "scholarswipe",
+    useGithubMetadata: true,
     liveUrl: "https://scholarswipe.edu",
-    repoVisibility: "PUBLIC",
+    repoVisibility: "public",
     highlights: [
       "Pioneered responsive touch-canvas gestures with physics inertia fallback for standard browsers.",
       "Maintained full conformance to WAI-ARIA WCAG level AA accessibility standards for form nodes.",
@@ -136,9 +169,35 @@ export const projects: Project[] = [
     stack: ["TypeScript", "React", "CSS Modules", "Vite", "Figma"],
     type: "Client Refactor",
     status: "COMPLETE",
-    role: "Consultant Architect",
+    role: "Frontend UI Consultant",
     year: "2024",
-    repoVisibility: "PRIVATE",
+    category: "client",
+    showOnHome: true,
+    repoVisibility: "private",
+    highlights: [
+      "Increased user booking completion rates by 18% through simplified timezone visual selector rails.",
+      "Architected clean custom-styled scheduling grid component with modular styling properties.",
+      "Implemented responsive calendar drawers and slide-outs utilizing lightweight entrance transitions.",
+    ],
+  },
+  {
+    slug: "jlpowertools",
+    title: "JL PowerTools",
+    description: "A suite of productivity tools for developers and designers.",
+    longDescription: "A comprehensive set of utilities designed to streamline development workflows and enhance creative processes. Built with a focus on performance and usability.",
+    stack: ["TypeScript", "React", "CSS Modules", "Vite", "Figma"],
+    type: "Client Refactor",
+    status: "COMPLETE",
+    role: "Frontend UI Consultant",
+    year: "2025",
+    category: "client",
+    showOnHome: true,
+    githubOwner: "byteprowler",
+    githubRepo: "https://github.com/byteprowler/jlpowertools",
+    useGithubMetadata: true,
+    preferGithubDescription: true,
+    liveUrl: "https://jlpowertools.biz",
+    repoVisibility: "private",
     highlights: [
       "Increased user booking completion rates by 18% through simplified timezone visual selector rails.",
       "Architected clean custom-styled scheduling grid component with modular styling properties.",
@@ -155,8 +214,13 @@ export const projects: Project[] = [
     status: "ACTIVE_DEV",
     role: "Front-End Lead",
     year: "2025",
+    category: "fun",
+    showOnHome: true,
     githubUrl: "https://github.com/byteprowler/anime-hub",
-    repoVisibility: "PUBLIC",
+    githubOwner: "byteprowler",
+    githubRepo: "anime-hub",
+    useGithubMetadata: true,
+    repoVisibility: "public",
     highlights: [
       "Designed dynamic card hover overlays styled with custom neon glowing borders.",
       "Engineered smart debounce query listeners on client input nodes preventing API rate threshold blocks.",

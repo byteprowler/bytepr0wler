@@ -56,9 +56,8 @@ export default function Certifications() {
                             PUBLIC DEPLOYMENT TRUST PROTOCOL
                         </span>
                         <span className="mt-0.5 font-mono text-[11px] leading-relaxed text-gray-400">
-                            Certificate records compiled from authorized test simulation parameters. No confidential authorization numbers,
-                            private hashes, or raw signature arrays are emitted. Verification queries can be trace-requested directly
-                            through active network backplanes.
+                            Certificate records link to public files or credential pages when available. Private identifiers stay out of
+                            the interface, and verification details can be requested directly through the contact flow.
                         </span>
                     </div>
                 </div>

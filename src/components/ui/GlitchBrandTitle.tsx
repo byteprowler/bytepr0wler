@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 const BRAND_ENGLISH = "BYTEPROWLER";
 const BRAND_KATAKANA = "\u30d0\u30a4\u30c8\u30d7\u30ed\u30a6\u30e9\u30fc";
 const GLITCH_DURATION_MS = 1000;
-const SWITCH_INTERVAL_MS = 1200;
+const SWITCH_INTERVAL_MS = 15000;
 
 export default function GlitchBrandTitle() {
   const shouldReduceMotion = useReducedMotion();

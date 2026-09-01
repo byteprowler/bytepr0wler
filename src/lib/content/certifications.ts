@@ -50,7 +50,7 @@ export const certifications: Certification[] = [
     status: "VERIFIED",
     certificateFile: "/certificates/backend_certificate_by_univelcity.pdf",
     certificateImage: "/webp/backend_certificate_by_univelcity.webp",
-    description: "Covers SQL transactions, table modeling index policies, row-level safety rules with server auth setups, and low-latency API proxy routes.",
+    description: "Covers SQL transactions, table modeling, index policies, row-level safety rules, server auth setups, and API proxy routes.",
     skills: ["SQL Data Modeling", "Supabase Row Safety", "API Design", "PostgreSQL Indexes"],
   },
 ];

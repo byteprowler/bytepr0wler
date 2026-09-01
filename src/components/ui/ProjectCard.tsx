@@ -1,13 +1,29 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, Github, FolderClosed, ExternalLink } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowUpRight, Code2, ExternalLink, FolderClosed, Github, GitFork, Star } from "lucide-react";
 import { Project } from "../../lib/projects";
+import { fetchGithubRepoMetadata } from "../../lib/github";
 
 interface ProjectCardProps {
     project: Project;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+    const isPublicRepo = project.repoVisibility === "public";
+    const canFetchGithub =
+        project.useGithubMetadata === true &&
+        isPublicRepo &&
+        Boolean(project.githubOwner) &&
+        Boolean(project.githubRepo);
+    const { data: githubSignal, isLoading: isGithubLoading } = useQuery({
+        queryKey: ["githubRepo", project.githubOwner, project.githubRepo],
+        queryFn: () => fetchGithubRepoMetadata(project.githubOwner || "", project.githubRepo || ""),
+        enabled: canFetchGithub,
+        staleTime: 1000 * 60 * 60,
+    });
+    const githubRepo = githubSignal?.repo;
+    const githubHref = isPublicRepo ? githubRepo?.url || project.githubUrl : undefined;
     const statusColors = {
         COMPLETE: "bg-neon-green/10 text-neon-green border-neon-green/30",
         PROTOTYPE: "bg-neon-blue/10 text-neon-blue border-neon-blue/30",
@@ -67,6 +83,38 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </span>
                     )}
                 </div>
+
+                <div className="mt-4 rounded-sm border border-white/5 bg-black/35 px-3 py-2 font-mono text-[10.5px] uppercase tracking-wider text-gray-300">
+                    {canFetchGithub ? (
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <span className="font-black text-neon-blue">
+                                GITHUB_SIGNAL: {isGithubLoading ? "SYNCING" : githubSignal?.ok ? "ONLINE" : "OFFLINE"}
+                            </span>
+                            {githubRepo?.stars !== undefined && (
+                                <span className="inline-flex items-center gap-1">
+                                    <Star className="h-3 w-3 text-neon-lime" aria-hidden="true" />
+                                    STARS: {githubRepo.stars}
+                                </span>
+                            )}
+                            {githubRepo?.forks !== undefined && (
+                                <span className="inline-flex items-center gap-1">
+                                    <GitFork className="h-3 w-3 text-neon-purple" aria-hidden="true" />
+                                    FORKS: {githubRepo.forks}
+                                </span>
+                            )}
+                            {githubRepo?.language && (
+                                <span className="inline-flex items-center gap-1 text-gray-200">
+                                    <Code2 className="h-3 w-3 text-neon-blue" aria-hidden="true" />
+                                    {githubRepo.language}
+                                </span>
+                            )}
+                        </div>
+                    ) : (
+                        <span className={project.repoVisibility === "private" ? "font-black text-neon-purple" : "font-black text-gray-400"}>
+                            SOURCE: {project.repoVisibility === "private" ? "PRIVATE" : "UNAVAILABLE"}
+                        </span>
+                    )}
+                </div>
             </div>
 
             {/* Footer Interface Actions */}
@@ -82,16 +130,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
                 {/* Outer Links (Optional) */}
                 <div className="flex items-center gap-3">
-                    {project.githubUrl && (
+                    {githubHref && (
                         <a
-                            href={project.githubUrl}
+                            href={githubHref}
                             target="_blank"
                             referrerPolicy="no-referrer"
                             rel="noopener noreferrer"
                             title="View Repository On GitHub"
+                            aria-label={`View ${project.title} repository on GitHub`}
                             className="text-gray-300 hover:text-neon-blue transition-colors duration-200"
                         >
                             <Github className="w-4 h-4" />
+                            <span className="sr-only">View GitHub repository</span>
                         </a>
                     )}
                     {project.liveUrl && (
@@ -101,9 +151,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             referrerPolicy="no-referrer"
                             rel="noopener noreferrer"
                             title="Launch Application Node"
+                            aria-label={`Launch ${project.title} live project`}
                             className="text-gray-300 hover:text-neon-green transition-colors duration-200"
                         >
                             <ExternalLink className="w-4 h-4" />
+                            <span className="sr-only">Launch live project</span>
                         </a>
                     )}
                 </div>

@@ -1,8 +1,10 @@
 import React from "react";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import Link from "next/link";
-import { ArrowLeft, Github, ExternalLink, Calendar, User, Shield, CheckCircle, Flame } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Github, ExternalLink, Calendar, User, Shield, CheckCircle, Flame, Code2, GitFork, Star } from "lucide-react";
 import { getProjectBySlug, projects } from "../../lib/projects";
+import { fetchGithubRepoMetadata } from "../../lib/github";
 import Layout from "../../components/layout/Layout";
 import SEO from "../../components/seo/SEO";
 
@@ -19,6 +21,19 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
   );
 
   const project = currentSlug ? getProjectBySlug(currentSlug) : undefined;
+  const canFetchGithub =
+    project?.useGithubMetadata === true &&
+    project.repoVisibility === "public" &&
+    Boolean(project.githubOwner) &&
+    Boolean(project.githubRepo);
+  const { data: githubSignal, isLoading: isGithubLoading } = useQuery({
+    queryKey: ["githubRepo", project?.githubOwner, project?.githubRepo],
+    queryFn: () => fetchGithubRepoMetadata(project?.githubOwner || "", project?.githubRepo || ""),
+    enabled: canFetchGithub,
+    staleTime: 1000 * 60 * 60,
+  });
+  const githubRepo = githubSignal?.repo;
+  const githubHref = project?.repoVisibility === "public" ? githubRepo?.url || project.githubUrl : undefined;
 
   // Handle standard dynamic fallback search / 404
   if (!project) {
@@ -156,7 +171,9 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                       className="border border-white/5 bg-[#08090d]/70 p-4 rounded-sm flex flex-col gap-2"
                     >
                       <div className="flex items-center justify-between gap-3 font-mono text-[11px] uppercase">
-                        <span className="text-neon-blue font-black tracking-widest">{version.label}</span>
+                        <span className="text-neon-blue font-black tracking-widest">
+                          {version.host ? `${version.label} — ${version.host}` : version.label}
+                        </span>
                         <span className="rounded-sm border border-white/10 bg-black/40 px-2 py-0.5 text-gray-300">
                           {version.status}
                         </span>
@@ -173,7 +190,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           referrerPolicy="no-referrer"
-                          aria-label={`View ${version.label} Portfolio`}
+                          aria-label={`View ${version.label}${version.host ? ` on ${version.host}` : ""} Portfolio`}
                           className="mt-2 inline-flex min-h-10 items-center justify-center rounded-sm border border-neon-blue/20 bg-neon-blue/5 px-3 py-2 font-mono text-[11px] font-black uppercase tracking-wider text-neon-blue transition hover:border-neon-blue/40 hover:bg-neon-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
                         >
                           {`View ${version.label} Portfolio`}
@@ -226,6 +243,57 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
                   </span>
                 </div>
 
+                <div className="flex justify-between items-center gap-3 py-1.5 border-b border-white/5">
+                  <span className="text-gray-300 font-bold uppercase flex items-center gap-1.5 font-mono">
+                    <Github className="w-3.5 h-3.5" /> SOURCE
+                  </span>
+                  <span className={`font-bold text-[11px] uppercase ${project.repoVisibility === "public" ? "text-neon-blue" : project.repoVisibility === "private" ? "text-neon-purple" : "text-gray-300"}`}>
+                    {project.repoVisibility === "public" ? "PUBLIC" : project.repoVisibility === "private" ? "PRIVATE" : "UNAVAILABLE"}
+                  </span>
+                </div>
+
+              </div>
+
+              <div className="rounded-sm border border-white/5 bg-black/35 p-3 font-mono text-[11px] uppercase tracking-wider text-gray-300">
+                <div className="mb-2 font-black text-neon-blue">REPOSITORY_SIGNAL</div>
+                {canFetchGithub ? (
+                  <div className="flex flex-col gap-2">
+                    <span className={githubSignal?.ok ? "font-black text-neon-green" : "font-black text-neon-purple"}>
+                      GITHUB_SIGNAL: {isGithubLoading ? "SYNCING" : githubSignal?.ok ? "ONLINE" : "OFFLINE"}
+                    </span>
+                    {githubRepo && (
+                      <>
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                          <span className="inline-flex items-center gap-1">
+                            <Star className="h-3.5 w-3.5 text-neon-lime" aria-hidden="true" />
+                            STARS: {githubRepo.stars ?? 0}
+                          </span>
+                          <span className="inline-flex items-center gap-1">
+                            <GitFork className="h-3.5 w-3.5 text-neon-purple" aria-hidden="true" />
+                            FORKS: {githubRepo.forks ?? 0}
+                          </span>
+                          <span className="inline-flex items-center gap-1">
+                            <Code2 className="h-3.5 w-3.5 text-neon-blue" aria-hidden="true" />
+                            {githubRepo.language || "LANG_UNKNOWN"}
+                          </span>
+                        </div>
+                        {githubRepo.topics && githubRepo.topics.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {githubRepo.topics.map((topic) => (
+                              <span key={topic} className="rounded-sm border border-white/10 bg-white/3 px-1.5 py-0.5 text-[10px] text-gray-300">
+                                #{topic}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <span className={project.repoVisibility === "private" ? "font-black text-neon-purple" : "font-black text-gray-400"}>
+                    {project.repoVisibility === "private" ? "SOURCE: PRIVATE" : "SOURCE: UNAVAILABLE"}
+                  </span>
+                )}
               </div>
 
               {/* Tech Stack specs list */}
@@ -247,9 +315,9 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
 
               {/* Action buttons list */}
               <div className="flex flex-col gap-2 mt-4">
-                {project.githubUrl && (
+                {githubHref && (
                   <a
-                    href={project.githubUrl}
+                    href={githubHref}
                     target="_blank"
                     referrerPolicy="no-referrer"
                     rel="noopener noreferrer"

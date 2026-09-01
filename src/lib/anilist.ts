@@ -5,6 +5,7 @@ export interface AniListAnime {
     english: string | null;
   };
   coverImage: {
+    medium?: string;
     large: string;
   };
   bannerImage: string | null;
@@ -79,14 +80,17 @@ export const fallbackAnimeList: AniListAnime[] = [
 const ANILIST_API_URL = "https://graphql.anilist.co";
 
 const GET_USER_FAVOURITES_QUERY = `
-  query ($username: String) {
+  query ($username: String!, $page: Int!, $perPage: Int!) {
     User (name: $username) {
       favourites {
-        anime (page: 1, perPage: 12) {
+        anime (page: $page, perPage: $perPage) {
+          pageInfo {
+            hasNextPage
+          }
           nodes {
             id
             title { romaji english }
-            coverImage { large }
+            coverImage { medium large }
             bannerImage
             averageScore
             episodes
@@ -99,6 +103,9 @@ const GET_USER_FAVOURITES_QUERY = `
     }
   }
 `;
+
+const FAVORITES_PER_PAGE = 25;
+const MAX_FAVORITES_PAGES = 10;
 
 const GET_USER_ID_QUERY = `
   query ($username: String!) {
@@ -199,16 +206,41 @@ function normalizeActivity(node: AniListActivityNode): AniListActivityItem | nul
 }
 
 export async function fetchFavoriteAnime(username: string): Promise<AniListAnime[]> {
-  if (!username || username.trim() === "") {
+  const cleanUsername = username.trim();
+  if (!cleanUsername) {
     return [];
   }
 
-  const data = await requestAniList<{
-    User?: { favourites?: { anime?: { nodes?: AniListAnime[] } } };
-  }>(GET_USER_FAVOURITES_QUERY, { username });
+  const favorites: AniListAnime[] = [];
 
-  const nodes = data?.User?.favourites?.anime?.nodes;
-  return Array.isArray(nodes) ? nodes : [];
+  for (let page = 1; page <= MAX_FAVORITES_PAGES; page += 1) {
+    const data = await requestAniList<{
+      User?: {
+        favourites?: {
+          anime?: {
+            pageInfo?: { hasNextPage?: boolean };
+            nodes?: AniListAnime[];
+          };
+        };
+      };
+    }>(GET_USER_FAVOURITES_QUERY, {
+      username: cleanUsername,
+      page,
+      perPage: FAVORITES_PER_PAGE,
+    });
+
+    const animePage = data?.User?.favourites?.anime;
+    const nodes = animePage?.nodes;
+    if (Array.isArray(nodes)) {
+      favorites.push(...nodes);
+    }
+
+    if (!animePage?.pageInfo?.hasNextPage) {
+      break;
+    }
+  }
+
+  return favorites;
 }
 
 export const fetchUserFavourites = fetchFavoriteAnime;

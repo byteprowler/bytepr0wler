@@ -1,2 +1,2 @@
-export { getProjectBySlug, projects } from "./content/projects";
-export type { Project, ProjectStatus, ProjectVersion, RepoVisibility } from "./content/projects";
+export { getHomepageProjects, getProjectBySlug, projects } from "./content/projects";
+export type { Project, ProjectCategory, ProjectStatus, ProjectVersion, RepoVisibility } from "./content/projects";

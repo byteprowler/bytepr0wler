@@ -15,6 +15,7 @@ export interface SiteSettings {
   resumeUrl: string;
   anilistUsername?: string;
   lastfmUsername?: string;
+  discordUserId?: string;
   footerLinks: FooterLink[];
 }
 
@@ -29,7 +30,8 @@ export const siteSettings: SiteSettings = {
   supportStatus: "COMMENTED_OUT",
   resumeUrl: profile.resumeUrl,
   anilistUsername: process.env.NEXT_PUBLIC_ANILIST_USERNAME,
-  lastfmUsername: process.env.LASTFM_USERNAME,
+  lastfmUsername: undefined,
+  discordUserId: process.env.NEXT_PUBLIC_DISCORD_USER_ID,
   footerLinks: [
     { label: "GITHUB", href: "https://github.com/byteprowler" },
     { label: "LINKEDIN", href: "https://linkedin.com/in/ogo-joshua" },

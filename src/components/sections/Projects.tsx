@@ -1,9 +1,13 @@
 import React from "react";
+import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
 import ProjectCard from "../ui/ProjectCard";
-import { projects } from "../../lib/projects";
+import { getHomepageProjects, projects } from "../../lib/projects";
 
 export default function Projects() {
+    const homepageProjects = getHomepageProjects(6);
+    const hiddenProjectCount = Math.max(projects.length - homepageProjects.length, 0);
+
     return (
         <section id="projects" className="py-12 md:py-24 border-t border-neon-lime/5 scroll-mt-20">
 
@@ -30,9 +34,26 @@ export default function Projects() {
 
                 {/* Project Card Responsive Grid layout */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
+                    {homepageProjects.map((project) => (
                         <ProjectCard key={project.slug} project={project} />
                     ))}
+                </div>
+
+                <div className="flex flex-col items-start justify-between gap-4 rounded-sm border border-neon-blue/15 bg-neon-blue/5 p-4 font-mono text-xs text-gray-300 sm:flex-row sm:items-center">
+                    <div className="flex flex-col gap-1">
+                        <span className="font-black uppercase tracking-widest text-neon-blue">PROJECT_ARCHIVE_READY</span>
+                        <span className="uppercase">
+                            {hiddenProjectCount > 0
+                                ? `${hiddenProjectCount} additional project signal${hiddenProjectCount === 1 ? "" : "s"} stored outside the homepage.`
+                                : "Full project archive available for deeper inspection."}
+                        </span>
+                    </div>
+                    <Link
+                        href="/projects"
+                        className="inline-flex min-h-10 items-center justify-center rounded-sm border border-neon-blue/30 bg-black/50 px-4 py-2 font-mono text-[11px] font-black uppercase tracking-widest text-neon-blue transition hover:border-neon-blue hover:bg-neon-blue/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-obsidian"
+                    >
+                        ACCESS_PROJECT_ARCHIVE
+                    </Link>
                 </div>
 
                 {/* Dynamic warning system stats bottom disclaimer */}

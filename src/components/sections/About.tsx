@@ -9,20 +9,20 @@ export default function About() {
     { label: "BRAND_IDENTIFIER", val: profile.brandName },
     { label: "OPERATOR_IDENTITY", val: profile.realName },
     { label: "CORE_FOCUS", val: profile.classTag },
-    { label: "STABILITY_INDEX", val: "99.98% COMPILE_RATE" },
+    { label: "BUILD_STYLE", val: "ACCESSIBLE_RESPONSIVE_UI" },
     { label: "ACTIVE_COORDINATE", val: profile.location },
   ];
 
   const parameters = [
     {
       icon: <Brain className="w-5 h-5 text-neon-lime" />,
-      title: "PRECISE FRONTEND ARCHITECTURE",
-      desc: "Delivering modular, scalable, and responsive view layers with clear component boundaries, strong hierarchy, and interaction details that keep interfaces feeling fast.",
+      title: "CLEAN FRONTEND SYSTEMS",
+      desc: "Building modular, responsive view layers with clear component boundaries, strong hierarchy, and interaction details that keep interfaces easy to use.",
     },
     {
       icon: <Cpu className="w-5 h-5 text-neon-blue" />,
       title: "PERFORMANCE AS THE PRIORITY",
-      desc: "Every millisecond counts. Prioritizing lean bundles, lazy loading, and low-latency client integrations to build robust frontend experiences.",
+      desc: "Prioritizing lean bundles, lazy loading, and careful client integrations so interfaces stay fast without becoming fragile.",
     },
     {
       icon: <Layers className="w-5 h-5 text-neon-purple" />,
@@ -75,7 +75,7 @@ export default function About() {
                     System Protocol Active
                   </span>
                   <span className="text-[10.5px] text-gray-400 font-mono leading-relaxed mt-0.5">
-                    Zero raw key leaks on client files. Pure server-side handlers proxying active DB assets safely.
+                    Public UI stays clean while sensitive integrations stay behind server-side routes.
                   </span>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function About() {
           >
             <div className="flex flex-col gap-5">
               <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight uppercase font-sans">
-                BUILDING SOLID, LIGHTNING-FAST WEB FRONTIERS
+                BUILDING CLEAN, RESPONSIVE WEB INTERFACES
               </h3>
               <span lang="ja" className="font-mono text-sm font-bold text-neon-blue/80">自己紹介</span>
 
@@ -105,9 +105,9 @@ export default function About() {
               </p>
 
               <p className="text-gray-400 text-sm leading-relaxed font-sans">
-                From the initial layout matrix to API connections and backend routes, I build products
+                From layout systems to API connections and backend routes, I build interfaces
                 that feel sharp, usable, and reliable. I keep the Byteprowler terminal identity intact while
-                developing stronger React, Next.js, Tailwind, TypeScript, and full-stack workflows.
+                growing stronger React, Next.js, Tailwind, TypeScript, and fullstack workflows.
               </p>
             </div>
           </TerminalCard>

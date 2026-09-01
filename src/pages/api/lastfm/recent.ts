@@ -26,9 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   try {
-    const tracks = await fetchRecentLastFmTracks({ apiKey, username, limit: 6 });
+    const tracks = await fetchRecentLastFmTracks({ apiKey, username, limit: 5 });
     res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=900");
-    return res.status(200).json({ configured: true, tracks: tracks.slice(0, 6) });
+    return res.status(200).json({ configured: true, tracks: tracks.slice(0, 5) });
   } catch (error) {
     console.error("LASTFM_SIGNAL_OFFLINE", error instanceof Error ? error.message : error);
     res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
