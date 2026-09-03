@@ -109,9 +109,8 @@ ONLINE
 PRIMARY MODE:
 
 ```txt
-```
-
 Frontend Engineering
+```
 
 CURRENT STACK:
 
