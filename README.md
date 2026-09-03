@@ -3,7 +3,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8A2BE2,100:FF007F&height=180&section=header&text=Joshua%20Ogo%20%7C%20ByteProwler&fontSize=38&fontColor=ffffff&animation=fadeIn&fontAlignY=35" />
 
 👋 Hey, I’m Joshua Ogo — aka ByteProwler ⚡
-Frontend Developer • Interface Builder • Current Arc: Becoming Fullstack
+Frontend Developer • Interface Builder • Current Arc: Becoming Fullstack • Coding is also an art
 
 I build clean, responsive, and functional web experiences — the kind of interfaces that feel sharp, useful, and alive.
 
@@ -93,33 +93,37 @@ Cleaner production-ready fullstack projects
 | ⚡ ByteProwler Portfolio | My creative developer portfolio and personal web space — built to combine frontend work, motion, terminal-style UI, anime-inspired personality, and project storytelling.       | Next.js • TypeScript • Tailwind CSS • Motion  | ACTIVE REVAMP      | [View Project](https://byteprowler.vercel.app) |
 | 🛍️ De-Clothing           | A modern clothing e-commerce project currently in development | E-commerce, UI, Product Layout           | ARCHIVED | [View Project](https://de-clothing.vercel.app) |
 | 🔧 J&L Powertools         | SEO-optimized business website for a power tools brand        | Business Website, SEO, Responsive Design | LIVE | [View Project](https://jlpowertools.biz)       |
-| 📚 TGN                    | A tech blog platform for gamers and digital creators          | Blog Platform, Content UI, Tech/Gaming   || [View Project](https://tgn-two.vercel.app)     |
+| 📚 TGN                    | A tech blog platform for gamers and digital creators          | Blog Platform, Content UI, Tech/Gaming   | LIVE | [View Project](https://tgn-two.vercel.app)     |
 
-📚 TGN
-
-A tech/gaming blog platform for gamers and digital creators, focused on content UI and readable layouts.
-
-FOCUS:
-Blog Platform • Content UI • Tech/Gaming
-
-STATUS:
-LIVE
-
-LINK:
-<https://tgn-two.vercel.app>
 More builds are loading into the next arc...
-📡 Developer Signal
+
+
+## 📡 Developer Signal
+
 STATUS:
+
+```txt
 ONLINE
+```
 
 PRIMARY MODE:
+
+```txt
+```
+
 Frontend Engineering
 
 CURRENT STACK:
+
+```txt
 React / Next.js / TypeScript / Tailwind
+```
 
 EXPANDING INTO:
+
+```txt
 Node.js / Express / APIs / Fullstack Systems
+```
 
 <!-- BUILD STYLE:
 Clean UI • Responsive Layouts • Creative Web Experiences
