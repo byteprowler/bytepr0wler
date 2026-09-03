@@ -38,61 +38,63 @@ Frontend Core
 
 Frameworks & Libraries
 
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge\&logo=html5\&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge\&logo=css\&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=000)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge\&logo=typescript\&logoColor=white)
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge\&logo=react\&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge\&logo=nextdotjs\&logoColor=white)
+![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge\&logo=vuedotjs\&logoColor=4FC08D)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge\&logo=vite\&logoColor=FFD62E)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge\&logo=angular\&logoColor=white)
+
 Styling, Motion & UI
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=for-the-badge\&logo=tailwindcss\&logoColor=38BDF8)
+![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge\&logo=sass\&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge\&logo=framer\&logoColor=white)
 
 Backend Growth
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge\&logo=python\&logoColor=FFD43B)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge\&logo=django\&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge\&logo=sqlite\&logoColor=white)
+![REST API](https://img.shields.io/badge/REST_API-FF6F00?style=for-the-badge\&logo=fastapi\&logoColor=white)
+![NODE.JS](https://img.shields.io/badge/Node.js-FF6F00?style=for-the-badge\&logo=fastapi\&logoColor=white)
+
 Tools & Platforms
 
-🌀 Current Arc
-BUILDING:
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge\&logo=git\&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge\&logo=github\&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-0078D4?style=for-the-badge\&logo=visualstudiocode\&logoColor=white)
+![Figma](https://img.shields.io/badge/Figma-1E1E1E?style=for-the-badge\&logo=figma\&logoColor=F24E1E)
+![Netlify](https://img.shields.io/badge/Netlify-003B3B?style=for-the-badge\&logo=netlify\&logoColor=00C7B7)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge\&logo=vercel\&logoColor=white)
+
+## 🌀 Current Arc
+* BUILDING:
 Better frontend systems
 
-LEARNING:
+* LEARNING:
 Backend structure, APIs, and fullstack architecture
 
-IMPROVING:
+* IMPROVING:
 Accessibility, responsiveness, UI polish, and deployment flow
 
-NEXT UNLOCK:
+* NEXT UNLOCK:
 Cleaner production-ready fullstack projects
-🚀 Featured Builds
-⚡ ByteProwler Portfolio
 
-My creative developer portfolio and personal web space — built to combine frontend work, motion, terminal-style UI, anime-inspired personality, and project storytelling.
 
-STACK:
-Next.js • TypeScript • Tailwind CSS • Motion
+## 🚀 Featured Builds
 
-STATUS:
-ACTIVE REVAMP
+| Project                   | Description                                                   | Stack/Focus                              | Status                                        | Link                                           |
+| ------------------------- | ------------------------------------------------------------- | ---------------------------------------- |----------------------------------------------| ---------------------------------------------- |
+| ⚡ ByteProwler Portfolio | My creative developer portfolio and personal web space — built to combine frontend work, motion, terminal-style UI, anime-inspired personality, and project storytelling.       | Next.js • TypeScript • Tailwind CSS • Motion  | ACTIVE REVAMP      | [View Project](https://byteprowler.vercel.app) |
+| 🛍️ De-Clothing           | A modern clothing e-commerce project currently in development | E-commerce, UI, Product Layout           | ARCHIVED | [View Project](https://de-clothing.vercel.app) |
+| 🔧 J&L Powertools         | SEO-optimized business website for a power tools brand        | Business Website, SEO, Responsive Design | LIVE | [View Project](https://jlpowertools.biz)       |
+| 📚 TGN                    | A tech blog platform for gamers and digital creators          | Blog Platform, Content UI, Tech/Gaming   || [View Project](https://tgn-two.vercel.app)     |
 
-LINK:
-<https://byteprowler.vercel.app>
-🛍️ De-Clothing
-
-A modern clothing e-commerce project currently in development, focused on product layout, clean UI, and shopping experience.
-
-FOCUS:
-E-commerce UI • Product Layout • Responsive Design
-
-STATUS:
-IN DEVELOPMENT
-
-LINK:
-<https://de-clothing.vercel.app>
-🔧 J&L Powertools
-
-A business website for a power tools brand, focused on visibility, responsive design, and practical business presence.
-
-FOCUS:
-Business Website • SEO • Responsive Design
-
-STATUS:
-LIVE
-
-LINK:
-<https://jlpowertools.biz>
 📚 TGN
 
 A tech/gaming blog platform for gamers and digital creators, focused on content UI and readable layouts.
@@ -117,9 +119,9 @@ CURRENT STACK:
 React / Next.js / TypeScript / Tailwind
 
 EXPANDING INTO:
-Python / Django / APIs / Fullstack Systems
+Node.js / Express / APIs / Fullstack Systems
 
-BUILD STYLE:
+<!-- BUILD STYLE:
 Clean UI • Responsive Layouts • Creative Web Experiences
 🌱 Currently Learning
 Backend development with Python and Django
@@ -127,7 +129,8 @@ REST API design and integration
 Fullstack application structure
 Better frontend architecture
 Advanced UI animation and micro-interactions
-Cleaner, scalable, production-ready web apps
+Cleaner, scalable, production-ready web apps -->
+
 📊 GitHub Telemetry
 
 <div align="center">
@@ -156,21 +159,41 @@ Cleaner, scalable, production-ready web apps
 
 </div>
 
-🔗 Connect With Me
+## 🔗 Connect With Me
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-byteprowler.vercel.app-8A2BE2?style=for-the-badge\&logo=vercel\&logoColor=white)](https://byteprowler.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-byteprowler-181717?style=for-the-badge\&logo=github\&logoColor=white)](https://github.com/byteprowler)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Joshua%20Ogo-0A66C2?style=for-the-badge\&logo=linkedin\&logoColor=white)](https://www.linkedin.com/in/ogojoshua)
+[![Email](https://img.shields.io/badge/Email-byteprowlerdev%40gmail.com-D14836?style=for-the-badge\&logo=gmail\&logoColor=white)](mailto:byteprowlerdev@gmail.com)
+
 
 <div align="center">
 
 </div>
 
+## 🧩 Trivial
+
+```txt
+Big fan of open source.
+
+I may not always be able to contribute heavily right now
+because of device and setup limitations,
+but I still support the ecosystem in the ways I can —
+by testing tools, giving feedback, reporting issues,
+and supporting projects when possible.
+```
+
 ⚡ Fun Log
 
 I don’t just write code.
 
-I design interfaces, fix broken layouts, and survive bugs like they’re anime arcs.
+I design interfaces, fix broken layouts, and survive bugs like I'm binging anime arcs.
 
+```txt
 quiet mind.
 loud ideas.
 still building through the current arc.
+```
 
 <div align="center">
 
