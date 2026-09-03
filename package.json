@@ -1,6 +1,7 @@
 {
   "name": "portupdate",
   "version": "0.1.0",
+  "author": "Joshua Ogo",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

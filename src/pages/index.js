@@ -126,12 +126,12 @@ export default function Index() {
     <>
       <NextSeo
         title="ByteProwler | Full-Stack Developer"
-        description="Full-Stack Developer building product-ready web apps with Next.js, Tailwind, and Django (REST/JWT)."
+        description="Frontend Developer building product-ready web apps with Next.js, Tailwind, and Django (REST/JWT)."
         canonical="https://byteprowler.vercel.app/"
         openGraph={{
           url: "https://byteprowler.vercel.app/",
           title: "ByteProwler | Portfolio",
-          description: "Full-Stack Developer (Next.js + Django) • REST • JWT • Migrations",
+          description: "Frontend Developer (Next.js + Django) • REST • JWT • Migrations",
           images: [
             {
               url: "https://byteprowler.vercel.app/byteprowler.jpeg",
@@ -193,7 +193,7 @@ export default function Index() {
             exit="hidden"
             className="mt-4 max-w-2xl w-[90vw] text-center text-white/75 sm:text-lg"
           >
-            I’m a <span className="text-white font-semibold">Full-Stack Developer</span>{" "}
+            I&apos;m a <span className="text-white font-semibold">Front-end Developer</span>{" "}
             building product-ready web apps with{" "}
             <span className="text-white">React/Next.js</span> and{" "}
             <span className="text-white">Tailwind</span> on the frontend, and{" "}
