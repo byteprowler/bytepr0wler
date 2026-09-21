@@ -36,8 +36,8 @@ export default function Navbar() {
       {/* Brand Logo and Status */}
       <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
         <div className="relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-black border border-neon-lime/30 text-neon-lime shadow-glow-lime/40 shrink-0">
-          {/* <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-lime" /> */}
-          <img src="/svg/byteprowler.svg" alt="ByteProwler Logo" loading="lazy" className="h-full w-full object-fit" />
+          <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neon-lime" />
+          {/* <img src="/svg/byteprowler.svg" alt="ByteProwler Logo" loading="lazy" className="h-full w-full object-fit" /> */}
           <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-neon-green"></div>
         </div>
         <div className="flex flex-col">

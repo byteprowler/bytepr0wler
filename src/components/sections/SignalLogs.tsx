@@ -157,7 +157,13 @@ function MusicLogPanel() {
   const { data, isLoading, isFetching, error, refetch, dataUpdatedAt } = useQuery({
     queryKey: ["lastfmRecentTracks"],
     queryFn: fetchRecentTracks,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 2,
+
+    refetchInterval: 1000 * 60 * 2,
+
+    refetchIntervalInBackground: false,
+
+    refetchOnWindowFocus: true,
   });
 
   const tracks = (data?.tracks || []).slice(0, 6);

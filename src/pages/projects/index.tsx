@@ -14,6 +14,7 @@ type ArchiveFilter =
   | "LEARNING"
   | "FUN"
   | "LAB"
+  | "FORK"
   | "FRONTEND"
   | "FULLSTACK";
 
@@ -25,6 +26,7 @@ const filters: ArchiveFilter[] = [
   "LEARNING",
   "FUN",
   "LAB",
+  "FORK",
   "FRONTEND",
   "FULLSTACK",
 ];

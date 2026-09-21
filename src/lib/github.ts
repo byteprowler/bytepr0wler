@@ -59,3 +59,111 @@ export async function fetchGithubDeveloperTelemetry(): Promise<GithubDeveloperTe
 
   return (await response.json()) as GithubDeveloperTelemetryResponse;
 }
+
+export interface GithubActivity {
+  id: string;
+  type: string;
+  repo: string;
+  action: string;
+  url?: string;
+  createdAt: string;
+}
+
+
+export async function fetchGithubActivity(
+  username: string,
+  limit = 5
+): Promise<GithubActivity[]> {
+
+  if (!username) {
+    return [];
+  }
+
+
+  const response = await fetch(
+    `https://api.github.com/users/${username}/events/public`,
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+      },
+      next: {
+        revalidate: 120,
+      }
+    }
+  );
+
+
+  if (!response.ok) {
+    throw new Error("GITHUB_SIGNAL_OFFLINE");
+  }
+
+
+  const events = await response.json();
+
+
+  return events
+    .slice(0, limit)
+    .map((event: any) => ({
+
+      id: event.id,
+
+      type: event.type,
+
+      repo: event.repo?.name ?? "UNKNOWN_REPOSITORY",
+
+      action: formatGithubEvent(event),
+
+      url:
+        event.repo?.url
+          ?.replace(
+            "api.github.com/repos",
+            "github.com"
+          ) || "",
+
+
+      createdAt: event.created_at
+
+    }));
+
+}
+
+
+
+function formatGithubEvent(event: any) {
+
+  switch (event.type) {
+
+    case "PushEvent":
+
+      return `PUSHED ${event.payload?.commits?.length || 0
+        } COMMIT(S)`;
+
+
+
+    case "CreateEvent":
+
+      return `CREATED ${event.payload?.ref_type || "RESOURCE"
+        }`;
+
+
+    case "PullRequestEvent":
+
+      return `PULL REQUEST ${event.payload?.action
+        }`;
+
+
+
+    case "WatchEvent":
+
+      return "STARRED REPOSITORY";
+
+
+    default:
+
+      return event.type
+        .replace("Event", "")
+        .toUpperCase();
+
+  }
+
+}

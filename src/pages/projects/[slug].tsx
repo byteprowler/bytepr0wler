@@ -75,7 +75,7 @@ export default function ProjectDetail({ slug, onBack }: ProjectDetailProps) {
       onBack();
     } else if (typeof window !== "undefined") {
       // Direct navigation
-      window.location.href = "/";
+      window.location.href = "/#projects";
     }
   };
 

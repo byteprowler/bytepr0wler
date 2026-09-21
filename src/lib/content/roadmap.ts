@@ -84,6 +84,7 @@ export const roadmapItems: RoadmapItem[] = [
     title: "Frontend Apprenticeship",
     period: "August 2025",
     status: "COMPLETED",
+    location: "Remote",
     type: "apprenticeship",
     startDate: "2025-06-19",
     endDate: "2025-11-21",

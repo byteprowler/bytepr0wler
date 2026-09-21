@@ -14,6 +14,8 @@ module.exports = {
         "neon-blue": "#00f3ff",
         "neon-purple": "#b65cff",
         "neon-green": "#00ff66",
+        "neon-red": "#ff1a1a",
+        "neon-nav-blue": "#00f3ff",
       },
       fontFamily: {
         sans: ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],

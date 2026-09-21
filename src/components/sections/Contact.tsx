@@ -188,7 +188,8 @@ export default function Contact() {
               <div className="flex flex-col gap-1 border-b border-white/5 pb-3">
                 <h3 className="text-lg font-bold text-white uppercase font-sans tracking-tight">
                   Initialize Uplink
-                </h3>
+                </h3>
+
                 <span className="text-[11px] font-mono text-gray-300 uppercase tracking-widest">
                   /contact.transmission --channel-direct
                 </span>
@@ -257,7 +258,7 @@ export default function Contact() {
                   className="w-full tracking-widest"
                 >
                   <Send className={`w-4 h-4 ${isSubmitting ? "animate-pulse" : ""}`} />
-                  <span className="min-w-0 break-words">{isSubmitting ? "TRANSMITTING_ENCRYPTED_SIGNAL..." : "EXECUTE_SECURE_TRANSMIT"}</span>
+                  <span className="min-w-0 wrap-break-word">{isSubmitting ? "TRANSMITTING_ENCRYPTED_SIGNAL..." : "EXECUTE_SECURE_TRANSMIT"}</span>
                 </Button>
 
               </form>
@@ -283,7 +284,7 @@ export default function Contact() {
             <div className="border-t border-white/5 mt-6 pt-3 flex items-center gap-2 font-mono text-[11px] text-gray-300 select-none">
               <span className="w-1.5 h-1.5 bg-neon-lime rounded-full"></span>
               <span className="text-neon-lime font-bold uppercase">CONSOLE_LOGGER:</span>
-              <span className="min-w-0 break-words">{activeConsoleLog}</span>
+              <span className="min-w-0 wrap-break-word">{activeConsoleLog}</span>
             </div>
           </TerminalCard>
         </div>

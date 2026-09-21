@@ -29,7 +29,7 @@ export default function ResumeProtocol({
   isOpen,
   onClose,
   source = "unknown",
-  fallbackResumeUrl = "/resumes/frontend-resume.pdf",
+  fallbackResumeUrl = "/public/pdf/resume.pdf",
 }: ResumeProtocolProps) {
   const [step, setStep] = useState(1);
   const [selectedRole, setSelectedRole] = useState(resumeProfiles[0]?.label ?? "Frontend Developer");
@@ -153,7 +153,7 @@ export default function ResumeProtocol({
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-black/80 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-90 flex items-center justify-center bg-black/80 px-4 py-6 backdrop-blur-sm"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
@@ -169,7 +169,7 @@ export default function ResumeProtocol({
         aria-describedby="resume-protocol-description"
         className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-sm border border-neon-lime/25 bg-obsidian p-4 shadow-glow-lime/10 sm:p-5"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(175,255,0,0.04)_1px,transparent_1px)] bg-[length:100%_6px] opacity-30" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(175,255,0,0.04)_1px,transparent_1px)] bg-size-[100%_6px] opacity-30" />
 
         <div className="relative z-10 flex flex-col gap-5">
           <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-3">
