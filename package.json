@@ -7,9 +7,9 @@
     "email": "joshuaexcellency1@gmail.com"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev -p 3000 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000 -H 0.0.0.0",
     "lint": "eslint ."
   },
   "dependencies": {
